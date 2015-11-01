@@ -1,0 +1,10 @@
+wanamufrontend:
+  restart: always
+  build: .
+  env_file:
+    - ./wanamu-frontend.env
+  ports:
+    - 443:443
+    - 80:80
+  volumes:
+    - /certs:/certs
