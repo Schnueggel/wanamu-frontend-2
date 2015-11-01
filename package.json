@@ -1,17 +1,26 @@
 {
   "name": "wanamu-frontend-2",
   "version": "1.0.0",
-  "description": "Frontend of Wanamu build with React",
-  "main": "index.js",
+  "description": "Wanamu Frontend based on react",
+  "main": "app/index.html",
+  "dependencies": {},
+  "devDependencies": {},
   "scripts": {
     "test": "test"
   },
-  "author": "christian.steinmann <christian.steinmann77@gmail.com",
-  "license": "ISC",
-  "devDependencies": {
-    "ts-loader": "^0.6.0"
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Schnueggel/wanamu-frontend-2.git"
   },
-  "dependencies": {
-    "react": "^0.14.1"
-  }
+  "keywords": [
+    "Todo",
+    "React",
+    "Webpack"
+  ],
+  "author": "Christian Steinmann <christian.steinmann77@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Schnueggel/wanamu-frontend-2/issues"
+  },
+  "homepage": "https://github.com/Schnueggel/wanamu-frontend-2#readme"
 }

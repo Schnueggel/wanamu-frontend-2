@@ -1,6 +1,6 @@
 
 build:
-    box: node:0.12.7
+    box: node:4.2.1
     steps:
         - script:
             name: Build
