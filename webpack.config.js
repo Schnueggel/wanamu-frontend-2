@@ -1,5 +1,5 @@
 module.exports = {
-    entry: './app/components/App.tsx',
+    entry: './app/App.tsx',
     output: {
         filename: 'public/bundle.js'
     },
@@ -8,6 +8,7 @@ module.exports = {
         extensions: ['', '.webpack.js', '.web.js', '.ts', '.tsx', '.js']
     },
     module: {
+        npParse: /node_modules/,
         loaders: [
             {
                 test: /\.tsx?$/,

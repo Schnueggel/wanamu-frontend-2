@@ -6,11 +6,12 @@
   "dependencies": {},
   "devDependencies": {
     "react-dom": "^0.14.1",
+    "react-router": "^1.0.0-rc3",
     "typescript": "^1.6.2"
   },
   "scripts": {
     "test": "test",
-    "build": "webpack ."
+    "build": "webpack"
   },
   "repository": {
     "type": "git",
