@@ -1,10 +1,10 @@
 {
   "compilerOptions": {
     "target": "es5",
+    "jsx": "React",
     "sourceMap": true
   },
   "files": [
-    "../typings/tsd.d.ts",
-    "../src/app.ts"
+    "./typings/tsd.d.ts"
   ]
 }
