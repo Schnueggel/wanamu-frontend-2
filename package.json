@@ -2,11 +2,14 @@
   "name": "wanamu-frontend-2",
   "version": "1.0.0",
   "description": "Wanamu Frontend based on react",
-  "main": "app/index.html",
+  "main": "public/index.html",
   "dependencies": {},
-  "devDependencies": {},
+  "devDependencies": {
+    "typescript": "^1.6.2"
+  },
   "scripts": {
-    "test": "test"
+    "test": "test",
+    "build": "webpack"
   },
   "repository": {
     "type": "git",
