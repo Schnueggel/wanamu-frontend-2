@@ -1,0 +1,17 @@
+{
+  "name": "wanamu-frontend-2",
+  "version": "1.0.0",
+  "description": "Frontend of Wanamu build with React",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "author": "christian.steinmann <christian.steinmann77@gmail.com",
+  "license": "ISC",
+  "devDependencies": {
+    "ts-loader": "^0.6.0"
+  },
+  "dependencies": {
+    "react": "^0.14.1"
+  }
+}
