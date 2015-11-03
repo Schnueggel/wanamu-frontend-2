@@ -9,6 +9,7 @@ declare module wu {
     }
 
     interface MenuListItemProps {
+        key: any;
         text: string;
         icon?: string;
     }

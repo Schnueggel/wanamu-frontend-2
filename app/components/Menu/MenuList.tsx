@@ -12,12 +12,14 @@ export default class MenuList extends React.Component<wu.MenuListProps, any> {
     }
 
     render() {
-        const items = this.props.items || [];
+        const items = this.props.items || [],
+            list = items.map((item: wu.MenuItemData, i:number) => {
+                return <MenuItem {...item} key={i}/>
+            });
+
         return (
             <ul className="menu">
-                {items.map((item: wu.MenuItemData) => {
-                    return <MenuItem {...item} />
-                    })}
+                {list}
             </ul>
         );
     }

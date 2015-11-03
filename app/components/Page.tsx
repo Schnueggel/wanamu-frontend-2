@@ -8,21 +8,19 @@ class PageProps {
 
 export default class Page extends React.Component<PageProps, any> {
 
-    appStateModel: AppStateModel;
-
     constructor(props:PageProps){
         super(props);
-        this.appStateModel = new AppStateModel();
+        this.state = new AppStateModel();
     }
 
     render(){
         return (
             <div>
                 <div>
-                    <h1>Wanamu Page!!</h1>
+                    <h1>Wanamu Page!!!</h1>
                 </div>
                 <nav>
-                    <Menu {...this.appStateModel.menu}/>
+                    <Menu {...this.state.menu}/>
                 </nav>
                 <div className="container">
                     {this.props.children}
