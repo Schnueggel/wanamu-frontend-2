@@ -1,4 +1,5 @@
 declare module wu {
+
     module Form {
         interface Validator {
             regex: RegExp;
@@ -12,7 +13,7 @@ declare module wu {
             validators?: Array<Validator>
         }
 
-        interface InputElement extends Element {
+        interface InputElement extends __React.Component<any,any> {
             value: string;
         }
     }
