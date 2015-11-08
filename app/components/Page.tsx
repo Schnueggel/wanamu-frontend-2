@@ -1,6 +1,6 @@
 import * as React from 'react';
 import Menu from './Menu/Menu';
-import AppStateModel from '../models/AppStateModel';
+import AppState from '../models/AppStateModel';
 
 class PageProps {
     children: any
@@ -10,7 +10,7 @@ export default class Page extends React.Component<PageProps, any> {
 
     constructor(props:PageProps){
         super(props);
-        this.state = new AppStateModel();
+        this.state = AppState;
     }
 
     render(){

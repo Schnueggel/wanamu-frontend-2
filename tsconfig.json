@@ -7,6 +7,7 @@
   },
   "files": [
     "./typings/tsd.d.ts",
-    "./app/app.d.ts"
+    "./app/app.d.ts",
+    "./node_modules/rx/ts/rx.lite.d.ts"
   ]
 }

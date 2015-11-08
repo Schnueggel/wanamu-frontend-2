@@ -5,12 +5,13 @@ declare module wu {
             regex: RegExp;
             text: string;
         }
-        interface TextInputProps {
+        interface TextInputProps extends __React.Props<TextInputProps>{
             type?: string;
             value?: string;
             label?: string;
             errors?: Array<string>;
-            validators?: Array<Validator>
+            onChange?: (ev?:__React.FormEvent) => any,
+            onBlur?: (ev?:__React.FormEvent) => any,
         }
 
         interface InputElement extends __React.Component<any,any> {
