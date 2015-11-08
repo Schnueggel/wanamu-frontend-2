@@ -76,10 +76,6 @@ declare module wu {
             Friends : IFriendsData;
         }
 
-        interface IFriendsData {
-            accepted : boolean;
-        }
-
         interface IColor {
             color1 : string;
             color2 : string;
@@ -93,14 +89,6 @@ declare module wu {
             name : string;
             Todos : Array<ITodo>;
             addNewTodo(todo: model.ITodo) : void;
-        }
-
-        interface IProfileData {
-            id : number;
-            firstname : string;
-            lastname : string;
-            salutation : string;
-            face : string;
         }
 
         interface ISettingData {
