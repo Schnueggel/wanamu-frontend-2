@@ -4,9 +4,11 @@
   "description": "Wanamu Frontend based on react",
   "main": "public/index.html",
   "dependencies": {
-    "history": "^1.13.0"
+    "history": "^1.13.0",
+    "lodash": "^3.10.1"
   },
   "devDependencies": {
+    "moment": "^2.10.6",
     "q": "^1.4.1",
     "react": "^0.14.2",
     "react-dom": "^0.14.1",
