@@ -1,11 +1,20 @@
 import * as React from 'react';
 import * as Rx from 'rx';
 import TextInput from '../Form/TextInput';
-import AppState, {LoginState} from '../../models/AppStateModel';
-import {AppStateModel} from "../../models/AppStateModel";
+import * as _ from 'lodash';
 
 export interface LoginFormProps extends __React.Props<LoginFormProps> {
-    handleLogin: React.MouseEventHandler
+    email?: string;
+    emailErrors?: Array<string>;
+    passwordErrors?: Array<string>;
+}
+
+
+export interface  Refs {
+    [key: string]: __React.Component<any, any>;
+    email: TextInput,
+    password: TextInput,
+    submit: __React.Component<any, any> & HTMLButtonElement
 }
 
 export interface SubmitStreamData {
@@ -15,54 +24,52 @@ export interface SubmitStreamData {
 
 export default class LoginForm extends React.Component<LoginFormProps, any> {
 
-    refs: any = {
-        email: HTMLInputElement,
-        password: HTMLInputElement,
+    refs: Refs;
+
+    state: any = {
+        emailErrors: [],
+        passwordErrors: [],
+        isEmailValid: false,
+        isPasswordValid: false
     };
 
-    state: LoginState;
+    private loginSubmitStream: Rx.Observable<SubmitStreamData>;
 
-    loginStream: Rx.Observable<boolean>;
-    loginStreamSubscription: Rx.IDisposable;
-
+    /**
+     *
+     * @param props
+     */
     constructor(props:LoginFormProps){
         super(props);
-        this.state = AppState.login;
+
+        this.state.emailErrors = this.props.emailErrors;
+        this.state.passwordErrors = this.props.passwordErrors;
     }
 
-    componentWillMount(){
-        AppState.loginStateChangedStream.subscribe((state: LoginState) => {
-            console.log('State update received');
-            this.setState(state);
-        });
+    /**
+     *
+     * @returns {Rx.Observable<{email: string, password: string}>}
+     */
+    getLoginSubmitStream(): Rx.Observable<SubmitStreamData> {
+
+        if (this.loginSubmitStream === undefined) {
+            this.loginSubmitStream =  Rx.Observable
+                .fromEvent<SubmitStreamData>(this.refs.submit, 'click')
+                .map(() => {
+                    console.log('Button clicked');
+                    return {
+                        email: this.refs.email.state.value,
+                        password: this.refs.password.state.value
+                    }
+                });
+        }
+        return this.loginSubmitStream;
     }
 
-    componentDidMount(){
-        this.loginStream = AppState.createLoginResponseStream(this.getLoginSubmitStream());
-
-        this.loginStreamSubscription = this.loginStream.subscribe((result) => {
-            console.log('Do forwarding');
-        }, (err: Error) => {
-            console.error(err);
-        });
-    }
-
-    componentWillUnmount() {
-        this.loginStreamSubscription.dispose();
-    }
-
-    getLoginSubmitStream(): Rx.Observable<{email:string,password:string}> {
-        return Rx.Observable
-            .fromEvent<SubmitStreamData>(this.refs.submit, 'click')
-            .map(() => {
-                console.log('Button clicked');
-                return {
-                    email: this.refs.email.state.value,
-                    password: this.refs.password.state.value
-                }
-            });
-    }
-
+    /**
+     *
+     * @param evt
+     */
     validateEmail(evt) {
         const isValid = evt.target.value.match(/^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@"]+)*)|(".+"))@(([^<>()[\]\.,;:\s@"]+\.)+[^<>()[\]\.,;:\s@"]{2,})$/i) !== null;
 
@@ -77,6 +84,10 @@ export default class LoginForm extends React.Component<LoginFormProps, any> {
         });
     }
 
+    /**
+     *
+     * @param evt
+     */
     validatePassword(evt) {
 
         const isValid = evt.target.value.match(/.+/) !== null;
@@ -91,11 +102,16 @@ export default class LoginForm extends React.Component<LoginFormProps, any> {
         });
     }
 
+    /**
+     *
+     * @returns {any}
+     */
     render() {
         console.log('Render Login');
         const email:any = {
             type: 'email',
             label: 'Email',
+            value: this.props.email,
             errors: this.state.emailErrors,
             onChange: this.validateEmail.bind(this)
         },
