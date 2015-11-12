@@ -145,7 +145,6 @@ declare namespace __React {
         props: P;
         state: S;
         context: {};
-        element: Element;
         refs: {
             [key: string]: Component<any, any>
         };
