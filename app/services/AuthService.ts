@@ -1,7 +1,6 @@
 import * as axios from 'axios';
 import * as Rx from 'rx';
 
-
 export interface LoginRequestData {
     email: string;
     password: string;
@@ -10,7 +9,30 @@ export interface LoginRequestData {
 export class AuthService {
 
     private loginRequestStream:Rx.Observable<boolean>;
+    private axios: axios.AxiosStatic;
 
+    constructor() {
+        this.createAxios();
+    }
+
+    createAxios() {
+        this.axios = axios.create();
+        this.axios.interceptors.response.use(this.onAxiosResponse.bind(this), this.onAxiosError.bind(this));
+    }
+
+    onAxiosResponse(response: axios.Response) {
+        console.log(response);
+    }
+
+    onAxiosError(error: axios.Response) {
+        console.log(error);
+    }
+
+    /**
+     *
+     * @param obs
+     * @returns {Rx.Observable<boolean>}
+     */
     createLoginRequestStream(obs:Rx.Observable<LoginRequestData>):Rx.Observable<boolean> {
         if (this.loginRequestStream === undefined) {
             this.loginRequestStream = obs
@@ -23,15 +45,7 @@ export class AuthService {
                     }));
                 })
             .map((response: axios.Response) => {
-                if (response instanceof Error) {
-                    console.error(response);
-                    return false;
-                }
-                if (response.status === 200) {
-                    return true;
-                } else {
-                    return false;
-                }
+                return true
             });
         }
 

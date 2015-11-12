@@ -20,18 +20,19 @@ export default class Login extends React.Component<any, LoginState> {
 
     componentWillMount() {
         AppState.loginStateChangedStream.subscribe((state: LoginState) => {
-            console.log('State update received');
             this.setState(state);
         });
     }
 
     componentDidMount() {
         const stream = authService.createLoginRequestStream(this.refs.form.getLoginSubmitStream());
-        stream.map((result: boolean) => {
-            if (result === false) {
-                this.state.errorMessage = 'Login failed password';
+        stream.subscribe(
+            (result) => {
+                console.log('Login Success');
+            }, (err) => {
+                console.log('Login Error');
             }
-        });
+        );
     }
 
     render() {

@@ -127,7 +127,7 @@ export default class LoginForm extends React.Component<LoginFormProps, any> {
             <TextInput {...email} ref="email" />
             <TextInput {...password} ref="password"/>
             <div className="form-container">
-                <button type="submit" className="form-button" ref="submit" disabled={!enabled}>Login</button>
+                <button type="button" className="form-button" ref="submit" disabled={!enabled}>Login</button>
             </div>
         </form>
     }
