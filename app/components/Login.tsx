@@ -1,15 +1,15 @@
 import * as React from 'react';
 import LoginForm from './LoginForm/LoginForm';
-import AppState, {LoginState} from '../models/AppStateModel';
+import AppState from '../models/state/AppStateModel';
 import authService from '../services/AuthService';
 
 export interface Refs {
     [key: string]: __React.Component<any, any>;
     form: LoginForm;
 }
-export default class Login extends React.Component<any, LoginState> {
+export default class Login extends React.Component<any, wu.model.state.ILoginState> {
 
-    state: LoginState;
+    state: wu.model.state.ILoginState;
     stream: any;
     refs: Refs;
 
@@ -19,7 +19,7 @@ export default class Login extends React.Component<any, LoginState> {
     }
 
     componentWillMount() {
-        AppState.loginStateChangedStream.subscribe((state: LoginState) => {
+        AppState.login.changeStateStream.subscribe((state: wu.model.state.ILoginState) => {
             this.setState(state);
         });
     }
@@ -28,7 +28,7 @@ export default class Login extends React.Component<any, LoginState> {
         this.stream = authService.createLoginRequestStream(this.refs.form.getLoginSubmitStream());
         this.stream.subscribe(
             (result) => {
-                console.log('Login Success:' + result);
+                console.log('Login Success:', result);
             }, (err) => {
                 console.log('Login Error');
             }, () => {

@@ -12,7 +12,7 @@ export default class Todos extends React.Component<any, any> {
             Todos: [
                 {}
             ]
-        } as wu.model.ITodoList;
+        } as wu.model.data.ITodoList;
 
         return <TodoList todolist={todolist}/>
     }

@@ -2,16 +2,22 @@ import * as _ from 'lodash';
 import * as axios from 'axios';
 import * as Rx from 'rx';
 import * as Err from '../errors/errors';
+import {User} from '../models/data/models';
 
 export interface LoginRequestData {
     username: string;
     password: string;
 }
 
+export interface LoginResponse extends axios.Response {
+    data: wu.model.data.IUserData;
+}
+
 export class AuthService {
 
-    private loginRequestStream:Rx.Observable<boolean>;
+    private loginRequestStream: Rx.Observable<wu.model.data.IUser>;
     private axios:axios.AxiosInstance;
+    private currentUser: wu.model.data.IUser;
 
     constructor() {
         this.createAxios();
@@ -43,8 +49,9 @@ export class AuthService {
      *
      * @param obs
      * @returns {Rx.Observable<boolean>}
+     * @throws NetworkError|UnknownError|ServerError|CredentialsError
      */
-    createLoginRequestStream(obs:Rx.Observable<LoginRequestData>):Rx.Observable<boolean> {
+    createLoginRequestStream(obs:Rx.Observable<LoginRequestData>): Rx.Observable<wu.model.data.IUser>{
         if (this.loginRequestStream === undefined) {
             this.loginRequestStream = obs
                 .flatMapLatest((data: LoginRequestData) => this.getLoginStream('http://localhost:3001/auth/login', data))
@@ -52,12 +59,13 @@ export class AuthService {
                     console.error(e);
                     return Rx.Observable.just(new Err.UnknownError('An unknown error happened'));
                 })
-                .map((response: axios.Response) => {
+                .map((response: LoginResponse) => {
                     if (response instanceof Err.BaseError) {
                         console.error(response);
-                        return response;
+                        return response as any;
                     } else {
-                        return response.data;
+                        this.currentUser = new User(response.data);
+                        return this.currentUser;
                     }
                 });
         }

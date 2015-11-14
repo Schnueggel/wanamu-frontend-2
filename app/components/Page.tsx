@@ -1,6 +1,6 @@
 import * as React from 'react';
 import Menu from './Menu/Menu';
-import AppState from '../models/AppStateModel';
+import AppState from '../models/state/AppStateModel';
 
 class PageProps {
     children: any

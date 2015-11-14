@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as Rx from 'rx';
 
 export interface TodoProps extends __React.Props<TodoProps> {
-    todo: wu.model.ITodo
+    todo: wu.model.data.ITodo
 }
 
 export default class Todo extends React.Component<TodoProps, any> {
