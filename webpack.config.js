@@ -5,7 +5,10 @@ module.exports = {
     },
     resolve: {
         // Add `.ts` and `.tsx` as a resolvable extension.
-        extensions: ['', '.webpack.js', '.web.js', '.ts', '.tsx', '.js', '.d.ts']
+        extensions: ['', '.webpack.js', '.web.js', '.ts', '.tsx', '.js', '.d.ts'],
+        alias: {
+            rx: __dirname + '/node_modules/rx/dist/rx.lite.js'
+        }
     },
     module: {
         npParse: /node_modules/,
