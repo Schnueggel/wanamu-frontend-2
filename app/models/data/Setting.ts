@@ -1,7 +1,7 @@
 import { BaseModel }  from './BaseModel';
 import { Dirty, Json } from './decorators/decorators';
 
-export class Setting extends BaseModel implements wu.model.ISetting {
+export class Setting extends BaseModel implements wu.model.data.ISetting {
 
     private _id : number;
     private _color1 : string = 'rgba(255, 223, 2, 0.8)';
@@ -14,7 +14,7 @@ export class Setting extends BaseModel implements wu.model.ISetting {
      *
      * @param data
      */
-    constructor(data : wu.model.ISettingData){
+    constructor(data : wu.model.data.ISettingData){
         super();
         this.fromJSON(data);
     }
@@ -23,8 +23,8 @@ export class Setting extends BaseModel implements wu.model.ISetting {
      *
      * @param data
      */
-    public fromJSON(data : wu.model.ISettingData) : void {
-        var data = data || <wu.model.ISettingData>{};
+    public fromJSON(data : wu.model.data.ISettingData) : void {
+        var data = data || <wu.model.data.ISettingData>{};
 
         this._id = data.id;
         this._color1 = data.color1;
@@ -37,7 +37,7 @@ export class Setting extends BaseModel implements wu.model.ISetting {
      * Returns all colors as an array
      * @returns {{}}
      */
-    public colors() : wu.model.IColor {
+    public colors() : wu.model.data.IColor {
         return {
             color1: this._color1,
             color2: this._color2,

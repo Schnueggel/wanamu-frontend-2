@@ -6,11 +6,11 @@ import { Dirty, Json } from '../decorators/decorators';
 /**
  * Friend Model
  */
-export class Friend extends BaseModel implements wu.model.IFriend {
+export class Friend extends BaseModel implements wu.model.data.IFriend {
 
     private _id : number;
-    private _Profile : wu.model.IProfile;
-    private _Friends : wu.model.IFriendsData;
+    private _Profile : wu.model.data.IProfile;
+    private _Friends : wu.model.data.IFriendsData;
 
     /**
      *
@@ -46,21 +46,21 @@ export class Friend extends BaseModel implements wu.model.IFriend {
     }
 
     @Json
-    public get Profile() : wu.model.IProfile {
+    public get Profile() : wu.model.data.IProfile {
         return this._Profile;
     }
 
-    public set Profile(value:wu.model.IProfile) {
+    public set Profile(value:wu.model.data.IProfile) {
         this._Profile = value;
     }
 
     @Dirty
     @Json
-    public get Friends():wu.model.IFriendsData {
+    public get Friends():wu.model.data.IFriendsData {
         return this._Friends;
     }
 
-    public set Friends(value:wu.model.IFriendsData) {
+    public set Friends(value:wu.model.data.IFriendsData) {
         this._Friends = value;
     }
 }

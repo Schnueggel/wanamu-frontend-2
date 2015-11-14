@@ -3,7 +3,7 @@ import * as _ from 'lodash';
 import { Dirty, Json } from './decorators/decorators';
 import * as moment from 'moment';
 
-export class Todo extends BaseModel implements wu.model.ITodo {
+export class Todo extends BaseModel implements wu.model.data.ITodo {
 
     private _id : number;
     private _TodoListId: number;
@@ -22,7 +22,7 @@ export class Todo extends BaseModel implements wu.model.ITodo {
     private _repeatMonthly : string[] = [];
     private _repeatYearly :  string[] = [];
 
-    constructor( data?: wu.model.ITodoData ) {
+    constructor( data?: wu.model.data.ITodoData ) {
         super();
         if (_.isPlainObject(data)){
             this.fromJSON(data);
@@ -34,8 +34,8 @@ export class Todo extends BaseModel implements wu.model.ITodo {
     /**
      * @param data
      */
-    public fromJSON (data: wu.model.ITodoData) {
-        var data = data || <wu.model.ITodoData>{};
+    public fromJSON (data: wu.model.data.ITodoData) {
+        var data = data || <wu.model.data.ITodoData>{};
         this._id = data.id;
         this._TodoListId = data.TodoListId;
         this._title = data.title || '';

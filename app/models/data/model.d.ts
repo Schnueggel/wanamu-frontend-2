@@ -1,5 +1,6 @@
 declare module wu {
-    module model {
+
+    module model.data {
 
         interface  IDirty {
             __orgValues : {[index:string] : { value : any, dirty : boolean}};
@@ -88,7 +89,7 @@ declare module wu {
             id : number;
             name : string;
             Todos : Array<ITodo>;
-            addNewTodo(todo: model.ITodo) : void;
+            addNewTodo(todo: ITodo) : void;
         }
 
         interface ISettingData {
@@ -147,8 +148,8 @@ declare module wu {
             defaulttodolist : ITodoList;
             usertype : string;
 
-            todos(id?: number) : Array<model.ITodo>;
-            addNewTodo( todo : model.ITodo, todolist?: model.ITodoList ) : void;
+            todos(id?: number) : Array<ITodo>;
+            addNewTodo( todo : ITodo, todolist?: ITodoList ) : void;
             fromJSON( data : IUserData ) : void;
         }
     }

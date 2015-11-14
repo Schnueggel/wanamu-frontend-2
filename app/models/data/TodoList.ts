@@ -2,7 +2,7 @@ import _ = require('lodash');
 import { Todo } from './Todo';
 import { BaseModel }  from './BaseModel';
 
-export class TodoList extends BaseModel implements wu.model.ITodoList {
+export class TodoList extends BaseModel implements wu.model.data.ITodoList {
 
     public id : number;
     public name : string;
@@ -14,7 +14,7 @@ export class TodoList extends BaseModel implements wu.model.ITodoList {
      *
      * @param data
      */
-    constructor(data : wu.model.ITodoListData){
+    constructor(data : wu.model.data.ITodoListData){
         super();
         this.fromJSON(data);
     }
@@ -23,8 +23,8 @@ export class TodoList extends BaseModel implements wu.model.ITodoList {
      *
      * @param data
      */
-    public fromJSON (data: wu.model.ITodoListData) : void {
-        var data = data || <wu.model.ITodoListData>{};
+    public fromJSON (data: wu.model.data.ITodoListData) : void {
+        var data = data || <wu.model.data.ITodoListData>{};
 
         this.Todos = [];
         this.id = data.id;

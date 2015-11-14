@@ -8,7 +8,7 @@ import * as _ from 'lodash';
  * @returns {TypedPropertyDescriptor<any>}
  * @constructor
  */
-export function Dirty (target : wu.model.IBaseModel, propertyKey: string, descriptor: TypedPropertyDescriptor<any>) {
+export function Dirty (target : wu.model.data.IBaseModel, propertyKey: string, descriptor: TypedPropertyDescriptor<any>) {
     if (_.isUndefined(target.__orgValues)){
         target.__orgValues = {};
     }
@@ -62,7 +62,7 @@ export function Dirty (target : wu.model.IBaseModel, propertyKey: string, descri
  * @param descriptor
  * @constructor
  */
-export function DirtyReset (target : wu.model.IBaseModel, propertyKey: string, descriptor: TypedPropertyDescriptor<any>) {
+export function DirtyReset (target : wu.model.data.IBaseModel, propertyKey: string, descriptor: TypedPropertyDescriptor<any>) {
     if (_.isFunction(descriptor.value)) {
         let orgmethod = descriptor.value;
 

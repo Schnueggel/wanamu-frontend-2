@@ -1,5 +1,5 @@
 
-export class BaseModel implements wu.model.IBaseModel {
+export class BaseModel implements wu.model.data.IBaseModel {
 
     [index: string] : any;
 

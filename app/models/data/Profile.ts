@@ -13,7 +13,7 @@ export class Salutations {
     static NEUTRUM : string = 'neutrum';
 }
 
-export class Profile extends BaseModel implements wu.model.IProfile {
+export class Profile extends BaseModel implements wu.model.data.IProfile {
 
     _id : number;
     public _firstname : string;
@@ -25,7 +25,7 @@ export class Profile extends BaseModel implements wu.model.IProfile {
      *
      * @param data
      */
-    constructor(data? : wu.model.IProfileData){
+    constructor(data? : wu.model.data.IProfileData){
         super();
         if (_.isPlainObject(data)){
             this.fromJSON(data);
@@ -37,8 +37,8 @@ export class Profile extends BaseModel implements wu.model.IProfile {
      * @param data
      */
     @DirtyReset
-    public fromJSON(data : wu.model.IProfileData) : void {
-        var data = data || <wu.model.IProfileData>{};
+    public fromJSON(data : wu.model.data.IProfileData) : void {
+        var data = data || <wu.model.data.IProfileData>{};
 
         this._id = data.id;
         this._firstname = data.firstname;

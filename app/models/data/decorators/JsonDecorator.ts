@@ -1,15 +1,9 @@
 import * as _ from 'lodash';
 
-interface ToJSON extends Object {
-    toJSON: Function;
-    ___tojsonprops: string[];
-    [s:string]: any
-}
-
-export function Json <T extends ToJSON> (target : T, propertyKey: string, descriptor: TypedPropertyDescriptor<any>) : void {
+export function Json(target : wu.model.data.IBaseModel, propertyKey: string, descriptor: TypedPropertyDescriptor<any>) : void {
 
     if (!target.hasOwnProperty('___tojsonprops')) {
-        target.___tojsonprops = [propertyKey];
+        target['___tojsonprops'] = [propertyKey];
         target.toJSON = function() {
             let result: any = {};
             this.___tojsonprops.forEach((v: string) => {
@@ -23,6 +17,6 @@ export function Json <T extends ToJSON> (target : T, propertyKey: string, descri
             return result;
         };
     } else {
-        target.___tojsonprops.push(propertyKey);
+        target['___tojsonprops'].push(propertyKey);
     }
 }

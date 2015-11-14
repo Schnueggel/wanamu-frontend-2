@@ -7,7 +7,7 @@ import { Profile } from './Profile';
 import { BaseModel }  from './BaseModel';
 import { Dirty, Json } from './decorators/decorators';
 
-export class User extends BaseModel implements wu.model.IUser {
+export class User extends BaseModel implements wu.model.data.IUser {
 
     public static TYPE_GUEST = 'guest';
     public static TYPE_USER = 'user';
@@ -21,8 +21,8 @@ export class User extends BaseModel implements wu.model.IUser {
 
     public defaulttodolist : TodoList;
 
-    public Setting : wu.model.ISetting;
-    private _Profile : wu.model.IProfile;
+    public Setting : wu.model.data.ISetting;
+    private _Profile : wu.model.data.IProfile;
 
     public usertype : string  = User.TYPE_GUEST;
 
@@ -30,7 +30,7 @@ export class User extends BaseModel implements wu.model.IUser {
      *
      * @param data
      */
-    constructor(data?: wu.model.IUserData){
+    constructor(data?: wu.model.data.IUserData){
         super();
         if (_.isPlainObject(data)){
             this.fromJSON(data);
@@ -41,8 +41,8 @@ export class User extends BaseModel implements wu.model.IUser {
      *
      * @param d
      */
-    public fromJSON(d: wu.model.IUserData) {
-        let data = d || <wu.model.IUserData>{},
+    public fromJSON(d: wu.model.data.IUserData) {
+        let data = d || <wu.model.data.IUserData>{},
             todolist : TodoList;
 
         this._id = data.id;
@@ -177,11 +177,11 @@ export class User extends BaseModel implements wu.model.IUser {
     }
 
     @Json
-    public get Profile() : wu.model.IProfile {
+    public get Profile() : wu.model.data.IProfile {
         return this._Profile;
     }
 
-    public set Profile(value: wu.model.IProfile) {
+    public set Profile(value: wu.model.data.IProfile) {
         this._Profile = value;
     }
 }
