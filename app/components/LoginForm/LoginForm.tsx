@@ -9,7 +9,6 @@ export interface LoginFormProps extends __React.Props<LoginFormProps> {
     passwordErrors?: Array<string>;
 }
 
-
 export interface  Refs {
     [key: string]: __React.Component<any, any>;
     email: TextInput,
@@ -18,7 +17,7 @@ export interface  Refs {
 }
 
 export interface SubmitStreamData {
-    email: string;
+    username: string;
     password: string;
 }
 
@@ -33,7 +32,7 @@ export default class LoginForm extends React.Component<LoginFormProps, any> {
         isPasswordValid: false
     };
 
-    private loginSubmitStream: Rx.Observable<SubmitStreamData>;
+    private loginSubmitStream: Rx.ReplaySubject<SubmitStreamData>;
 
     /**
      *
@@ -50,18 +49,10 @@ export default class LoginForm extends React.Component<LoginFormProps, any> {
      *
      * @returns {Rx.Observable<{email: string, password: string}>}
      */
-    getLoginSubmitStream(): Rx.Observable<SubmitStreamData> {
+    getLoginSubmitStream(): Rx.Subject<SubmitStreamData> {
 
-        if (this.loginSubmitStream === undefined) {
-            this.loginSubmitStream =  Rx.Observable
-                .fromEvent<SubmitStreamData>(this.refs.submit, 'click')
-                .map(() => {
-                    console.log('Button clicked');
-                    return {
-                        email: this.refs.email.state.value,
-                        password: this.refs.password.state.value
-                    }
-                });
+        if (this.loginSubmitStream === undefined) {console.log('create login stream');
+            this.loginSubmitStream =  new Rx.ReplaySubject<SubmitStreamData>(1);
         }
         return this.loginSubmitStream;
     }
@@ -102,12 +93,23 @@ export default class LoginForm extends React.Component<LoginFormProps, any> {
         });
     }
 
+
+    handleClick() {
+        console.log('Submit', this.getLoginSubmitStream().hasObservers());
+        this.getLoginSubmitStream().onNext(
+            {
+                username: this.refs.email.state.value,
+                password: this.refs.password.state.value
+            }
+        );
+    }
+
     /**
      *
      * @returns {any}
      */
     render() {
-        console.log('Render Login');
+
         const email:any = {
             type: 'email',
             label: 'Email',
@@ -123,11 +125,11 @@ export default class LoginForm extends React.Component<LoginFormProps, any> {
         },
             enabled = this.state.isEmailValid && this.state.isPasswordValid;
 
-        return  <form>
+        return  <form name="login">
             <TextInput {...email} ref="email" />
             <TextInput {...password} ref="password"/>
             <div className="form-container">
-                <button type="button" className="form-button" ref="submit" disabled={!enabled}>Login</button>
+                <button type="button" className="form-button" ref="submit" onClick={this.handleClick.bind(this)} disabled={!enabled}>Login</button>
             </div>
         </form>
     }

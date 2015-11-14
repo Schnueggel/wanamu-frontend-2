@@ -12,24 +12,18 @@ declare module axios {
         error(error: Error) : void;
     }
 
-    interface AxiosStatic {
-        create(defaultOptions?: axios.InstanceOptions) : AxiosStatic;
+    interface AxiosInstance {
         interceptors: {
             request: Interceptor,
             response: Interceptor
         }
     }
 
-    interface InstanceOptions {
-        transformRequest?: (data: any) => any;
-        transformResponse?: (data: any) => any;
-        headers?: any;
-        timeout?: number;
-        withCredentials?: boolean;
-        responseType?: string;
-        xsrfCookieName?: string;
-        xsrfHeaderName?: string;
-        paramsSerializer?: (params: any) => string;
+    interface AxiosStatic {
+        interceptors: {
+            request: Interceptor,
+            response: Interceptor
+        }
     }
 
     interface Interceptor {

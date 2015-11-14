@@ -10,7 +10,7 @@ export interface Refs {
 export default class Login extends React.Component<any, LoginState> {
 
     state: LoginState;
-
+    stream: any;
     refs: Refs;
 
     constructor(props:any){
@@ -25,18 +25,19 @@ export default class Login extends React.Component<any, LoginState> {
     }
 
     componentDidMount() {
-        const stream = authService.createLoginRequestStream(this.refs.form.getLoginSubmitStream());
-        stream.subscribe(
+        this.stream = authService.createLoginRequestStream(this.refs.form.getLoginSubmitStream());
+        this.stream.subscribe(
             (result) => {
-                console.log('Login Success');
+                console.log('Login Success:' + result);
             }, (err) => {
                 console.log('Login Error');
+            }, () => {
+                console.log('Complete');
             }
         );
     }
 
     render() {
-
         let error;
 
         if (this.state.errorMessage) {
