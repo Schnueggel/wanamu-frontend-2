@@ -10,7 +10,7 @@ export default class Todos extends React.Component<any, any> {
     render() {
         const todolist = {
             Todos: [
-                {}
+                {id:1}
             ]
         } as wu.model.data.ITodoList;
 

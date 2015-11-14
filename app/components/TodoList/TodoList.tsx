@@ -14,7 +14,7 @@ export default class TodoList extends React.Component<TodoListFormProps, any> {
         password: HTMLInputElement,
     };
 
-    state:any = {
+    state: any = {
     };
 
     constructor(props:TodoListFormProps){
@@ -33,6 +33,6 @@ export default class TodoList extends React.Component<TodoListFormProps, any> {
     }
 
     createTodo(todo: wu.model.data.ITodo) {
-        return <Todo todo={todo}/>
+        return <Todo todo={todo} key={todo.id}/>
     }
 }

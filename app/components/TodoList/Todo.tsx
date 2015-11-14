@@ -10,7 +10,7 @@ export default class Todo extends React.Component<TodoProps, any> {
     refs: any = {
     };
 
-    propTypes: any = {
+    static propTypes: any = {
         todo: React.PropTypes.object.isRequired
     };
 
