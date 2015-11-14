@@ -4,7 +4,7 @@
   "description": "Wanamu Frontend based on react",
   "main": "public/index.html",
   "dependencies": {
-    "axios": "^0.7.0",
+    "axios": "git+https://github.com/mzabriskie/axios",
     "history": "^1.13.0",
     "lodash": "^3.10.1"
   },
