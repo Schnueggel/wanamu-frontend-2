@@ -2,12 +2,14 @@
 
 declare module wu {
     module model.state {
-        export interface ILoginState {
+        export interface ILoginStateModel {
             errorMessage: string;
             email : string;
             emailErrors : Array<string>;
             passwordErrors : Array<string>;
             user: wu.model.data.IUser;
+            changeStateStream: Rx.Subject<ILoginStateModel>;
+            notifyStateChange(): void;
         }
     }
 }

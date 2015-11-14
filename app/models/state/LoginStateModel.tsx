@@ -1,6 +1,6 @@
 import * as Rx from 'rx';
 
-export class LoginStateModel implements wu.model.state.ILoginState {
+export class LoginStateModel implements wu.model.state.ILoginStateModel {
 
     private _errorMessage: string = '';
     private _email: string =  '';
@@ -14,7 +14,7 @@ export class LoginStateModel implements wu.model.state.ILoginState {
     }
 
     notifyStateChange(){
-        this.changeStateStream.onNext(this);
+        this._changeStateStream.onNext(this);
     }
 
     get errorMessage():string {
