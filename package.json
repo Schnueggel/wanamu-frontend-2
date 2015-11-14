@@ -5,16 +5,16 @@
   "main": "public/index.html",
   "dependencies": {
     "axios": "git+https://github.com/mzabriskie/axios",
-    "history": "^1.13.0",
+    "history": "^1.13.1",
     "lodash": "^3.10.1"
   },
   "devDependencies": {
     "moment": "^2.10.6",
     "q": "^1.4.1",
     "react": "^0.14.2",
-    "react-dom": "^0.14.1",
+    "react-dom": "^0.14.2",
     "react-router": "^1.0.0",
-    "rx": "^4.0.6",
+    "rx": "^4.0.7",
     "typescript": "^1.6.2"
   },
   "scripts": {
