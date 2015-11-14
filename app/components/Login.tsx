@@ -2,16 +2,18 @@ import * as React from 'react';
 import LoginForm from './LoginForm/LoginForm';
 import AppState from '../models/state/AppStateModel';
 import authService from '../services/AuthService';
+import {User} from '../models/data/User';
 
 export interface Refs {
     [key: string]: __React.Component<any, any>;
     form: LoginForm;
 }
-export default class Login extends React.Component<any, wu.model.state.ILoginState> {
+export default class Login extends React.Component<any, wu.model.state.ILoginStateModel> {
 
-    state: wu.model.state.ILoginState;
-    stream: any;
+    state: wu.model.state.ILoginStateModel;
     refs: Refs;
+    private loginRequestSubscription: Rx.IDisposable;
+    private loginChangeSubscription: Rx.IDisposable;
 
     constructor(props:any){
         super(props);
@@ -19,22 +21,32 @@ export default class Login extends React.Component<any, wu.model.state.ILoginSta
     }
 
     componentWillMount() {
-        AppState.login.changeStateStream.subscribe((state: wu.model.state.ILoginState) => {
+        this.loginChangeSubscription = this.state.changeStateStream.subscribe((state: wu.model.state.ILoginStateModel) => {
             this.setState(state);
         });
     }
 
     componentDidMount() {
-        this.stream = authService.createLoginRequestStream(this.refs.form.getLoginSubmitStream());
-        this.stream.subscribe(
-            (result) => {
-                console.log('Login Success:', result);
+        const stream = authService.createLoginRequestStream(this.refs.form.getLoginSubmitStream());
+        this.loginRequestSubscription = stream.subscribe(
+            (result: wu.model.data.IUser) => {
+                if (result instanceof User) {
+                    this.state.user = result;
+                    this.props.history.pushState({id: result.DefaultTodoListId}, '/todos');
+                } else {
+                    console.log(result);
+                }
             }, (err) => {
                 console.log('Login Error');
             }, () => {
                 console.log('Complete');
             }
         );
+    }
+
+    componentWillUnMount() {
+        this.loginChangeSubscription.dispose();
+        this.loginRequestSubscription.dispose();
     }
 
     render() {
