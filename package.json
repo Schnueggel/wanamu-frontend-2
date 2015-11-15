@@ -22,7 +22,7 @@
   "scripts": {
     "test": "test",
     "build": "webpack",
-    "dev": "webpack-dev-server --content-base public --devtool eval --hot --progess --colors",
+    "dev": "webpack-dev-server --content-base public --devtool eval --hot --progess --colors --inline",
     "deploy": "webpack -p"
   },
   "repository": {
