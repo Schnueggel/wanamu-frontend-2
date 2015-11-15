@@ -6,20 +6,24 @@
   "dependencies": {
     "axios": "git+https://github.com/mzabriskie/axios",
     "history": "^1.13.1",
-    "lodash": "^3.10.1"
-  },
-  "devDependencies": {
+    "lodash": "^3.10.1",
     "moment": "^2.10.6",
     "q": "^1.4.1",
     "react": "^0.14.2",
     "react-dom": "^0.14.2",
     "react-router": "^1.0.0",
-    "rx": "^4.0.7",
-    "typescript": "^1.6.2"
+    "rx": "^4.0.7"
+  },
+  "devDependencies": {
+    "ts-loader": "^0.7.1",
+    "typescript": "^1.6.2",
+    "webpack": "^1.12.6"
   },
   "scripts": {
     "test": "test",
-    "build": "webpack"
+    "build": "webpack",
+    "dev": "webpack-dev-server --content-base public --devtool eval --hot --progess --colors",
+    "deploy": "webpack -p"
   },
   "repository": {
     "type": "git",

@@ -2,6 +2,9 @@ import MenuModel from './MenuModel';
 import * as Rx from 'rx';
 import {LoginStateModel} from './LoginStateModel';
 
+/**
+ * Represents the state of the App
+ */
 export class AppStateModel {
     menu: any;
     login: LoginStateModel;
