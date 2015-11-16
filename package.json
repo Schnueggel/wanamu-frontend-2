@@ -15,6 +15,9 @@
     "rx": "^4.0.7"
   },
   "devDependencies": {
+    "autoprefixer": "^6.1.0",
+    "cssnext": "^1.8.4",
+    "postcss-loader": "^0.8.0",
     "ts-loader": "^0.7.1",
     "typescript": "^1.6.2",
     "webpack": "^1.12.6"
