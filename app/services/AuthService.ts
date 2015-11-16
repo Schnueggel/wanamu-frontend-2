@@ -1,8 +1,8 @@
 import * as _ from 'lodash';
-import * as axios from 'axios';
 import * as Rx from 'rx';
 import * as Err from '../errors/errors';
 import {User} from '../models/data/models';
+import {BaseDataService} from "./BaseDataService";
 
 export interface LoginRequestData {
     username: string;
@@ -13,36 +13,15 @@ export interface LoginResponse extends axios.Response {
     data: {data: Array<wu.model.data.IUserData>};
 }
 
-export class AuthService {
+/**
+ *
+ */
+export class AuthService extends BaseDataService{
 
-    private axios:axios.AxiosInstance;
     private currentUser:wu.model.data.IUser;
 
     constructor() {
-        this.createAxios();
-    }
-
-    createAxios() {
-        this.axios = axios.create();
-        this.axios.interceptors.response.use(null, this.onResponseError.bind(this));
-    }
-
-    /**
-     *
-     * @param response
-     * @returns {any}
-     */
-    onResponseError(response:axios.Response) {
-        if (response.status === 401 || response.status === 403) {
-            return Promise.resolve(new Err.CredentialsError());
-        } else if (response.status === 500) {
-            return Promise.resolve(new Err.ServerError());
-        } else if (response.status === 0) {
-            return Promise.resolve(new Err.NetworkError());
-        } else {
-            console.error(response);
-            return Promise.resolve(new Err.UnknownError('Server responded with: ' + response.statusText));
-        }
+        super();
     }
 
     /**
