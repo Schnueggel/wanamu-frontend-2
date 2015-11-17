@@ -18,7 +18,7 @@ export interface LoginResponse extends axios.Response {
  */
 export class AuthService extends BaseDataService{
 
-    private currentUser:wu.model.data.IUser;
+    private _currentUser: wu.model.data.IUser;
 
     constructor() {
         super();
@@ -44,8 +44,8 @@ export class AuthService extends BaseDataService{
                 } else if (_.get(response, '.data.data[0].id', false) === false){
                     return new Err.InvalidResponseDataError();
                 } else {
-                    this.currentUser = new User(response.data.data[0]);
-                    return this.currentUser;
+                    this._currentUser = new User(response.data.data[0]);
+                    return this._currentUser;
                 }
             });
     }
@@ -60,6 +60,15 @@ export class AuthService extends BaseDataService{
     getLoginStream(url:string, data:LoginRequestData):Rx.Observable<axios.Response> {
         return Rx.Observable
             .fromPromise(this.axios.post(url, data));
+    }
+
+
+    get currentUser():wu.model.data.IUser {
+        return this._currentUser;
+    }
+
+    set currentUser(value:wu.model.data.IUser) {
+        this._currentUser = value;
     }
 }
 
