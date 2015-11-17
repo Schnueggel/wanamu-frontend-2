@@ -1,3 +1,5 @@
+'use strict';
+
 let webpack = require("webpack"),
     autoprefixer = require('autoprefixer'),
     cssnext = require('cssnext');
