@@ -95,7 +95,6 @@ export default class LoginForm extends React.Component<LoginFormProps, any> {
 
 
     handleClick() {
-        console.log('Submit', this.getLoginSubmitStream().hasObservers());
         this.getLoginSubmitStream().onNext(
             {
                 username: this.refs.email.state.value,

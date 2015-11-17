@@ -1,72 +1,56 @@
 import * as Rx from 'rx';
+import {BaseStateModel} from "./BaseStateModel";
+import {Notify} from './decorators/NotifyDecorator';
 
-export class LoginStateModel implements wu.model.state.ILoginStateModel {
+export class LoginStateModel extends BaseStateModel<LoginStateModel> implements wu.model.state.ILoginStateModel {
 
     private _errorMessage: string = '';
     private _email: string =  '';
     private _emailErrors: Array<string> = [];
     private _passwordErrors:Array<string> = [];
     private _user: wu.model.data.IUser = null;
-    private _changeStateStream : Rx.Subject<LoginStateModel>;
 
     constructor() {
-        this._changeStateStream = new Rx.Subject<LoginStateModel>();
-    }
-
-    notifyStateChange(){
-        this._changeStateStream.onNext(this);
+        super();
     }
 
     get errorMessage():string {
         return this._errorMessage;
     }
-
+    @Notify
     set errorMessage(value:string) {
         this._errorMessage = value;
-        this.notifyStateChange();
     }
 
     get email():string {
         return this._email;
     }
-
+    @Notify
     set email(value:string) {
         this._email = value;
-        this.notifyStateChange();
     }
 
     get emailErrors():Array<string> {
         return this._emailErrors;
     }
-
+    @Notify
     set emailErrors(value:Array<string>) {
         this._emailErrors = value;
-        this.notifyStateChange();
     }
 
     get passwordErrors():Array<string> {
         return this._passwordErrors;
     }
-
+    @Notify
     set passwordErrors(value:Array<string>) {
         this._passwordErrors = value;
-        this.notifyStateChange();
     }
 
     get user():wu.model.data.IUser {
         return this._user;
     }
-
+    @Notify
     set user(value:wu.model.data.IUser) {
         this._user = value;
-        this.notifyStateChange();
-    }
-
-    get changeStateStream():Rx.Subject<LoginStateModel> {
-        return this._changeStateStream;
-    }
-
-    set changeStateStream(value:Rx.Subject<LoginStateModel>) {
-        this._changeStateStream = value;
     }
 }

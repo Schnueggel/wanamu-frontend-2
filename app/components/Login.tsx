@@ -32,7 +32,7 @@ export default class Login extends React.Component<any, wu.model.state.ILoginSta
             (result: wu.model.data.IUser) => {
                 if (result instanceof User) {
                     this.state.user = result;
-                    this.props.history.pushState({id: result.DefaultTodoListId}, '/todos');
+                    this.props.history.pushState({id: result.DefaultTodoListId}, '/todolist');
                 } else {
                     console.log(result);
                 }
