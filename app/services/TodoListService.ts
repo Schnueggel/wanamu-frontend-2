@@ -41,3 +41,7 @@ export class TodoListService extends BaseDataService {
             });
     }
 }
+
+const todoListService = new TodoListService();
+
+export default todoListService;
