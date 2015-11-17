@@ -7,7 +7,7 @@ export interface TodoListFormProps extends __React.Props<TodoListFormProps> {
 }
 
 
-export default class TodoList extends React.Component<TodoListFormProps, any> {
+export class TodoList extends React.Component<TodoListFormProps, any> {
 
     refs: any = {
         email: HTMLInputElement,
