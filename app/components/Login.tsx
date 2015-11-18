@@ -21,8 +21,16 @@ export default class Login extends React.Component<any, wu.model.state.ILoginSta
     }
 
     componentWillMount() {
+        if (this.state.user instanceof User) {
+            this.goToTodoList(this.state.user.DefaultTodoListId);
+        }
+
         this.loginChangeSubscription = this.state.changeStateStream.subscribe((state: wu.model.state.ILoginStateModel) => {
-            this.setState(state);
+            if (state.user instanceof User) {
+                this.goToTodoList(state.user.DefaultTodoListId);
+            } else {
+                this.setState(state);
+            }
         });
     }
 
@@ -32,16 +40,20 @@ export default class Login extends React.Component<any, wu.model.state.ILoginSta
             (result: wu.model.data.IUser) => {
                 if (result instanceof User) {
                     this.state.user = result;
-                    this.props.history.pushState({id: result.DefaultTodoListId}, '/todolist');
+                    console.log(this.state);
                 } else {
                     console.log(result);
                 }
-            }, (err) => {
-                console.log('Login Error');
-            }, () => {
-                console.log('Complete');
             }
         );
+    }
+
+    /**
+     * Navigate to todolist
+     * @param id
+     */
+    goToTodoList(id: number) {
+        this.props.history.pushState(null, `/todolist/${id}`);
     }
 
     componentWillUnMount() {

@@ -18,44 +18,43 @@ export interface TodoListProps extends __React.Props<TodoListProps> {
  */
 export default class TodoList extends React.Component<TodoListProps, any> {
 
-    state: wu.model.state.ITodoStateModel;
-    todoListLoadStream: Rx.IDisposable;
+    state:wu.model.state.ITodoStateModel;
+    todoListLoadStream:Rx.IDisposable;
 
-    constructor(props:any){
+    constructor(props:any) {
         super(props);
 
         this.state = AppState.todos;
 
-        if (_.isNumber(this.props.params.id)) {
-            this.createTodoListRequestStream(this.props.params.id);
-        }
-        else if (authService.currentUser) {
-            this.props.history.pushState({id: authService.currentUser.DefaultTodoListId}, '/todolist');
-        }
-        else {
-            console.log('No valid todolist id found');
-        }
     }
 
     componentWillMount() {
-        this.todoListLoadStream = this.state.changeStateStream.subscribe((state: wu.model.state.ITodoStateModel) => {
+        if (_.isNumber(this.props.params.id)) {console.log(this.props.params.id);
+            this.createTodoListRequestStream(this.props.params.id);
+        } else if (AppState.login.user) {
+            this.props.history.replaceState(null, `/todolist/${AppState.login.user.DefaultTodoListId}`);
+        } else {
+            this.props.history.pushState(null, '/login');
+        }
+
+        this.todoListLoadStream = this.state.changeStateStream.subscribe((state:wu.model.state.ITodoStateModel) => {
             this.setState(state);
         });
     }
 
     createTodoListRequestStream(id) {
         todoListService.getTodosRequestStream(Rx.Observable.just(id))
-        .map((result: wu.model.data.ITodoList) => {
-            if (result instanceof BaseError) {
-
-            } else {
-                this.state.todolist = result;
-            }
-        })
+            .map((result:wu.model.data.ITodoList) => {
+                if (result instanceof BaseError) {
+                    alert(result);
+                } else {
+                    this.state.todolist = result;
+                }
+            })
     }
 
     render() {
-        const todolist = this.state.todolist;
+        const todolist = this.state.todolist || {} as any;
 
         return <TList.TodoList todolist={todolist}/>
     }

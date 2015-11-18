@@ -7,6 +7,7 @@ import {TodosStateModel} from './TodosStateModel';
  * Represents the state of the App
  */
 export class AppStateModel {
+    triedToLoadUser: boolean = false;
     menu: any;
     login: LoginStateModel;
     todos: TodosStateModel;

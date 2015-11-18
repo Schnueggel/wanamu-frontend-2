@@ -29,6 +29,9 @@ export class TodoList extends React.Component<TodoListFormProps, any> {
     }
 
     createTodos() {
+        if (this.props.todolist.Todos === undefined) {
+            return null;
+        }
         return this.props.todolist.Todos.map(this.createTodo);
     }
 
