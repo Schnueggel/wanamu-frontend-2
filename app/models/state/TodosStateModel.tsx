@@ -10,11 +10,11 @@ export class TodosStateModel extends BaseStateModel<TodosStateModel> implements 
        super();
     }
 
+    @Notify
     get todolist(): wu.model.data.ITodoList {
         return this._todolist;
     }
 
-    @Notify
     set todolist(value: wu.model.data.ITodoList) {
         this._todolist = value;
     }

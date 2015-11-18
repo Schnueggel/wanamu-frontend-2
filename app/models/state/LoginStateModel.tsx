@@ -14,42 +14,47 @@ export class LoginStateModel extends BaseStateModel<LoginStateModel> implements 
         super();
     }
 
+    @Notify
     get errorMessage():string {
         return this._errorMessage;
     }
-    @Notify
+
     set errorMessage(value:string) {
         this._errorMessage = value;
     }
 
+    @Notify
     get email():string {
         return this._email;
     }
-    @Notify
+
     set email(value:string) {
         this._email = value;
     }
 
+    @Notify
     get emailErrors():Array<string> {
         return this._emailErrors;
     }
-    @Notify
+
     set emailErrors(value:Array<string>) {
         this._emailErrors = value;
     }
 
+    @Notify
     get passwordErrors():Array<string> {
         return this._passwordErrors;
     }
-    @Notify
+
     set passwordErrors(value:Array<string>) {
         this._passwordErrors = value;
     }
 
+    @Notify
     get user():wu.model.data.IUser {
         return this._user;
     }
-    @Notify
+
     set user(value:wu.model.data.IUser) {
         this._user = value;
     }
