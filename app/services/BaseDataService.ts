@@ -23,7 +23,9 @@ export class BaseDataService {
     }
 
     private createAxios() {
-        this._axios = axios.create();
+        this._axios = axios.create({
+            withCredentials: true
+        });
         this._axios.interceptors.response.use(null, this.onResponseError.bind(this));
     }
 
