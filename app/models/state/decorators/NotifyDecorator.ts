@@ -9,6 +9,6 @@ export function Notify <T extends INotify> (target : T, propertyKey: string, des
 
     descriptor.set = function(value) {
         setter.call(this, value);
-        target.notify();
+        this.notify();
     }
 }
