@@ -4,7 +4,19 @@
 
 declare function require(url:string);
 
+declare namespace __React {
+    /**
+     * Declare Attributes that come from material-lite
+     */
+    interface HTMLAttributes {
+        'for'?: string;
+        'is'?: any;
+        'class'?: any;
+    }
+}
+
 declare module axios {
+
 
     interface success {
         (response: Response) : void

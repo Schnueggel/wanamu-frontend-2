@@ -8,7 +8,6 @@ export default (
     <Route path="/" component={Page}>
         <IndexRoute component={Login} />
         <Route path="login" component={Login}/>
-        <Route path="todolist" component={TodoList}></Route>
-        <Route path="todolist/:id" component={TodoList}/>
+        <Route path="todolist(/:id)" component={TodoList}/>
     </Route>
-)
+);
