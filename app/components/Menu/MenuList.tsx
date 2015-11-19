@@ -18,9 +18,9 @@ export default class MenuList extends React.Component<wu.MenuListProps, any> {
             });
 
         return (
-            <ul className="menu">
+            <nav className="mdl-navigation">
                 {list}
-            </ul>
+            </nav>
         );
     }
 }

@@ -20,10 +20,7 @@ export default class MenuListItem extends React.Component<wu.MenuListItemProps, 
         }
 
         return (
-            <li>
-                {icon}
-                <span className="text">{this.props.text}</span>
-            </li>
+            <a className="mdl-navigation__link">{this.props.text}</a>
         );
     }
 }

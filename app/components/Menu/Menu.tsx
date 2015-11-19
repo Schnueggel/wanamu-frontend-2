@@ -8,7 +8,10 @@ export default class Menu extends React.Component<wu.MenuProps, any> {
 
     render() {
         return (
-            <MenuList items={this.props.items} />
+            <div className="mdl-layout__drawer">
+                <span className="mdl-layout-title">{this.props.title}</span>
+                <MenuList items={this.props.items} />
+            </div>
         );
     }
 }

@@ -5,6 +5,7 @@ declare module wu {
     }
 
     interface MenuProps {
+        title: string;
         items: Array<MenuItemData>;
     }
 
