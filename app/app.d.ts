@@ -2,6 +2,8 @@
 /// <reference path="./components/Form/form.d.ts" />
 /// <reference path="./models/models.d.ts" />
 
+declare function require(url:string);
+
 declare module axios {
 
     interface success {
