@@ -1,0 +1,5 @@
+.wu-theme-1 {
+   @nest & .mdl-layout__header,& .mdl-layout__drawer-button {
+       color: black;
+   }
+}

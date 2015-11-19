@@ -1,7 +1,8 @@
 'use strict';
 
-let webpack = require("webpack"),
+let webpack = require('webpack'),
     autoprefixer = require('autoprefixer'),
+    postcssNesting = require('postcss-nesting'),
     cssnext = require('cssnext');
 
 module.exports = {
@@ -33,6 +34,6 @@ module.exports = {
         ]
     },
     postcss: function () {
-        return [cssnext, autoprefixer];
+        return [postcssNesting, cssnext, autoprefixer];
     }
 };
