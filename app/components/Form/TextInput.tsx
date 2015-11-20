@@ -17,6 +17,10 @@ export default class TextInput extends React.Component<wu.Form.TextInputProps, a
 
     constructor(props:wu.Form.TextInputProps){
         super(props);
+
+        if (!props.id){
+            props.id = `generated-${new Date().getTime()}-${Math.floor(Math.random()*100000000)}`;
+        }
     }
 
     handleChange(evt) {
@@ -34,19 +38,17 @@ export default class TextInput extends React.Component<wu.Form.TextInputProps, a
         errs = this.props.errors.map(this.createErrorElements);
 
         if (this.props.label) {
-            label = <label className="form-label">{this.props.label}</label>
+            label = <label className="mdl-textfield__label" for={this.props.id}>{this.props.label}</label>
         }
 
-        return  <div className="form-control-group">
+        return  (<div className="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+            <input type={this.props.type} ref="field" className="mdl-textfield__input" value={this.state.value} id={this.props.id} onBlur={this.props.onBlur} onChange={this.handleChange.bind(this)}/>
             {label}
-            <input type={this.props.type} ref="field" className="form-control" value={this.state.value} onBlur={this.props.onBlur} onChange={this.handleChange.bind(this)}/>
-            <div className="form-errors">
-                {errs}
-            </div>
-        </div>
+            {errs}
+        </div>);
     }
 
     createErrorElements(text, key) {
-        return <p className="form-error" key={key}>{text}</p>
+        return <span className="mdl-textfield__error" key={key}>{text}</span>
     }
 }

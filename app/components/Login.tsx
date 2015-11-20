@@ -72,9 +72,11 @@ export default class Login extends React.Component<LoginProps, any> {
             error = <p className="error-message">{this.state.errorMessage}</p>
         }
 
-        return <div>
-            {error}
-            <LoginForm ref="form"/>
-        </div>
+        return (<div className="login mdl-card mdl-shadow--2dp">
+            <h3>Login</h3>
+            <div className="mdl-card__title mdl-card--expand">
+                <LoginForm ref="form"/>
+            </div>
+        </div>);
     }
 }

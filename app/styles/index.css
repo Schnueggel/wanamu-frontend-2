@@ -2,4 +2,22 @@
    @nest & .mdl-layout__header,& .mdl-layout__drawer-button {
        color: black;
    }
+   @nest & .login.mdl-card {
+       position: absolute;
+       top: 30%;
+       left:50%;
+       width:660px;
+       transform: translate(-50%, -50%);
+       text-align:center;
+       @nest & .mdl-textfield {
+        width: 600px;
+       }
+   }
+   @nest & .form-actionbar {
+       text-align:center;
+       display:inline-block;
+   }
+   @nest & .login .form-actionbar button{
+       width: 600px;
+   }
 }

@@ -93,7 +93,6 @@ export default class LoginForm extends React.Component<LoginFormProps, any> {
         });
     }
 
-
     handleClick() {
         this.getLoginSubmitStream().onNext(
             {
@@ -124,11 +123,11 @@ export default class LoginForm extends React.Component<LoginFormProps, any> {
         },
             enabled = this.state.isEmailValid && this.state.isPasswordValid;
 
-        return  <form name="login">
+        return  <form name="login" action="#">
             <TextInput {...email} ref="email" />
             <TextInput {...password} ref="password"/>
-            <div className="form-container">
-                <button type="button" className="form-button" ref="submit" onClick={this.handleClick.bind(this)} disabled={!enabled}>Login</button>
+            <div className="form-actionbar">
+                <button type="button" className="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" ref="submit" onClick={this.handleClick.bind(this)} disabled={!enabled}>Login</button>
             </div>
         </form>
     }

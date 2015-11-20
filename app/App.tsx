@@ -1,4 +1,4 @@
-require('material-design-lite/material.css');
+//require('material-design-lite/material.css');
 require('./styles/index.css');
 require('material-design-lite/material.js');
 

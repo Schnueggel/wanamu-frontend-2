@@ -31,8 +31,8 @@ export default class Page extends React.Component<PageProps, any> {
 
     render() {
         return (
-            <div className="mdl-layout__container">
-                <div className="wu-theme-1 mdl-layout mdl-js-layout">
+            <div className="wu-theme-1 mdl-layout__container">
+                <div className="mdl-layout mdl-js-layout">
                     <header className="mdl-layout__header mdl-layout__header--transparent">
                         <div className="mdl-layout__header-row">
                             <span className="mdl-layout-title">Wanamu</span>
