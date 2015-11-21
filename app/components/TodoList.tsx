@@ -26,7 +26,7 @@ export default class TodoList extends React.Component<TodoListProps, any> {
         super(props);
     }
 
-    componentDidUpdate(nextProps: TodoListProps, nextState:any, nextContext: any) {
+    componentDidUpdate() {
         this.checkParamId();
     }
 
