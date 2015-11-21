@@ -19,6 +19,7 @@
     "css-loader": "^0.23.0",
     "cssnext": "^1.8.4",
     "material-design-lite": "git+https://github.com/google/material-design-lite.git#v1.0.6",
+    "postcss-cssnext": "^2.2.0",
     "postcss-loader": "^0.8.0",
     "postcss-nesting": "^2.0.6",
     "style-loader": "^0.13.0",

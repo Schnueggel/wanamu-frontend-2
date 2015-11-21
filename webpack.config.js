@@ -1,9 +1,9 @@
 'use strict';
 
-let webpack = require('webpack'),
+const webpack = require('webpack'),
     autoprefixer = require('autoprefixer'),
     postcssNesting = require('postcss-nesting'),
-    cssnext = require('cssnext');
+    cssnext = require('postcss-cssnext');
 
 module.exports = {
     entry: ['webpack/hot/dev-server', './app/App.tsx'],
@@ -12,10 +12,14 @@ module.exports = {
         filename: 'bundle.js'
     },
     resolve: {
+        root: [
+            __dirname + '/app'
+        ],
         // Add `.ts` and `.tsx` as a resolvable extension.
         extensions: ['', '.webpack.js', '.web.js', '.ts', '.tsx', '.js', '.d.ts'],
         alias: {
             rx: __dirname + '/node_modules/rx/dist/rx.lite.js'
+
         }
     },
     plugins: [],
