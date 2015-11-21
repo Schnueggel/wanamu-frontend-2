@@ -1,23 +1,59 @@
-.wu-theme-1 {
-   @nest & .mdl-layout__header,& .mdl-layout__drawer-button {
-       color: black;
-   }
-   @nest & .login.mdl-card {
-       position: absolute;
-       top: 30%;
-       left:50%;
-       width:660px;
-       transform: translate(-50%, -50%);
-       text-align:center;
-       @nest & .mdl-textfield {
-           width: 600px;
-       }
-   }
-   @nest & .form-actionbar {
-       text-align:center;
-       display:inline-block;
-   }
-   @nest & .login .form-actionbar button{
-       width: 600px;
-   }
+input[type="text"] {
+    outline: none;
+}
+:root {
+    --color1: rgb(255, 152, 0);
+    --color2: rgb(255,87,34);
+    --color3: rgb(96,125,139);
+    --color4: rgb(63,81,181);
+    --color5: rgb(139,195,74);
+}
+.wu-theme-1 .login.mdl-card {
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    width: 660px;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+.wu-theme-1 .login.mdl-card .mdl-textfield {
+    width: 600px;
+}
+
+.wu-theme-1 .form-actionbar {
+    text-align: center;
+    display: inline-block;
+}
+
+.wu-theme-1 .login .form-actionbar button {
+    width: 600px;
+}
+
+.wu-theme-1 .todolist {
+    display: flex;
+}
+
+.wu-theme-1 .todo {
+    margin: 1rem;
+}
+
+.wu-theme-1 .todo .color1 {
+    background-color: color(var(--color1) alpha(-40%));
+}
+.wu-theme-1 .todo .color2 {
+    background-color: color(var(--color2) alpha(-30%));
+}
+.wu-theme-1 .todo .color3 {
+    background-color: color(var(--color3) alpha(-30%));
+}
+.wu-theme-1 .todo .color4 {
+    background-color: color(var(--color4) alpha(-30%));
+}
+.wu-theme-1 .todo .color5 {
+    background-color: color(var(--color5) alpha(-30%));
+}
+
+.wu-theme-1 .todo .colorpicker button {
+    margin: 0 0.3rem;
 }

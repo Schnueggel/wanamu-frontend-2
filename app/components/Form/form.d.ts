@@ -10,6 +10,7 @@ declare module wu {
             value?: string;
             label?: string;
             id?: string;
+            className?: string;
             errors?: Array<string>;
             onChange?: (ev?:__React.FormEvent) => any,
             onBlur?: (ev?:__React.FormEvent) => any,

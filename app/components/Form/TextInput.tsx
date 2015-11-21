@@ -7,10 +7,15 @@ export default class TextInput extends React.Component<wu.Form.TextInputProps, a
         value: ''
     };
 
+    refs: any = {
+        field: HTMLInputElement
+    };
+
     static defaultProps: wu.Form.TextInputProps = {
         errors: [],
         value: '',
         type: 'text',
+        className: '',
         onBlur: () => {},
         onChange: () => {}
     };
@@ -21,6 +26,7 @@ export default class TextInput extends React.Component<wu.Form.TextInputProps, a
         if (!props.id){
             props.id = `generated-${new Date().getTime()}-${Math.floor(Math.random()*100000000)}`;
         }
+        this.state.value = props.value;
     }
 
     handleChange(evt) {
@@ -41,7 +47,7 @@ export default class TextInput extends React.Component<wu.Form.TextInputProps, a
             label = <label className="mdl-textfield__label" for={this.props.id}>{this.props.label}</label>
         }
 
-        return  (<div className="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+        return  (<div className={`mdl-textfield mdl-js-textfield mdl-textfield--floating-label ${this.props.className}`}>
             <input type={this.props.type} ref="field" className="mdl-textfield__input" value={this.state.value} id={this.props.id} onBlur={this.props.onBlur} onChange={this.handleChange.bind(this)}/>
             {label}
             {errs}

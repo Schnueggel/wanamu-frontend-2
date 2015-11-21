@@ -6,7 +6,6 @@ export interface TodoListFormProps extends __React.Props<TodoListFormProps> {
     todolist: wu.model.data.ITodoList
 }
 
-
 export class TodoList extends React.Component<TodoListFormProps, any> {
 
     refs: any = {
@@ -23,9 +22,9 @@ export class TodoList extends React.Component<TodoListFormProps, any> {
 
     render() {
 
-        return  <ul>
+        return  (<div className="todolist">
             {this.createTodos()}
-        </ul>
+        </div>);
     }
 
     createTodos() {
