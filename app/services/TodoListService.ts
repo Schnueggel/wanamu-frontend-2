@@ -25,7 +25,7 @@ export class TodoListService extends BaseDataService {
      */
     getTodosRequestStream(obs: Rx.Observable<number>) : Rx.Observable<ITodoList> {
         return obs
-            .flatMapLatest((id:number) => this.axios.get(`http://localhost:3001/todolist/id`))
+            .flatMapLatest((id:number) => this.axios.get(`http://localhost:3001/todolist/${id}`))
             .catch((e:Error) => {
                 console.error(e);
                 return Rx.Observable.just(new Err.UnknownError('An unknown error happened'));

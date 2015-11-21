@@ -20,11 +20,13 @@ export interface TodoListProps extends __React.Props<TodoListProps> {
  */
 export default class TodoList extends React.Component<TodoListProps, any> {
 
+    private currentId: number = null;
+
     constructor(props:TodoListProps) {
         super(props);
     }
 
-    componentWillUpdate(nextProps: TodoListProps, nextState:any, nextContext: any) {
+    componentDidUpdate(nextProps: TodoListProps, nextState:any, nextContext: any) {
         this.checkParamId();
     }
 
@@ -34,24 +36,26 @@ export default class TodoList extends React.Component<TodoListProps, any> {
 
     checkParamId() {
         if (this.props.params.id) {
-            this.createTodoListRequestStream(this.props.params.id);
+            if (this.currentId !== this.props.params.id) {
+                this.currentId = this.props.params.id;
+                this.createTodoListRequestStream(this.props.params.id);
+            }
         } else if (this.props.appState.login.user) {
-            this.props.history.replaceState(null, `/todolist/${this.props.appState.login.user.DefaultTodoListId}`);
+            this.props.history.pushState(null, `/todolist/${this.props.appState.login.user.DefaultTodoListId}`);
         } else {
             this.props.history.pushState(null, '/login');
         }
     }
 
     createTodoListRequestStream(id) {
-        console.log(id);
         todoListService.getTodosRequestStream(Rx.Observable.just(id))
-            .map((result:wu.model.data.ITodoList) => {
+            .subscribe((result:wu.model.data.ITodoList) => {
                 if (result instanceof BaseError) {
-                    alert(result);
+                    console.log(result);
                 } else {
                     this.props.appState.todos.todolist = result;
                 }
-            })
+            });
     }
 
     render() {

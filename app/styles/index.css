@@ -10,7 +10,7 @@
        transform: translate(-50%, -50%);
        text-align:center;
        @nest & .mdl-textfield {
-        width: 600px;
+           width: 600px;
        }
    }
    @nest & .form-actionbar {
