@@ -1,17 +1,45 @@
 import * as React from 'react';
-import MenuList from './MenuList';
+import {Link, IndexLink} from 'react-router';
 
-export default class Menu extends React.Component<wu.MenuProps, any> {
-    constructor(props:wu.MenuProps){
+export interface IMenuProps {
+    title: string;
+    items: Array<wu.IMenuItemData>;
+}
+
+export default class Menu extends React.Component<IMenuProps, any> {
+
+    refs: any = {
+        menu: HTMLDivElement
+    };
+
+    state: any = {
+        a: ''
+    }
+
+    constructor(props:IMenuProps){
         super(props);
     }
 
+    handleNavLinkClick() {
+        (document.body.querySelector('.mdl-layout__obfuscator.is-visible') as HTMLElement).click();
+    }
+
     render() {
+        const list = this.props.items.map(this.createMenuItem.bind(this));
         return (
-            <div className="mdl-layout__drawer">
+            <div className="mdl-layout__drawer" ref="menu" id={this.state.a}>
                 <span className="mdl-layout-title">{this.props.title}</span>
-                <MenuList items={this.props.items} />
+                <nav className="mdl-navigation">
+                    {list}
+                </nav>
             </div>
         );
+    }
+
+    createMenuItem ({text, url}) {
+        if (url === '/') {
+            return <IndexLink className="mdl-navigation__link" to={url} activeClassName="active" key={url} onClick={this.handleNavLinkClick.bind(this)}>{text}</IndexLink>
+        }
+        return <Link className="mdl-navigation__link" to={url} activeClassName="active" onClick={this.handleNavLinkClick.bind(this)} key={url}>{text}</Link>
     }
 }
