@@ -5,19 +5,23 @@ declare module wu {
             regex: RegExp;
             text: string;
         }
-        interface TextInputProps extends __React.Props<TextInputProps>{
+
+        interface ITextInputProps extends IInputElementProps<ITextInputProps> {
             type?: string;
-            value?: string;
-            label?: string;
-            id?: string;
-            className?: string;
-            errors?: Array<string>;
-            onChange?: (ev?:__React.FormEvent) => any,
-            onBlur?: (ev?:__React.FormEvent) => any,
         }
 
-        interface InputElement extends __React.Component<any,any> {
-            value: string;
+        interface ITextAreaProps extends IInputElementProps<ITextAreaProps> {
+            rows?: number;
+        }
+
+        interface IInputElementProps<T> extends __React.Props<T> {
+            value?: string;
+            className?: string;
+            label?: string;
+            id?: string;
+            errors?: Array<string>;
+            onChange?: (ev?:__React.FormEvent) => any;
+            onBlur?: (ev?:__React.FormEvent) => any;
         }
     }
 }

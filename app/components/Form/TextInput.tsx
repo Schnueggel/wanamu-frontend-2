@@ -1,7 +1,6 @@
 import * as React from 'react';
-import InputElement = wu.Form.InputElement;
 
-export default class TextInput extends React.Component<wu.Form.TextInputProps, any> {
+export default class TextInput extends React.Component<wu.Form.ITextInputProps, any> {
 
     state: any = {
         value: ''
@@ -11,21 +10,20 @@ export default class TextInput extends React.Component<wu.Form.TextInputProps, a
         field: HTMLInputElement
     };
 
-    static defaultProps: wu.Form.TextInputProps = {
+    private defaultId: string;
+
+    static defaultProps: wu.Form.ITextInputProps = {
         errors: [],
         value: '',
         type: 'text',
         className: '',
         onBlur: () => {},
         onChange: () => {}
-    };
+    } as wu.Form.ITextInputProps;
 
-    constructor(props:wu.Form.TextInputProps){
+    constructor(props:wu.Form.ITextInputProps){
         super(props);
-
-        if (!props.id){
-            props.id = `generated-${new Date().getTime()}-${Math.floor(Math.random()*100000000)}`;
-        }
+        this.defaultId = `generated-${new Date().getTime()}-${Math.floor(Math.random()*100000000)}`;
         this.state.value = props.value;
     }
 
@@ -35,20 +33,24 @@ export default class TextInput extends React.Component<wu.Form.TextInputProps, a
         });
         this.props.onChange(evt);
     }
+    handeFieldOnFocus(evt) {
+        evt.target.select();
+    }
 
     render() {
         let errs: JSX.Element[],
             label:JSX.Element;
-
+        const id = this.props.id ? this.props.id : this.defaultId;
         //Generate error elements
         errs = this.props.errors.map(this.createErrorElements);
 
         if (this.props.label) {
-            label = <label className="mdl-textfield__label" for={this.props.id}>{this.props.label}</label>
+            label = <label className="mdl-textfield__label" htmlFor={id}>{this.props.label}</label>
         }
 
-        return  (<div className={`mdl-textfield mdl-js-textfield mdl-textfield--floating-label ${this.props.className}`}>
-            <input type={this.props.type} ref="field" className="mdl-textfield__input" value={this.state.value} id={this.props.id} onBlur={this.props.onBlur} onChange={this.handleChange.bind(this)}/>
+        return  (<div className={`mdl-textfield mdl-js-textfield ${this.props.className}`}>
+            <input type={this.props.type} ref="field" className="mdl-textfield__input" value={this.state.value} id={id}
+                   onBlur={this.props.onBlur} onChange={this.handleChange.bind(this)} onFocus={this.handeFieldOnFocus.bind(this)}/>
             {label}
             {errs}
         </div>);
