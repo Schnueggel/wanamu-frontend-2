@@ -1,4 +1,3 @@
-import MenuModel from './MenuModel';
 import * as Rx from 'rx';
 import {LoginStateModel} from './LoginStateModel';
 import {TodosStateModel} from './TodosStateModel';
@@ -9,30 +8,41 @@ import {Notify} from './decorators/NotifyDecorator';
  * Represents the state of the App
  */
 export class AppStateModel extends BaseStateModel<AppStateModel> {
-    private _triedToLoadUser: boolean = false;
-    menu: any;
+
+    menuItems: wu.IMenuItemData[];
+    authMenuItems: wu.IMenuItemData[] = [
+        {text:'Home', url: '/'},
+        {text:'TodoList', url: '/todolist'},
+        {text:'Logout', url: '/logout'}
+    ];
+    noAuthMenuItems: wu.IMenuItemData[] = [
+        {text:'Home', url: '/'},
+        {text:'Login', url: '/login'},
+        {text:'Register', url: '/register'}
+    ];
+
     login: LoginStateModel;
     todos: TodosStateModel;
 
     constructor() {
         super();
-        this.menu = new MenuModel();
+        this.menuItems = this.noAuthMenuItems;
         this.login = new LoginStateModel();
         this.todos = new TodosStateModel();
 
         //Notify AppState change on SubState changes
-        this.login.changeStateStream.subscribe(this.notify.bind(this));
+        this.login.changeStateStream.subscribe(this.loginChanged.bind(this));
         this.todos.changeStateStream.subscribe(this.notify.bind(this));
     }
 
-
-    @Notify
-    get triedToLoadUser(): boolean {
-        return this._triedToLoadUser;
-    }
-
-    set triedToLoadUser(value:boolean) {
-        this._triedToLoadUser = value;
+    loginChanged() {
+        if (this.login.user) {
+            this.authMenuItems[1].url = `/todolist/${this.login.user.DefaultTodoListId}`;
+            this.menuItems = this.authMenuItems;
+        } else {
+            this.menuItems = this.noAuthMenuItems;
+        }
+        this.notify();
     }
 }
 
