@@ -1,6 +1,6 @@
 //require('material-design-lite/material.css');
 require('./styles/index.css');
-require('material-design-lite/material.js');
+//require('material-design-lite/material.js');
 
 import * as React from 'react';
 import * as ReactDom from 'react-dom';
