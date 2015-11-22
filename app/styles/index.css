@@ -1,4 +1,4 @@
-input[type="text"] {
+input[type="text"], textarea {
     outline: none;
 }
 :root {
@@ -56,4 +56,14 @@ input[type="text"] {
 
 .wu-theme-1 .todo .colorpicker button {
     margin: 0 0.3rem;
+}
+
+.wu-theme-1 .todo input[type="text"]:not(:focus) {
+    border: none;
+    font-size: 2rem;
+}
+
+.wu-theme-1 .mdl-layout__drawer .mdl-navigation__link.active {
+    background-color: var(--color1);
+    color: white;
 }
