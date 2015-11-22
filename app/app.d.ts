@@ -1,6 +1,13 @@
-/// <reference path="./components/Menu/menu.d.ts" />
 /// <reference path="./components/Form/form.d.ts" />
 /// <reference path="./models/models.d.ts" />
+
+// Material-Design-Lite
+declare interface ComponentHandler {
+    upgradeDom();
+    upgradeElement(element: Element, jsClass?:string)
+}
+
+declare var componentHandler:ComponentHandler;
 
 declare function require(url:string);
 
@@ -14,6 +21,19 @@ declare namespace __React {
         'class'?: any;
     }
 }
+
+declare module wu {
+    interface IMenuItemData {
+        text: string;
+        url: string;
+    }
+}
+
+declare module ReactRouter {
+    interface IndexLinkClass extends ReactRouter.LinkClass{}
+    var IndexLink:IndexLinkClass;
+}
+
 
 declare module axios {
 
