@@ -2,23 +2,29 @@ import * as React from 'react';
 import * as Rx from 'rx';
 import TextInput from 'components/Form/TextInput';
 import IconButton from 'components/Elements/IconButton';
+import TextArea from 'components/Form/TextArea';
 
 export interface ITodoProps extends __React.Props<ITodoProps> {
     todo: wu.model.data.ITodo;
 }
 
 export interface ITodoState {
-    edit?: boolean;
+    editTitle?: boolean;
     colorPick?: boolean;
     color?: string;
+    editDescription?: boolean;
 }
 
 export default class Todo extends React.Component<ITodoProps, ITodoState> {
 
     state: ITodoState = {
-        edit: false,
+        editTitle: false,
         colorPick: false,
-        color: Todo.colors.color1
+        color: Todo.colors.color1,
+        editDescription: false
+    };
+    refs: any = {
+        description: TextArea
     };
 
     static colors = {
@@ -37,23 +43,11 @@ export default class Todo extends React.Component<ITodoProps, ITodoState> {
         super(props);
     }
 
-    handleTitleOnClick() {
+    handleTextOnBlur(evt) {
         this.setState({
-            edit: true
+            editTitle: false
         });
-    }
-
-    refTitleInput(input: TextInput) {
-        if (input) {
-            input.refs.field.focus();
-            input.refs.field.select();
-        }
-    }
-
-    handleTextOnBlur() {
-        this.setState({
-            edit: false
-        });
+        this.props.todo.title = evt.target.value;
     }
 
     handleColorPick() {
@@ -62,30 +56,40 @@ export default class Todo extends React.Component<ITodoProps, ITodoState> {
         });
     }
 
+    handleEditDescription() {
+        this.setState({
+            colorPick: false,
+            editDescription: this.state.editDescription === false
+        });
+    }
+
+    handleDescriptionBlur(evt) {
+        this.props.todo.description = evt.target.value;
+    }
+
     pickColor(color) {
         this.props.todo.color = color;
         this.setState({color});
     }
 
     render() {
-        const titleHidden = this.state.edit ? 'hidden' : '',
-            descriptionHidden = this.props.todo.description ? '' : 'hidden',
-            color = this.props.todo.color ? this.props.todo.color : Todo.colors.color1,
+        const color = this.props.todo.color ? this.props.todo.color : Todo.colors.color1,
+            descriptionHidden = this.state.editDescription ? '' : 'hidden',
             colorPickHidden = this.state.colorPick ? '' : 'hidden';
 
         return  (<div className={`todo mdl-card mdl-shadow--2dp`}>
             <div className={`mdl-card__title mdl-card--expand ${color}`}>
-                <h3 className={`${titleHidden}`}  onClick={this.handleTitleOnClick.bind(this)}>
-                    {this.props.todo.title}
-                </h3>
-                { this.state.edit ?
-                <TextInput value={this.props.todo.title} ref={this.refTitleInput.bind(this)}
-                           onBlur={this.handleTextOnBlur.bind(this)}/>: null}
+                <TextInput value={this.props.todo.title}
+                           onBlur={this.handleTextOnBlur.bind(this)} label="Todo text"/>
             </div>
-            <div className={`mdl-card__supporting-text ${descriptionHidden}`}>
-                {this.props.todo.description}
+            <div className={`mdl-card__supporting-text`}>
+                { this.state.editDescription ? null :
+                <span>{this.props.todo.description}</span>}
+                <TextArea value={this.props.todo.description} label="Description"
+                          onBlur={this.handleDescriptionBlur.bind(this)} ref="description" className={descriptionHidden}/>
             </div>
             <div className="mdl-card__menu">
+                <IconButton icon="subject" onClick={this.handleEditDescription.bind(this)} />
                 <IconButton icon="color_lens" onClick={this.handleColorPick.bind(this)} />
             </div>
             <div className={`colorpicker mdl-card__actions mdl-card--border ${colorPickHidden}`}>
@@ -96,7 +100,7 @@ export default class Todo extends React.Component<ITodoProps, ITodoState> {
 
     getColorPickButtons() {
         return Object.keys(Todo.colors).map((color) => {
-            return <IconButton icon="lens" onClick={() => this.pickColor(color)} className={color} disabled={this.props.todo.color === color}/>
+            return <IconButton icon="lens" onClick={() => this.pickColor(color)} className={color} disabled={this.props.todo.color === color} key={color}/>
         });
     }
 }
