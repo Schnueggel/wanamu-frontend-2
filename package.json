@@ -24,8 +24,7 @@
     "postcss-nesting": "^2.0.6",
     "style-loader": "^0.13.0",
     "ts-loader": "^0.7.1",
-    "typescript": "^1.6.2",
-    "webpack": "^1.12.6"
+    "typescript": "^1.6.2"
   },
   "scripts": {
     "test": "test",

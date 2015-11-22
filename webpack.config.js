@@ -1,12 +1,11 @@
 'use strict';
 
-const webpack = require('webpack'),
-    autoprefixer = require('autoprefixer'),
+const autoprefixer = require('autoprefixer'),
     postcssNesting = require('postcss-nesting'),
     cssnext = require('postcss-cssnext');
 
 module.exports = {
-    entry: ['webpack/hot/dev-server', './app/App.tsx'],
+    entry: ['./app/App.tsx'],
     output: {
         path: __dirname + '/public',
         filename: 'bundle.js'
