@@ -29,6 +29,14 @@ export default class Page extends React.Component<PageProps, any> {
             });
     }
 
+
+    componentDidMount() {
+        componentHandler.upgradeDom();
+    }
+    componentDidUpdate() {
+        componentHandler.upgradeDom();
+    }
+
     render() {
         return (
             <div className="wu-theme-1 mdl-layout__container">
@@ -39,7 +47,7 @@ export default class Page extends React.Component<PageProps, any> {
                             <div className="mdl-layout-spacer"></div>
                         </div>
                     </header>
-                    <Menu {...this.props.appState.menu} title="Wanamu" />
+                    <Menu title="Wanamu" items={this.props.appState.menuItems}/>
                     <div className="mdl-layout__content">
                         {this.props.children}
                     </div>
