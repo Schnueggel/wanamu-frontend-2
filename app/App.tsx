@@ -6,14 +6,17 @@ import * as React from 'react';
 import * as ReactDom from 'react-dom';
 import { Router } from 'react-router';
 import routes from './config/routes';
-import AppState from "./models/state/AppStateModel";
+import AppState from './models/state/AppStateModel';
+const createBrowserHistory = require('history/lib/createBrowserHistory');
 
 const app = document.getElementById('app');
 
 AppState.changeStateStream.subscribe((state) => {
     console.log('AppState changed render app');
     ReactDom.render(
-        <Router createElement={createElement}>{routes}</Router>,
+        <Router createElement={createElement} history={createBrowserHistory()}>
+            {routes}
+        </Router>,
         app
     );
 });
