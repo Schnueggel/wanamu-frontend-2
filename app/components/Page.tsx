@@ -33,6 +33,7 @@ export default class Page extends React.Component<PageProps, any> {
     componentDidMount() {
         componentHandler.upgradeDom();
     }
+
     componentDidUpdate() {
         componentHandler.upgradeDom();
     }

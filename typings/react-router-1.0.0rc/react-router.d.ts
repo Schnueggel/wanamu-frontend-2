@@ -148,6 +148,7 @@ declare module ReactRouter {
         activeClassName?: string;
         activeStyle?: {};
         to: string;
+        hash?: string;
         params?: {};
         query?: {};
     }
@@ -175,6 +176,7 @@ declare module ReactRouter {
     var RouteHandler: RouteHandlerClass;
 
     interface RouterProps {
+        history?: History;
         children?: RouteTypes
         routes?:  RouteTypes // alias for children
         createElement?: (component:Component, props:Object) => any

@@ -28,6 +28,13 @@ declare module wu {
         url: string;
     }
 }
+declare module 'history/lib/createBrowserHistory' {
+
+    interface createBrowserHistory {
+        (): History;
+    }
+    export default createBrowserHistory;
+}
 
 declare module ReactRouter {
     interface IndexLinkClass extends ReactRouter.LinkClass{}
