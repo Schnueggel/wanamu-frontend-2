@@ -24,14 +24,14 @@ export class Setting extends BaseModel<Setting> implements wu.model.data.ISettin
      * @param data
      */
     public fromJSON(data : wu.model.data.ISettingData) : void {
-        var data = data || <wu.model.data.ISettingData>{};
+        const d = data || <wu.model.data.ISettingData>{};
 
-        this._id = data.id;
-        this._color1 = data.color1;
-        this._color2 = data.color2;
-        this._color3 = data.color3;
-        this._color4 = data.color4;
-        this._color5 = data.color5;
+        this._id = d.id;
+        this._color1 = d.color1;
+        this._color2 = d.color2;
+        this._color3 = d.color3;
+        this._color4 = d.color4;
+        this._color5 = d.color5;
     }
     /**
      * Returns all colors as an array

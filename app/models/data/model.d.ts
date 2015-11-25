@@ -127,7 +127,6 @@ declare module wu {
         interface IUserData {
             id : number;
             email: string;
-            TodoLists : Array<ITodoListData>
             Setting: ISettingData;
             Profile : IProfileData;
             DefaultTodoListId : number;
@@ -137,15 +136,12 @@ declare module wu {
             password : string;
             id : number;
             email: string;
-            TodoLists : Array<ITodoList>
             Setting: ISetting;
             Profile : IProfile;
             DefaultTodoListId : number;
             defaulttodolist : ITodoList;
             usertype : string;
 
-            todos(id?: number) : Array<ITodo>;
-            addNewTodo( todo : ITodo, todolist?: ITodoList ) : void;
             fromJSON( data : IUserData ) : void;
         }
     }

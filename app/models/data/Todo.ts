@@ -32,20 +32,21 @@ export class Todo extends BaseModel<Todo> implements wu.model.data.ITodo {
      * @param data
      */
     public fromJSON (data: wu.model.data.ITodoData) {
-        var data = data || <wu.model.data.ITodoData>{};
-        this._id = data.id;
-        this._TodoListId = data.TodoListId;
-        this._title = data.title || '';
-        this._alarm = data.alarm || null;
-        this._description = data.description || '';
-        this._repeat = data.repeat || this._repeat;
-        this._repeatWeekly =  data.repeatWeekly || [];
-        this._repeatMonthly = data.repeatMonthly || [];
-        this._repeatYearly =  data.repeatYearly || [];
-        this._color = data.color;
-        this._finished = data.finished === true;
-        this._order = _.isNumber(data.order) ? data.order : this._order;
-        this._deletedAt = data.deletedAt;
+        const d = data || <wu.model.data.ITodoData>{};
+
+        this._id = d.id;
+        this._TodoListId = d.TodoListId;
+        this._title = d.title || '';
+        this._alarm = d.alarm || null;
+        this._description = d.description || '';
+        this._repeat = d.repeat || this._repeat;
+        this._repeatWeekly =  d.repeatWeekly || [];
+        this._repeatMonthly = d.repeatMonthly || [];
+        this._repeatYearly =  d.repeatYearly || [];
+        this._color = d.color;
+        this._finished = d.finished === true;
+        this._order = _.isNumber(d.order) ? d.order : this._order;
+        this._deletedAt = d.deletedAt;
     }
 
     @Json

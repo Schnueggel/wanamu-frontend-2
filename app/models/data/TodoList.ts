@@ -8,8 +8,6 @@ export class TodoList extends BaseModel<TodoList> implements wu.model.data.ITodo
     public name : string;
     public Todos : Array<Todo> = [];
 
-    protected highestOrderNumber : number = -1;
-
     /**
      *
      * @param data
@@ -24,17 +22,16 @@ export class TodoList extends BaseModel<TodoList> implements wu.model.data.ITodo
      * @param data
      */
     public fromJSON (data: wu.model.data.ITodoListData) : void {
-        var data = data || <wu.model.data.ITodoListData>{};
+        const d = data || <wu.model.data.ITodoListData>{};
 
         this.Todos = [];
-        this.id = data.id;
-        this.name = data.name;
+        this.id = d.id;
+        this.name = d.name;
 
-        if (_.isArray(data.Todos)) {
-            for(var i = 0; i < data.Todos.length; i++){
-                this.addTodo(new Todo(data.Todos[i]));
-            }
-            this.sort();
+        if (_.isArray(d.Todos)) {
+            d.Todos.forEach((todoData: wu.model.data.ITodoData)=> {
+                this.addTodo(new Todo(todoData));
+            });
         }
     }
 
@@ -44,14 +41,7 @@ export class TodoList extends BaseModel<TodoList> implements wu.model.data.ITodo
      * @returns {Todo}
      */
     public todo(id : number) : Todo {
-
-        for(var i = 0; i < this.Todos.length; i++){
-            if (this.Todos[i].id === id){
-                return this.Todos[i];
-            }
-        }
-
-        return null;
+        return _.find(this.Todos, {id});
     }
 
     /**
@@ -60,9 +50,7 @@ export class TodoList extends BaseModel<TodoList> implements wu.model.data.ITodo
      */
     public addTodo(todo : Todo) : void {
         if (todo instanceof Todo) {
-            if (todo.order > this.highestOrderNumber) {
-                this.highestOrderNumber = todo.order;
-            }
+            // Any change of a Todo model will also trigger the change stream of this TodoList
             todo.changeDataStream.subscribe(() => {
                 this.notify();
             });
@@ -78,39 +66,8 @@ export class TodoList extends BaseModel<TodoList> implements wu.model.data.ITodo
     public addNewTodo(todo : Todo) : void {
         if (todo instanceof Todo){
             todo.TodoListId = this.id;
-            todo.order = this.highestOrderNumber = this.highestOrderNumber +1;
             todo.dirty = false;
             this.addTodo(todo);
-            this.sort();
         }
-    }
-
-    /**
-     * Returns todos sorted
-     * @returns {Todo[]}
-     */
-    public todos() {
-        this.sort();
-        return this.Todos;
-    }
-
-    public sort = () : void => {
-        this.Todos.sort(TodoList.compareOrder);
-    };
-
-    /**
-     * Sorts Todo Objects by the order property. Order direction is desc
-     * @param a
-     * @param b
-     * @returns {number}
-     */
-    public static compareOrder(a : Todo, b : Todo) {
-        if (a.order < b.order) {
-            return 1;
-        }
-        if (a.order > b.order) {
-            return -1;
-        }
-        return 0;
     }
 }

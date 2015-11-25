@@ -16,7 +16,7 @@ export class Salutations {
 export class Profile extends BaseModel<Profile> implements wu.model.data.IProfile {
 
     _id : number;
-    public _firstname : string;
+    _firstname : string;
     _lastname : string;
     _face : string;
     _salutation : string;
@@ -38,13 +38,13 @@ export class Profile extends BaseModel<Profile> implements wu.model.data.IProfil
      */
     @DirtyReset
     public fromJSON(data : wu.model.data.IProfileData) : void {
-        var data = data || <wu.model.data.IProfileData>{};
+        const d = data || <wu.model.data.IProfileData>{};
 
-        this._id = data.id;
-        this._firstname = data.firstname;
-        this._lastname = data.lastname;
-        this._salutation = data.salutation;
-        this._face = data.face;
+        this._id = d.id;
+        this._firstname = d.firstname;
+        this._lastname = d.lastname;
+        this._salutation = d.salutation;
+        this._face = d.face;
     }
 
     @Json

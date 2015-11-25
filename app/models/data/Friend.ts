@@ -25,15 +25,15 @@ export class Friend extends BaseModel<Friend> implements wu.model.data.IFriend {
 
     /**
      *
-     * @param d
+     * @param data
      */
-    public fromJSON(d: wu.model.data.IFriendData) {
-        let data = d || <wu.model.data.IFriendData>{};
+    public fromJSON(data: wu.model.data.IFriendData) {
+        const d = data || <wu.model.data.IFriendData>{};
 
-        this._id = data.id;
+        this._id = d.id;
 
-        this._Profile = new Profile(data.Profile);
-        this._Friends = data.Friends;
+        this._Profile = new Profile(d.Profile);
+        this._Friends = d.Friends;
     }
 
     @Json

@@ -1,6 +1,5 @@
 import * as _ from 'lodash';
 
-
 interface IAmDirty {
     __orgValues: any;
 }
@@ -13,12 +12,14 @@ interface IAmDirty {
  * @constructor
  */
 export function Dirty(target:any, propertyKey:string, descriptor:TypedPropertyDescriptor<any>) {
+
+    //We store the original values in __orgValues property
     if (_.isUndefined(target.__orgValues)) {
         target.__orgValues = {};
     }
 
-    let setter = descriptor.set;
-    let getter = descriptor.get;
+    const setter = descriptor.set,
+        getter = descriptor.get;
 
     if (_.isUndefined(setter) || _.isUndefined(getter)) {
         console.warn('Dirty decorator only works on properties');
@@ -69,7 +70,7 @@ export function Dirty(target:any, propertyKey:string, descriptor:TypedPropertyDe
  */
 export function DirtyReset(target: any, propertyKey:string, descriptor:TypedPropertyDescriptor<any>) {
     if (_.isFunction(descriptor.value)) {
-        let orgmethod = descriptor.value;
+        const orgmethod = descriptor.value;
 
         // =============================================================================================
         // Reset dirty after the decorated method is called

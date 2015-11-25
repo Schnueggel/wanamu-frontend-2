@@ -17,8 +17,6 @@ export class User extends BaseModel<User> implements wu.model.data.IUser {
     private _password : string;
     public DefaultTodoListId : number;
 
-    public TodoLists : Array<TodoList>;
-
     public defaulttodolist : TodoList;
 
     public Setting : wu.model.data.ISetting;
@@ -39,112 +37,19 @@ export class User extends BaseModel<User> implements wu.model.data.IUser {
 
     /**
      *
-     * @param d
+     * @param data
      */
-    public fromJSON(d: wu.model.data.IUserData) {
-        let data = d || <wu.model.data.IUserData>{},
-            todolist : TodoList;
+    public fromJSON(data: wu.model.data.IUserData) {
+        const d = data || <wu.model.data.IUserData>{};
 
-        this._id = data.id;
-        this._email = data.email;
-        this.DefaultTodoListId = data.DefaultTodoListId;
-        this.Setting = new Setting(data.Setting);
-        this._Profile = new Profile(data.Profile);
-
-        this.TodoLists = [];
-
-        if (_.isArray(data.TodoLists)) {
-            for (let i = 0; i < data.TodoLists.length; i++) {
-                todolist = new TodoList(data.TodoLists[i]);
-                if (todolist.id === this.DefaultTodoListId){
-                    this.defaulttodolist = todolist;
-                }
-                this.TodoLists.push(todolist);
-            }
-        }
+        this._id = d.id;
+        this._email = d.email;
+        this.DefaultTodoListId = d.DefaultTodoListId;
+        this.Setting = new Setting(d.Setting);
+        this._Profile = new Profile(d.Profile);
 
         if (this._id){
             this.usertype = User.TYPE_USER;
-        }
-    }
-    /**
-     *
-     * @param id
-     * @returns {TodoList|null}
-     */
-    public todolist (id : number) : TodoList {
-        for(let i = 0; i < this.TodoLists.length; i++){
-            if (this.TodoLists[i].id === id) {
-                return this.TodoLists[i];
-            }
-        }
-
-        return null;
-    }
-
-    /**
-     *
-     * @param id
-     * @returns {TodoList}
-     */
-    public todo (id : number) {
-        let todolist : TodoList;
-        for(let i = 0; i < this.TodoLists.length; i++){
-            todolist = this.TodoLists[i];
-
-            for(let t = 0; t < todolist.Todos.length; t++){
-                if (todolist.Todos[t].id === id){
-                    return todolist.Todos[t];
-                }
-            }
-        }
-        return null;
-    }
-
-    /**
-     * Adds a new TodoITem to the todolist. If no todolistId is given the default TodoList will be used.
-     * If no TodoList could be found at all a TodoListNotFoundError will be thrown.
-     * @param todo
-     * @param [todolist]
-     * @throws TodoListNotFoundError
-     */
-    public addNewTodo(todo : Todo, todolist?: TodoList) : void {
-        if (todo instanceof Todo) {
-            if (!(todolist instanceof TodoList) && this.defaulttodolist instanceof TodoList) {
-                todolist = this.defaulttodolist;
-            }
-            if (!todolist) {
-                throw new TodoListNotFoundError();
-            }
-
-            todolist.addNewTodo(todo);
-        } else {
-            console.warn('New Todo must be of type Todo');
-        }
-    }
-
-    /**
-     * Returns the todos from a
-     * @param  {number} id TodoListId
-     * @returns {Todo[]}
-     * @throws TodoListNotFoundError
-     */
-    public todos(id?: number) : Todo[] {
-
-        let todolist : TodoList = null;
-
-        if (id) {
-            todolist = this.todolist(id);
-        }
-
-        if (todolist === null) {
-            todolist = this.defaulttodolist;
-        }
-
-        if (todolist instanceof TodoList) {
-            return todolist.todos();
-        } else {
-            throw new TodoListNotFoundError();
         }
     }
 

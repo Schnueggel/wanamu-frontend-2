@@ -7,7 +7,7 @@ declare interface ComponentHandler {
     upgradeElement(element: Element, jsClass?:string)
 }
 
-declare var componentHandler:ComponentHandler;
+declare const componentHandler:ComponentHandler;
 
 declare function require(url:string);
 
@@ -38,7 +38,7 @@ declare module 'history/lib/createBrowserHistory' {
 
 declare module ReactRouter {
     interface IndexLinkClass extends ReactRouter.LinkClass{}
-    var IndexLink:IndexLinkClass;
+    let IndexLink:IndexLinkClass;
 }
 
 
