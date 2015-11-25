@@ -6,7 +6,7 @@ import { Dirty, Json } from 'models/decorators/decorators';
 /**
  * Friend Model
  */
-export class Friend extends BaseModel implements wu.model.data.IFriend {
+export class Friend extends BaseModel<Friend> implements wu.model.data.IFriend {
 
     private _id : number;
     private _Profile : wu.model.data.IProfile;

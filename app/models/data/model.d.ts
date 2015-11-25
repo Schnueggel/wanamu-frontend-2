@@ -52,15 +52,12 @@ declare module wu {
             TodoListId: number,
             title : string;
             alarm : string;
-            alarmDate : Date;
             description : string;
             order : number;
             repeat : boolean;
             finished : boolean;
             deletedAt : string;
             color : string;
-            createdOnClient: string,
-            updatedOnClient: string
             repeatWeekly  : string[];
             repeatMonthly : string[];
             repeatYearly  : string[];

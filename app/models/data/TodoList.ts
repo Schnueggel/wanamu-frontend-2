@@ -2,7 +2,7 @@ import _ = require('lodash');
 import { Todo } from 'models/data/Todo';
 import { BaseModel }  from 'models/data/BaseModel';
 
-export class TodoList extends BaseModel implements wu.model.data.ITodoList {
+export class TodoList extends BaseModel<TodoList> implements wu.model.data.ITodoList {
 
     public id : number;
     public name : string;

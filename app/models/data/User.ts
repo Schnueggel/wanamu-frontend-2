@@ -7,7 +7,7 @@ import { Profile } from 'models/data/Profile';
 import { BaseModel }  from 'models/data/BaseModel';
 import { Dirty, Json } from 'models/decorators/decorators';
 
-export class User extends BaseModel implements wu.model.data.IUser {
+export class User extends BaseModel<User> implements wu.model.data.IUser {
 
     public static TYPE_GUEST = 'guest';
     public static TYPE_USER = 'user';

@@ -13,7 +13,7 @@ export class Salutations {
     static NEUTRUM : string = 'neutrum';
 }
 
-export class Profile extends BaseModel implements wu.model.data.IProfile {
+export class Profile extends BaseModel<Profile> implements wu.model.data.IProfile {
 
     _id : number;
     public _firstname : string;

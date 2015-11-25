@@ -1,10 +1,10 @@
-import { BaseModel }  from './BaseModel';
+import { BaseModel }  from 'models/data/BaseModel';
 import * as _ from 'lodash';
-import { Dirty, Json } from 'models/decorators/decorators';
+import { Dirty, Json, Notify } from 'models/decorators/decorators';
 import * as moment from 'moment';
 import * as Rx from 'rx';
 
-export class Todo extends BaseModel implements wu.model.data.ITodo {
+export class Todo extends BaseModel<Todo> implements wu.model.data.ITodo {
 
     private _id : number;
     private _TodoListId: number;
@@ -17,8 +17,6 @@ export class Todo extends BaseModel implements wu.model.data.ITodo {
     private _color : string = null;
     private _finished : boolean = false;
     private _deletedAt : string = null;
-    private _updatedOnClient : string;
-    private _createdOnClient : string;
     private _repeatWeekly : string[] = [];
     private _repeatMonthly : string[] = [];
     private _repeatYearly :  string[] = [];
@@ -27,8 +25,6 @@ export class Todo extends BaseModel implements wu.model.data.ITodo {
         super();
         if (_.isPlainObject(data)){
             this.fromJSON(data);
-        } else {
-            this.createdOnClient = moment().format(BaseModel.defaultTimeFormat);
         }
     }
 
@@ -50,10 +46,6 @@ export class Todo extends BaseModel implements wu.model.data.ITodo {
         this._finished = data.finished === true;
         this._order = _.isNumber(data.order) ? data.order : this._order;
         this._deletedAt = data.deletedAt;
-
-        if (this._alarm) {
-            this._alarmDate = moment(this._alarm, BaseModel.defaultTimeFormat).toDate();
-        }
     }
 
     @Json
@@ -62,10 +54,9 @@ export class Todo extends BaseModel implements wu.model.data.ITodo {
     }
 
     public set id(value : number) {
-        console.warn('Field id is readonly');
+        console.error('Field id is readonly');
     }
 
-    @Dirty
     @Json
     public get TodoListId():number {
         return this._TodoListId;
@@ -77,15 +68,18 @@ export class Todo extends BaseModel implements wu.model.data.ITodo {
 
     @Dirty
     @Json
+    @Notify
     public get title():string {
         return this._title;
     }
+
     public set title(value:string) {
         this._title = value;
     }
 
     @Dirty
     @Json
+    @Notify
     public get alarm():string {
         return this._alarm;
     }
@@ -99,6 +93,7 @@ export class Todo extends BaseModel implements wu.model.data.ITodo {
 
     @Dirty
     @Json
+    @Notify
     public get description():string {
         return this._description;
     }
@@ -110,6 +105,7 @@ export class Todo extends BaseModel implements wu.model.data.ITodo {
 
     @Dirty
     @Json
+    @Notify
     public get repeat(): boolean {
         return this._repeat;
     }
@@ -120,6 +116,7 @@ export class Todo extends BaseModel implements wu.model.data.ITodo {
 
     @Dirty
     @Json
+    @Notify
     public get order():number {
         return this._order;
     }
@@ -129,23 +126,26 @@ export class Todo extends BaseModel implements wu.model.data.ITodo {
     }
     @Dirty
     @Json
+    @Notify
     public get color(): string {
         return this._color;
     }
     public set color(value: string) {
         this._color = value;
     }
-    @Dirty
+
     @Json
     public get deletedAt(): string {
         return this._deletedAt;
     }
+
     public set deletedAt(value: string) {
-        this._deletedAt = value;
+        console.error('Property deletedAt is read only');
     }
 
     @Dirty
     @Json
+    @Notify
     public get repeatWeekly(): string[] {
         return this._repeatWeekly;
     }
@@ -155,6 +155,7 @@ export class Todo extends BaseModel implements wu.model.data.ITodo {
     }
     @Dirty
     @Json
+    @Notify
     public get repeatMonthly():string[] {
         return this._repeatMonthly;
     }
@@ -164,6 +165,7 @@ export class Todo extends BaseModel implements wu.model.data.ITodo {
     }
     @Dirty
     @Json
+    @Notify
     public get repeatYearly():string[] {
         return this._repeatYearly;
     }
@@ -172,42 +174,14 @@ export class Todo extends BaseModel implements wu.model.data.ITodo {
         this._repeatYearly = value;
     }
 
-    @Json
-    public get updatedOnClient():string {
-        return this._updatedOnClient;
-    }
-
-    public set updatedOnClient(value: string) {
-        this._updatedOnClient = value;
-    }
-
-    @Json
-    public get createdOnClient(): string {
-        return this._createdOnClient;
-    }
-
-    public set createdOnClient(value: string) {
-        this._createdOnClient = value;
-    }
-
     @Dirty
     @Json
+    @Notify
     public get finished():boolean {
         return this._finished;
     }
 
     public set finished(value:boolean) {
         this._finished = value;
-    }
-
-    public get alarmDate():Date {
-        return this._alarmDate;
-    }
-
-    public set alarmDate(value: Date) {
-        if (value instanceof Date){
-            this._alarm = moment(value).format(BaseModel.defaultTimeFormat);
-        }
-        this._alarmDate = value;
     }
 }

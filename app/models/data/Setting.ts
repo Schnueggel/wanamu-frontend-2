@@ -1,7 +1,7 @@
 import { BaseModel }  from './BaseModel';
 import { Dirty, Json } from 'models/decorators/decorators';
 
-export class Setting extends BaseModel implements wu.model.data.ISetting {
+export class Setting extends BaseModel<Setting> implements wu.model.data.ISetting {
 
     private _id : number;
     private _color1 : string = 'rgba(255, 223, 2, 0.8)';

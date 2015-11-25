@@ -1,9 +1,13 @@
 
-export class BaseModel implements wu.model.data.IBaseModel {
+export class BaseModel<T> implements wu.model.data.IBaseModel {
 
+    /**
+     * IndexAccess for Models
+     */
     [index: string] : any;
 
     __orgValues : {[index:string] : { value : any, dirty : boolean}} = {};
+
 
     private _dirty: boolean = false;
 
@@ -13,13 +17,21 @@ export class BaseModel implements wu.model.data.IBaseModel {
      */
     toJSON : Function;
 
+    private _changeStateStream:Rx.Subject<T>;
+
+    constructor() {
+        this._changeStateStream = new Rx.Subject<T>();
+    }
+
     /**
-     * @abstract
+     * @virtual
      * @param data
      */
     fromJSON (data: any) : void {}
 
-    static defaultTimeFormat : string = 'YYYY-MM-DD HH:mm:ss';
+    notify() {
+        this._changeStateStream.onNext(this as any);
+    }
 
     public get dirty():boolean {
         return this._dirty;
@@ -27,5 +39,13 @@ export class BaseModel implements wu.model.data.IBaseModel {
 
     public set dirty(value:boolean) {
         this._dirty = value;
+    }
+
+    get changeStateStream():Rx.Subject<T> {
+        return this._changeStateStream;
+    }
+
+    set changeStateStream(value:Rx.Subject<T>) {
+        this._changeStateStream = value;
     }
 }
