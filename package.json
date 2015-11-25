@@ -15,7 +15,7 @@
     "rx": "^4.0.7"
   },
   "devDependencies": {
-    "autoprefixer": "^6.1.0",
+    "autoprefixer": "^6.1.1",
     "css-loader": "^0.23.0",
     "cssnext": "^1.8.4",
     "material-design-lite": "git+https://github.com/google/material-design-lite.git#v1.0.6",
