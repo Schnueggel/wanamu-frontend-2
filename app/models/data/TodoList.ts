@@ -1,6 +1,6 @@
 import _ = require('lodash');
-import { Todo } from './Todo';
-import { BaseModel }  from './BaseModel';
+import { Todo } from 'models/data/Todo';
+import { BaseModel }  from 'models/data/BaseModel';
 
 export class TodoList extends BaseModel implements wu.model.data.ITodoList {
 
@@ -37,6 +37,7 @@ export class TodoList extends BaseModel implements wu.model.data.ITodoList {
             this.sort();
         }
     }
+
     /**
      *
      * @param id

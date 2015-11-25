@@ -1,5 +1,5 @@
 import { BaseModel }  from './BaseModel';
-import { Dirty, Json, DirtyReset } from './decorators/decorators';
+import { Dirty, Json, DirtyReset } from 'models/decorators/decorators';
 import * as _ from 'lodash';
 
 /**

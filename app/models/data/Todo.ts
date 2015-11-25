@@ -1,7 +1,8 @@
 import { BaseModel }  from './BaseModel';
 import * as _ from 'lodash';
-import { Dirty, Json } from './decorators/decorators';
+import { Dirty, Json } from 'models/decorators/decorators';
 import * as moment from 'moment';
+import * as Rx from 'rx';
 
 export class Todo extends BaseModel implements wu.model.data.ITodo {
 

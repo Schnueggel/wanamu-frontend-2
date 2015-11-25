@@ -12,10 +12,6 @@ export default class Menu extends React.Component<IMenuProps, any> {
         menu: HTMLDivElement
     };
 
-    state: any = {
-        a: ''
-    }
-
     constructor(props:IMenuProps){
         super(props);
     }
@@ -27,7 +23,7 @@ export default class Menu extends React.Component<IMenuProps, any> {
     render() {
         const list = this.props.items.map(this.createMenuItem.bind(this));
         return (
-            <div className="mdl-layout__drawer" ref="menu" id={this.state.a}>
+            <div className="mdl-layout__drawer" ref="menu">
                 <span className="mdl-layout-title">{this.props.title}</span>
                 <nav className="mdl-navigation">
                     {list}

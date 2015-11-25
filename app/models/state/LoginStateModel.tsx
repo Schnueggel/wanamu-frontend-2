@@ -1,6 +1,6 @@
 import * as Rx from 'rx';
-import {BaseStateModel} from "./BaseStateModel";
-import {Notify} from './decorators/NotifyDecorator';
+import {BaseStateModel} from "models/state/BaseStateModel";
+import {Notify} from 'models/decorators/NotifyDecorator';
 
 export class LoginStateModel extends BaseStateModel<LoginStateModel> implements wu.model.state.ILoginStateModel {
 

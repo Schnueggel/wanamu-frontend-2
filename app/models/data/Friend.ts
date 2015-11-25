@@ -1,7 +1,7 @@
 import _ = require('lodash');
-import { Profile } from './Profile';
-import { BaseModel }  from './BaseModel';
-import { Dirty, Json } from '../decorators/decorators';
+import { Profile } from 'models/data/Profile';
+import { BaseModel }  from 'models/data/BaseModel';
+import { Dirty, Json } from 'models/decorators/decorators';
 
 /**
  * Friend Model
@@ -16,7 +16,7 @@ export class Friend extends BaseModel implements wu.model.data.IFriend {
      *
      * @param data
      */
-    constructor(data?: wu.IFriendData){
+    constructor(data?: wu.model.data.IFriendData){
         super();
         if (_.isPlainObject(data)){
             this.fromJSON(data);
@@ -27,8 +27,8 @@ export class Friend extends BaseModel implements wu.model.data.IFriend {
      *
      * @param d
      */
-    public fromJSON(d: wu.IFriendData) {
-        let data = d || <wu.IFriendData>{};
+    public fromJSON(d: wu.model.data.IFriendData) {
+        let data = d || <wu.model.data.IFriendData>{};
 
         this._id = data.id;
 

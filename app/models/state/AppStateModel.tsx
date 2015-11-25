@@ -1,8 +1,8 @@
 import * as Rx from 'rx';
-import {LoginStateModel} from './LoginStateModel';
-import {TodosStateModel} from './TodosStateModel';
-import {BaseStateModel} from "./BaseStateModel";
-import {Notify} from './decorators/NotifyDecorator';
+import {LoginStateModel} from 'models/state/LoginStateModel';
+import {TodosStateModel} from 'models/state/TodosStateModel';
+import {BaseStateModel} from 'models/state/BaseStateModel';
+import {Notify} from 'models/decorators/NotifyDecorator';
 
 /**
  * Represents the state of the App

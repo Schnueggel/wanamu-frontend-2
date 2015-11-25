@@ -1,5 +1,5 @@
 import { BaseModel }  from './BaseModel';
-import { Dirty, Json } from './decorators/decorators';
+import { Dirty, Json } from 'models/decorators/decorators';
 
 export class Setting extends BaseModel implements wu.model.data.ISetting {
 

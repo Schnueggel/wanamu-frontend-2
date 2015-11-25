@@ -1,11 +1,11 @@
 import _ = require('lodash');
-import { Setting } from './Setting';
-import { TodoList } from './TodoList';
+import { Setting } from 'models/data/Setting';
+import { TodoList } from 'models/data/TodoList';
 import { TodoListNotFoundError } from './errors/TodoListNotFoundError';
-import { Todo } from './Todo';
-import { Profile } from './Profile';
-import { BaseModel }  from './BaseModel';
-import { Dirty, Json } from './decorators/decorators';
+import { Todo } from 'models/data/Todo';
+import { Profile } from 'models/data/Profile';
+import { BaseModel }  from 'models/data/BaseModel';
+import { Dirty, Json } from 'models/decorators/decorators';
 
 export class User extends BaseModel implements wu.model.data.IUser {
 
