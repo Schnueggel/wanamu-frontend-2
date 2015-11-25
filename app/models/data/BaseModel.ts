@@ -1,3 +1,5 @@
+import {DirtyReset} from 'models/decorators/DirtyDecorator';
+import * as Rx from 'rx';
 
 export class BaseModel<T> implements wu.model.data.IBaseModel {
 
@@ -5,9 +7,6 @@ export class BaseModel<T> implements wu.model.data.IBaseModel {
      * IndexAccess for Models
      */
     [index: string] : any;
-
-    __orgValues : {[index:string] : { value : any, dirty : boolean}} = {};
-
 
     private _dirty: boolean = false;
 
@@ -17,10 +16,10 @@ export class BaseModel<T> implements wu.model.data.IBaseModel {
      */
     toJSON : Function;
 
-    private _changeStateStream:Rx.Subject<T>;
+    private _changeDataStream:Rx.Subject<T>;
 
     constructor() {
-        this._changeStateStream = new Rx.Subject<T>();
+        this._changeDataStream = new Rx.Subject<T>();
     }
 
     /**
@@ -29,23 +28,38 @@ export class BaseModel<T> implements wu.model.data.IBaseModel {
      */
     fromJSON (data: any) : void {}
 
+    /**
+     * This method will trigger the changeDataStream on changes of any property decorated with the Notify decorator
+     */
     notify() {
-        this._changeStateStream.onNext(this as any);
+        this._changeDataStream.onNext(this as any);
     }
 
-    public get dirty():boolean {
+    /**
+     * Resets the dirty valu
+     */
+    @DirtyReset
+    resetDirty() {
+        this.dirty = false;
+    }
+
+    /**
+     * Returns true if data in this model has changed. If you want to set the current state of the model to non dirty use the resetDirty method.
+     * @returns {boolean}
+     */
+    get dirty():boolean {
         return this._dirty;
     }
 
-    public set dirty(value:boolean) {
+    set dirty(value:boolean) {
         this._dirty = value;
     }
 
-    get changeStateStream():Rx.Subject<T> {
-        return this._changeStateStream;
+    get changeDataStream():Rx.Subject<T> {
+        return this._changeDataStream;
     }
 
-    set changeStateStream(value:Rx.Subject<T>) {
-        this._changeStateStream = value;
+    set changeDataStream(value:Rx.Subject<T>) {
+        this._changeDataStream = value;
     }
 }

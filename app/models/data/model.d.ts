@@ -3,7 +3,6 @@ declare module wu {
     module model.data {
 
         interface  IDirty {
-            __orgValues : {[index:string] : { value : any, dirty : boolean}};
             dirty : boolean;
         }
 

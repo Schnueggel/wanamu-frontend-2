@@ -63,6 +63,9 @@ export class TodoList extends BaseModel<TodoList> implements wu.model.data.ITodo
             if (todo.order > this.highestOrderNumber) {
                 this.highestOrderNumber = todo.order;
             }
+            todo.changeDataStream.subscribe(() => {
+                this.notify();
+            });
             this.Todos.push(todo);
         }
     }

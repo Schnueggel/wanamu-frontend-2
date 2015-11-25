@@ -1,15 +1,19 @@
 import * as _ from 'lodash';
 
+
+interface IAmDirty {
+    __orgValues: any;
+}
 /**
- * Decorates a model
+ * Property Decorator
  * @param target
  * @param propertyKey
  * @param descriptor
  * @returns {TypedPropertyDescriptor<any>}
  * @constructor
  */
-export function Dirty (target : wu.model.data.IBaseModel, propertyKey: string, descriptor: TypedPropertyDescriptor<any>) {
-    if (_.isUndefined(target.__orgValues)){
+export function Dirty(target:any, propertyKey:string, descriptor:TypedPropertyDescriptor<any>) {
+    if (_.isUndefined(target.__orgValues)) {
         target.__orgValues = {};
     }
 
@@ -21,14 +25,14 @@ export function Dirty (target : wu.model.data.IBaseModel, propertyKey: string, d
         return descriptor;
     }
 
-    descriptor.set = function(val : any) {
+    descriptor.set = function (val:any) {
         // =============================================================================================
         // We store the original value for this property
         // =============================================================================================
         if (!this.__orgValues.hasOwnProperty(propertyKey)) {
             this.__orgValues[propertyKey] = {
-                value : getter.call(this),
-                dirty : false
+                value: getter.call(this),
+                dirty: false
             };
         }
         // =============================================================================================
@@ -43,8 +47,8 @@ export function Dirty (target : wu.model.data.IBaseModel, propertyKey: string, d
         } else {
             orgValue.dirty = false;
             let isDirty = false;
-            _.forEach(this.__orgValues, (v : any) => {
-                if ( v.dirty === true ) {
+            _.forEach(this.__orgValues, (v:any) => {
+                if (v.dirty === true) {
                     isDirty = true;
                 }
             });
@@ -56,22 +60,23 @@ export function Dirty (target : wu.model.data.IBaseModel, propertyKey: string, d
 }
 
 /**
+ * MethodDecorator
  * If this decorated method is called the dirty values for original-value-check will be set to the current values and dirty will be set to false
  * @param target
  * @param propertyKey
  * @param descriptor
  * @constructor
  */
-export function DirtyReset (target : wu.model.data.IBaseModel, propertyKey: string, descriptor: TypedPropertyDescriptor<any>) {
+export function DirtyReset(target: any, propertyKey:string, descriptor:TypedPropertyDescriptor<any>) {
     if (_.isFunction(descriptor.value)) {
         let orgmethod = descriptor.value;
 
         // =============================================================================================
         // Reset dirty after the decorated method is called
         // =============================================================================================
-        descriptor.value = function(...args : any []){
+        descriptor.value = function (...args:any []) {
             orgmethod.apply(this, args);
-            _.forEach(this.__orgValues, (v: any, k : string) => {
+            _.forEach(this.__orgValues, (v:any, k:string) => {
                 v.dirty = false;
                 v.value = this[k];
             });
