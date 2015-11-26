@@ -21,8 +21,7 @@ export class TodoList extends React.Component<TodoListFormProps, any> {
     }
 
     render() {
-
-        return  (<div className="todolist">
+        return (<div className="todolist">
             {this.createTodos()}
         </div>);
     }

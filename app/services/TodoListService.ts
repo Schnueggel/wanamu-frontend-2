@@ -1,12 +1,18 @@
 import * as _ from 'lodash';
 import * as Rx from 'rx';
-import {BaseDataService} from "./BaseDataService";
+import {BaseDataService} from 'services/BaseDataService';
 import ITodoList = wu.model.data.ITodoList;
-import * as Err from '../errors/errors';
-import {TodoList} from "../models/data/TodoList";
+import * as Err from 'errors/errors';
+import {TodoList} from 'models/data/TodoList';
 
-export interface TodoListResponse extends axios.Response {
+export interface ITodoListResponse extends axios.Response {
     data: {data: Array<wu.model.data.ITodoListData>};
+}
+
+export interface ITodoResponse extends axios.Response {
+    data: {
+        data: Array<wu.model.data.ITodoData>
+    };
 }
 
 /**
@@ -30,13 +36,36 @@ export class TodoListService extends BaseDataService {
                 console.error(e);
                 return Rx.Observable.just(new Err.UnknownError('An unknown error happened'));
             })
-            .map((response: TodoListResponse) => {
+            .map((response: ITodoListResponse) => {
                 if (response instanceof Err.BaseError) {
                     return response as any;
-                } else if (_.get(response, '.data.data[0].id', false) === false){
+                } else if (_.get(response, 'data.data[0].id', false) === false){
                     return new Err.InvalidResponseDataError();
                 } else {
                     return new TodoList(response.data.data[0]);
+                }
+            });
+    }
+
+    /**
+     *
+     * @param obs
+     * @returns {Observable<BaseError|InvalidResponseDataError|wu.model.data.ITodoData>}
+     */
+    getUpdateTodoRequestStream(obs:Rx.Observable<wu.model.data.ITodo>): Rx.Observable<wu.model.data.ITodoData> {
+        return obs
+            .flatMapLatest((todo:wu.model.data.ITodo) => {
+                return this.axios.put(`http://localhost:3001/todo/${todo.id}`, {
+                    data: todo.toJSON()
+                });
+            })
+            .map((response:ITodoResponse) => {
+                if (response instanceof Err.BaseError) {
+                    return response as any;
+                } else if (_.get(response, 'data.success', false) === false || _.get(response, 'data.data[0].id', false) === false) {
+                    return new Err.InvalidResponseDataError();
+                } else {
+                    return response.data.data[0];
                 }
             });
     }

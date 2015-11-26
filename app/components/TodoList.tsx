@@ -58,6 +58,10 @@ export default class TodoList extends React.Component<TodoListProps, any> {
             });
     }
 
+    createTodoListChangeStream() {
+        return todoListService.getUpdateTodoRequestStream(this.props.appState.todos.todolist.todoChangeStream);
+    }
+
     render() {
         const todolist = this.props.appState.todos.todolist || {} as any;
 

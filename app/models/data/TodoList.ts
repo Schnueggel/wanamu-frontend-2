@@ -3,10 +3,11 @@ import { Todo } from 'models/data/Todo';
 import { BaseModel }  from 'models/data/BaseModel';
 
 export class TodoList extends BaseModel<TodoList> implements wu.model.data.ITodoList {
-
     public id : number;
     public name : string;
     public Todos : Array<Todo> = [];
+
+    private _todoChangeStream : Rx.Subject<wu.model.data.ITodo>;
 
     /**
      *
@@ -15,6 +16,7 @@ export class TodoList extends BaseModel<TodoList> implements wu.model.data.ITodo
     constructor(data : wu.model.data.ITodoListData){
         super();
         this.fromJSON(data);
+        this.todoChangeStream = new Rx.Subject<wu.model.data.ITodo>();
     }
 
     /**
@@ -48,11 +50,11 @@ export class TodoList extends BaseModel<TodoList> implements wu.model.data.ITodo
      * Adds a Todo to the end of the TodoList
      * @param todo
      */
-    public addTodo(todo : Todo) : void {
+    private addTodo(todo : Todo) : void {
         if (todo instanceof Todo) {
             // Any change of a Todo model will also trigger the change stream of this TodoList
             todo.changeDataStream.subscribe(() => {
-                this.notify();
+                this.todoChangeStream.onNext(todo);
             });
             this.Todos.push(todo);
         }
@@ -70,4 +72,13 @@ export class TodoList extends BaseModel<TodoList> implements wu.model.data.ITodo
             this.addTodo(todo);
         }
     }
+
+    get todoChangeStream():Rx.Subject<wu.model.data.ITodo> {
+        return this._todoChangeStream;
+    }
+
+    set todoChangeStream(value:Rx.Subject<wu.model.data.ITodo>) {
+        this._todoChangeStream = value;
+    }
+
 }
