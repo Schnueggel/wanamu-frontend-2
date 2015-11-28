@@ -48,9 +48,13 @@ export default class TodoList extends React.Component<TodoListProps, any> {
         }
     }
 
+    handleTodoChange(todo: wu.model.data.ITodo) {
+        Actions.todoAction.updateTodo(todo);
+    }
+
     render() {
         const todolist = this.props.appState.todos.todolist || {} as any;
 
-        return <TList.TodoList todolist={todolist}/>
+        return <TList.TodoList todolist={todolist} onTodoChange={this.handleTodoChange.bind(this)}/>
     }
 }

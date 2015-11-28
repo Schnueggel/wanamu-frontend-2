@@ -25,5 +25,4 @@ export class TodosStateModel extends BaseStateModel<TodosStateModel> implements 
     set todolist(value: wu.model.data.ITodoList) {
         this._todolist = value;
     }
-
 }

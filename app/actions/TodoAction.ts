@@ -17,7 +17,7 @@ export class TodoAction {
 
     updateTodo(todo: wu.model.data.ITodo) {
         todoListService.getUpdateTodoRequestStream(Rx.Observable.just(todo))
-        .map((result: Error | wu.model.data.ITodoData) => {
+        .subscribe((result: Error | wu.model.data.ITodoData) => {
             if (result instanceof Error) {
                 const data: UpdateFailedResult = {
                     error: result as Error,
