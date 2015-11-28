@@ -1,7 +1,7 @@
 import {DirtyReset} from 'models/decorators/DirtyDecorator';
 import * as Rx from 'rx';
 
-export class BaseModel<T> implements wu.model.data.IBaseModel {
+export class BaseModel<T> implements wu.model.data.IBaseModel<T> {
 
     /**
      * IndexAccess for Models

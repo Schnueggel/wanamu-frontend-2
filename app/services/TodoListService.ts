@@ -29,7 +29,7 @@ export class TodoListService extends BaseDataService {
      * @param obs
      * @returns {any}
      */
-    getTodosRequestStream(obs: Rx.Observable<number>) : Rx.Observable<ITodoList> {
+     getTodosRequestStream(obs: Rx.Observable<number>) : Rx.Observable<ITodoList> {
         return obs
             .flatMapLatest((id:number) => this.axios.get(`http://localhost:3001/todolist/${id}`))
             .catch((e:Error) => {

@@ -9,7 +9,7 @@ import {Notify} from 'models/decorators/NotifyDecorator';
  */
 export class AppStateModel extends BaseStateModel<AppStateModel> {
 
-    menuItems: wu.IMenuItemData[];
+    private _menuItems: wu.IMenuItemData[];
     authMenuItems: wu.IMenuItemData[] = [
         {text:'Home', url: '/'},
         {text:'TodoList', url: '/todolist'},
@@ -26,7 +26,7 @@ export class AppStateModel extends BaseStateModel<AppStateModel> {
 
     constructor() {
         super();
-        this.menuItems = this.noAuthMenuItems;
+        this._menuItems = this.noAuthMenuItems;
         this.login = new LoginStateModel();
         this.todos = new TodosStateModel();
 
@@ -42,7 +42,15 @@ export class AppStateModel extends BaseStateModel<AppStateModel> {
         } else {
             this.menuItems = this.noAuthMenuItems;
         }
-        this.notify();
+    }
+
+    @Notify
+    get menuItems():wu.IMenuItemData[] {
+        return this._menuItems;
+    }
+
+    set menuItems(value:wu.IMenuItemData[]) {
+        this._menuItems = value;
     }
 }
 

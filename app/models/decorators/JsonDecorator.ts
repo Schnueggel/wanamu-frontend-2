@@ -1,6 +1,6 @@
 import * as _ from 'lodash';
 
-export function Json(target : wu.model.data.IBaseModel, propertyKey: string, descriptor: TypedPropertyDescriptor<any>) : void {
+export function Json(target : any, propertyKey: string, descriptor: TypedPropertyDescriptor<any>) : void {
 
     if (!target.hasOwnProperty('___tojsonprops')) {
         target['___tojsonprops'] = [propertyKey];
