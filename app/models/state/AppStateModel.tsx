@@ -1,4 +1,5 @@
 import * as Rx from 'rx';
+import * as _ from 'lodash';
 import {LoginStateModel} from 'models/state/LoginStateModel';
 import {TodosStateModel} from 'models/state/TodosStateModel';
 import {BaseStateModel} from 'models/state/BaseStateModel';
@@ -10,6 +11,7 @@ import {Notify} from 'models/decorators/NotifyDecorator';
 export class AppStateModel extends BaseStateModel<AppStateModel> {
 
     private _menuItems: wu.IMenuItemData[];
+
     authMenuItems: wu.IMenuItemData[] = [
         {text:'Home', url: '/'},
         {text:'TodoList', url: '/todolist'},
@@ -33,6 +35,10 @@ export class AppStateModel extends BaseStateModel<AppStateModel> {
         //Notify AppState change on SubState changes
         this.login.changeStateStream.subscribe(this.loginChanged.bind(this));
         this.todos.changeStateStream.subscribe(this.notify.bind(this));
+    }
+
+    isAuthedPath(path) {
+        return _.find(this.noAuthMenuItems, 'url', `/${path.split('/')[1]}`) === undefined
     }
 
     loginChanged() {

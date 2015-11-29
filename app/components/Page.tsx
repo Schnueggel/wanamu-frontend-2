@@ -1,14 +1,15 @@
 import * as React from 'react';
-import Menu from './Menu/Menu';
-import AppState, {AppStateModel} from '../models/state/AppStateModel';
-import authService from '../services/AuthService';
-import {User} from '../models/data/User';
-import {NetworkError} from "../errors/NetworkError";
+import Menu from 'components/Menu/Menu';
+import AppState, {AppStateModel} from 'models/state/AppStateModel';
+import authService from 'services/AuthService';
+import {User} from 'models/data/User';
+import {NetworkError} from 'errors/NetworkError';
 
 interface PageProps {
     children: any,
     appState: AppStateModel;
-    history: History
+    history: History;
+    location: Location;
 }
 
 export default class Page extends React.Component<PageProps, any> {
@@ -24,18 +25,19 @@ export default class Page extends React.Component<PageProps, any> {
                 if (user instanceof User) {
                     this.props.appState.login.user = user;
                 } else {
-                    this.props.history.pushState(null, '/login');
+                    this.willAuth();
                 }
             });
     }
 
-
-    componentDidMount() {
-        componentHandler.upgradeDom();
+    componentWillReceiveProps() {
+        this.willAuth();
     }
 
-    componentDidUpdate() {
-        componentHandler.upgradeDom();
+    willAuth() {
+        if (!this.props.appState.login.user && this.props.appState.isAuthedPath(this.props.location.pathname)) {
+            this.props.history.pushState(null, '/login');
+        }
     }
 
     render() {
