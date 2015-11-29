@@ -78,6 +78,7 @@ declare module ReactRouter {
         component?: Component;
         name?: string;
         path?: string;
+        onEnter?: any;
         handler?: React.ComponentClass<any>;
         ignoreScrollBehavior?: boolean;
     }
