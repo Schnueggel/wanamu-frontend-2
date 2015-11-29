@@ -46,6 +46,7 @@ export default class Page extends React.Component<PageProps, any> {
                         <div className="mdl-layout__header-row">
                             <span className="mdl-layout-title">Wanamu</span>
                             <div className="mdl-layout-spacer"></div>
+                            <div class="mdl-spinner mdl-spinner--single-color mdl-js-spinner is-active" is hide={!this.props.appState.todos.isTodoUpdating}></div>
                         </div>
                     </header>
                     <Menu title="Wanamu" items={this.props.appState.menuItems}/>

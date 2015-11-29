@@ -19,6 +19,7 @@ declare namespace __React {
         'for'?: string;
         'is'?: any;
         'class'?: any;
+        'hide'?: boolean;
     }
 }
 

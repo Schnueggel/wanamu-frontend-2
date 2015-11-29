@@ -24,6 +24,7 @@ export default class Todo extends React.Component<ITodoProps, ITodoState> {
         color: Todo.colors.color1,
         editDescription: false
     };
+
     refs: any = {
         description: TextArea
     };
@@ -59,15 +60,28 @@ export default class Todo extends React.Component<ITodoProps, ITodoState> {
 
     handleColorPick() {
         this.setState({
+            editDescription: false,
             colorPick: this.state.colorPick === false
         });
     }
 
-    handleEditDescription() {
+    handleEditDescription(open?:boolean) {
+        let edit = this.state.editDescription === false;
+
+        if (_.isBoolean(open)) {
+            edit = open;
+        }
+
         this.setState({
             colorPick: false,
-            editDescription: this.state.editDescription === false
+            editDescription: edit
         });
+
+        if (edit){
+            setTimeout(() => {
+                this.refs.description.refs.field.focus();
+            }, 400);
+        }
     }
 
     handleDescriptionBlur(evt) {
@@ -91,20 +105,17 @@ export default class Todo extends React.Component<ITodoProps, ITodoState> {
     }
 
     render() {
-        let description;
         const color = this.props.todo.color ? this.props.todo.color : Todo.colors.color1,
-            descriptionClass = this.state.editDescription || this.props.todo.description ? 'mdl-card__supporting-text' : 'mdl-card__supporting-text hidden',
-            descriptionTextClass = this.state.editDescription ? '' : 'hidden',
+            descriptionHide = this.state.editDescription || this.props.todo.description ? false : true,
             colorPickHidden = this.state.colorPick ? '' : 'hidden';
 
         return  (<div className={`todo mdl-card mdl-shadow--2dp`}>
             <div className={`mdl-card__title mdl-card--expand ${color}`}>
-                <TextInput value={this.props.todo.title}
-                           onBlur={this.handleTextOnBlur.bind(this)} label="Todo text"/>
+                <TextInput value={this.props.todo.title} onBlur={this.handleTextOnBlur.bind(this)} label="Todo text"/>
             </div>
-            <div className={descriptionClass}>
-                { this.state.editDescription ? null :<span>{this.props.todo.description}</span> }
-                <TextArea value={this.props.todo.description} label="Description" onBlur={this.handleDescriptionBlur.bind(this)} ref="description" className={descriptionTextClass} />
+            <div class="mdl-card__supporting-text" is hide={descriptionHide}>
+                { this.state.editDescription ? null :<div onClick={this.handleEditDescription.bind(this)} hide={this.state.editDescription} >{this.props.todo.description}</div> }
+                <TextArea value={this.props.todo.description} label="Description" rows={3} onBlur={this.handleDescriptionBlur.bind(this)} ref="description" hide={!this.state.editDescription} />
             </div>
             <div className="mdl-card__menu">
                 <IconButton icon="subject" onClick={this.handleEditDescription.bind(this)} />

@@ -1,6 +1,11 @@
 input[type="text"], textarea {
     outline: none;
 }
+
+[hide="true"] {
+    display: none;
+}
+
 :root {
     --color1: rgb(255, 152, 0);
     --color2: rgb(255,87,34);
@@ -34,6 +39,9 @@ input[type="text"], textarea {
     display: flex;
 }
 
+/******************************************************
+****************** Todo
+*******************************************************/
 .wu-theme-1 .todo {
     margin: 1rem;
 }
@@ -63,6 +71,15 @@ input[type="text"], textarea {
     font-size: 2rem;
 }
 
+.wu-theme-1 .todo .mdl-textfield {
+}
+.wu-theme-1 .todo textarea {
+    border: none;
+}
+.wu-theme-1 .todo .mdl-card__supporting-text {
+    padding-top: 0.3rem;
+    padding-bottom: 0.3rem;
+}
 .wu-theme-1 .mdl-layout__drawer .mdl-navigation__link.active {
     background-color: var(--color1);
     color: white;

@@ -52,22 +52,21 @@ export class TodoListService extends BaseDataService {
      * @param obs
      * @returns {Observable<BaseError|InvalidResponseDataError|wu.model.data.ITodoData>}
      */
-    getUpdateTodoRequestStream(obs:Rx.Observable<wu.model.data.ITodo>): Rx.Observable<wu.model.data.ITodoData> {
+    getUpdateTodoRequestStream(obs:Rx.Observable<wu.model.data.ITodo>): Rx.Observable<wu.model.data.ITodo> {
         return obs
-            .flatMapLatest((todo:wu.model.data.ITodo) => {
-                return this.axios.put(`http://localhost:3001/todo/${todo.id}`, {
+            .flatMap((todo:wu.model.data.ITodo) => {
+                return Rx.Observable.fromPromise(this.axios.put(`http://localhost:3001/todo/${todo.id}`, {
                     data: todo.toJSON()
+                })).map((response:ITodoResponse) => {
+                    if (response instanceof Err.BaseError) {
+                        return response as any;
+                    } else if (_.get(response, 'data.success', false) === false || _.get(response, 'data.data[0].id', false) === false) {
+                        return new Err.InvalidResponseDataError();
+                    } else {
+                        return todo.fromJSON(response.data.data[0]);
+                    }
                 });
             })
-            .map((response:ITodoResponse) => {
-                if (response instanceof Err.BaseError) {
-                    return response as any;
-                } else if (_.get(response, 'data.success', false) === false || _.get(response, 'data.data[0].id', false) === false) {
-                    return new Err.InvalidResponseDataError();
-                } else {
-                    return response.data.data[0];
-                }
-            });
     }
 }
 

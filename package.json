@@ -29,7 +29,7 @@
   "scripts": {
     "test": "test",
     "build": "webpack",
-    "dev": "webpack-dev-server --history-api-fallback --content-base public --devtool eval --hot --progess --colors --inline",
+    "dev": "webpack-dev-server --history-api-fallback --content-base public --devtool source-map --hot --progess --colors --inline",
     "deploy": "webpack -p"
   },
   "repository": {

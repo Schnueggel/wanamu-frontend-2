@@ -15,11 +15,7 @@ module.exports = {
             __dirname + '/app'
         ],
         // Add `.ts` and `.tsx` as a resolvable extension.
-        extensions: ['', '.webpack.js', '.web.js', '.ts', '.tsx', '.js', '.d.ts'],
-        alias: {
-            rx: __dirname + '/node_modules/rx/dist/rx.lite.js'
-
-        }
+        extensions: ['', '.webpack.js', '.web.js', '.ts', '.tsx', '.js', '.d.ts']
     },
     plugins: [],
     module: {
