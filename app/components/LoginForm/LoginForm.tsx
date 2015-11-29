@@ -50,10 +50,10 @@ export default class LoginForm extends React.Component<LoginFormProps, any> {
      * @returns {Rx.Observable<{email: string, password: string}>}
      */
     getLoginSubmitStream(): Rx.Subject<SubmitStreamData> {
-
         if (this.loginSubmitStream === undefined) {console.log('create login stream');
             this.loginSubmitStream =  new Rx.ReplaySubject<SubmitStreamData>(1);
         }
+
         return this.loginSubmitStream;
     }
 
@@ -80,7 +80,6 @@ export default class LoginForm extends React.Component<LoginFormProps, any> {
      * @param evt
      */
     validatePassword(evt) {
-
         const isValid = evt.target.value.match(/.+/) !== null;
         this.state.passwordErrors = [];
 
@@ -124,8 +123,8 @@ export default class LoginForm extends React.Component<LoginFormProps, any> {
             enabled = this.state.isEmailValid && this.state.isPasswordValid;
 
         return  <form name="login" action="#">
-            <TextInput {...email} ref="email" />
-            <TextInput {...password} ref="password"/>
+            <TextInput {...email} ref="email" name="username"/>
+            <TextInput {...password} ref="password" name="password"/>
             <div className="form-actionbar">
                 <button type="button" className="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" ref="submit" onClick={this.handleClick.bind(this)} disabled={!enabled}>Login</button>
             </div>

@@ -33,6 +33,7 @@ export default class TextInput extends React.Component<wu.Form.ITextInputProps, 
         });
         this.props.onChange(evt);
     }
+
     handeFieldOnFocus(evt) {
         evt.target.select();
     }

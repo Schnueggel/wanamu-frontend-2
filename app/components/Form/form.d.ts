@@ -6,6 +6,13 @@ declare module wu {
             text: string;
         }
 
+        interface IRadioButton extends IInputElementProps<IRadioButton> {
+            label: string;
+            checked?: boolean;
+            value: string;
+            id: string;
+        }
+
         interface ITextInputProps extends IInputElementProps<ITextInputProps> {
             type?: string;
         }
@@ -20,6 +27,7 @@ declare module wu {
             label?: string;
             id?: string;
             hide?: boolean;
+            name?: string;
             errors?: Array<string>;
             onChange?: (ev?:__React.FormEvent) => any;
             onBlur?: (ev?:__React.FormEvent) => any;

@@ -5,6 +5,9 @@ input[type="text"], textarea {
 [hide="true"] {
     display: none;
 }
+input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0 1000px white inset;
+}
 
 :root {
     --color1: rgb(255, 152, 0);
@@ -13,7 +16,7 @@ input[type="text"], textarea {
     --color4: rgb(63,81,181);
     --color5: rgb(139,195,74);
 }
-.wu-theme-1 .login.mdl-card {
+.wu-theme-1 .login.mdl-card,.wu-theme-1 .register.mdl-card  {
     position: absolute;
     top: 30%;
     left: 50%;
@@ -22,17 +25,17 @@ input[type="text"], textarea {
     text-align: center;
 }
 
-.wu-theme-1 .login.mdl-card .mdl-textfield {
+.wu-theme-1 .login.mdl-card .mdl-textfield, .wu-theme-1 .register.mdl-card .mdl-textfield  {
+    width: 600px;
+}
+
+.wu-theme-1 .form-actionbar button {
     width: 600px;
 }
 
 .wu-theme-1 .form-actionbar {
     text-align: center;
     display: inline-block;
-}
-
-.wu-theme-1 .login .form-actionbar button {
-    width: 600px;
 }
 
 .wu-theme-1 .todolist {
