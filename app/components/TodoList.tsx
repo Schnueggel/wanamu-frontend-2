@@ -4,6 +4,7 @@ import * as TList from 'components/TodoList/TodoList';
 import authService from 'services/AuthService';
 import {BaseError} from 'errors/BaseError';
 import {AppStateModel} from 'models/state/AppStateModel';
+import * as ReactDOM from 'react-dom';
 import * as Actions from 'actions/actions';
 
 export interface TodoListProps extends __React.Props<TodoListProps> {
@@ -22,6 +23,9 @@ export default class TodoList extends React.Component<TodoListProps, any> {
 
     private currentId: number = null;
 
+    refs: any = {
+        todolist: TList.TodoList
+    };
 
     constructor(props:TodoListProps) {
         super(props);
@@ -33,6 +37,10 @@ export default class TodoList extends React.Component<TodoListProps, any> {
 
     componentWillMount() {
         this.checkParamId();
+    }
+
+    componentDidMount() {
+        componentHandler.upgradeDom();
     }
 
     checkParamId() {
@@ -55,6 +63,6 @@ export default class TodoList extends React.Component<TodoListProps, any> {
     render() {
         const todolist = this.props.appState.todos.todolist || {} as any;
 
-        return <TList.TodoList todolist={todolist} onTodoChange={this.handleTodoChange.bind(this)}/>
+        return <TList.TodoList todolist={todolist} onTodoChange={this.handleTodoChange.bind(this)} ref="todolist"/>
     }
 }

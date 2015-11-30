@@ -10,7 +10,7 @@ export class TodosStateModel extends BaseStateModel<TodosStateModel> implements 
 
     constructor() {
         super();
-        Actions.todoAction.updateSuccessStream.subscribe(this.notify.bind(this));
+        Actions.todoAction.updateStream.subscribe(this.notify.bind(this));
         Actions.todoListAction.getSuccessStream.subscribe(this.onTodoListChanged.bind(this));
         Actions.todoAction.updateCounterStream.subscribe(this.onUpdateAndCreateCountChanged.bind(this));
     }
