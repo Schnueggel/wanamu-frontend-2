@@ -6,13 +6,14 @@ interface ITodo extends wu.model.data.ITodo, Object {}
 
 export class TodoAction {
     updateAndCreationCount:number = 0;
-    updateFailedStream:Rx.Subject<Error>;
+
+    updateFailedStream: Rx.Observable<Error>;
     updateStartStream: Rx.Subject<ITodo>;
-    updateStream:Rx.Observable<ITodo>;
+    updateStream: Rx.Observable<ITodo>;
+    updateSuccessStream: Rx.Observable<ITodo>;
     updateCounterStream:Rx.Subject<number>;
 
     constructor() {
-        this.updateFailedStream = new Rx.Subject<Error>();
         this.updateCounterStream = new Rx.Subject<number>();
         this.updateStartStream = new Rx.Subject<ITodo>();
         this.initUpdateStream();
@@ -20,7 +21,8 @@ export class TodoAction {
 
     initUpdateStream() {
         const obs = this.updateStartStream
-            .filter((todo:any) => todo && todo.id)
+            .do( x => this.updateCounterStream.onNext(this.updateAndCreationCount += 1))
+            .filter((todo:any) => _.isObject(todo) && _.isNumber(todo.id))
             .buffer(this.updateStartStream.debounce(3000))
             .filter((todos:any) => todos.length > 0 )
             .map((buffer:ITodo[]) => {
@@ -28,27 +30,24 @@ export class TodoAction {
                 this.updateAndCreationCount -= (buffer.length - tmp.length);
                 return tmp;
             })
-            .flatMap((todos:ITodo[]) => {console.log(todos);
+            .flatMap((todos:ITodo[]) => {
                 return Rx.Observable.from(todos);
             });
 
-        this.updateStream = todoListService.getUpdateTodoRequestStream(obs).publish().refCount();
+        this.updateStream = todoListService
+            .getUpdateTodoRequestStream(obs)
+            .do( x => this.updateCounterStream.onNext(this.updateAndCreationCount -= 1))
+            .publish().refCount();
 
-        this.updateStream.subscribe((result:Error | wu.model.data.ITodoData) => {
-            this.updateAndCreationCount -= 1;
-            this.updateCounterStream.onNext(this.updateAndCreationCount);
-            if (result instanceof Error) {
-                this.updateFailedStream.onNext(result as Error);
-            } else {
-                this.updateStartStream.onNext(result as ITodo);
-            }
-        });
+        this.updateSuccessStream = this.updateStream
+            .filter( (err: any) => err instanceof Error);
+
+        this.updateFailedStream = this.updateStream
+            .filter( todo => _.isObject(todo) && _.isNumber(todo.id)) as any;
     }
 
-    updateTodo(todo:ITodo) {console.time('update');
+    updateTodo(todo:ITodo) {
         if (todo.dirty) {
-            this.updateAndCreationCount += 1;
-            this.updateCounterStream.onNext(this.updateAndCreationCount);
             this.updateStartStream.onNext(todo);
         }
     }

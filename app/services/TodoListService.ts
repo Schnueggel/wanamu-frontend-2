@@ -54,19 +54,21 @@ export class TodoListService extends BaseDataService {
      */
     getUpdateTodoRequestStream(obs:Rx.Observable<wu.model.data.ITodo>): Rx.Observable<wu.model.data.ITodo> {
         return obs
-            .flatMap((todo:wu.model.data.ITodo) => {
-                return Rx.Observable.fromPromise(this.axios.put(`http://localhost:3001/todo/${todo.id}`, {
+            .flatMapLatest((todo:wu.model.data.ITodo) => {
+                const promise = Rx.Observable.fromPromise(this.axios.put(`http://localhost:3001/todo/${todo.id}`, {
                     data: todo.toJSON()
-                })).map((response:ITodoResponse) => {
-                    if (response instanceof Err.BaseError) {
-                        return response as any;
-                    } else if (_.get(response, 'data.success', false) === false || _.get(response, 'data.data[0].id', false) === false) {
-                        return new Err.InvalidResponseDataError();
-                    } else {
-                        return todo.fromJSON(response.data.data[0]);
-                    }
-                });
-            })
+                }));
+                return Rx.Observable.combineLatest(Rx.Observable.just(todo), (promise), (a,b) => [a,b]);
+            }).map(([todo, response]) => {
+                if (response instanceof Err.BaseError) {
+                    return response as any;
+                } else if (_.get(response, 'data.success', false) === false || _.get(response, 'data.data[0].id', false) === false) {
+                    return new Err.InvalidResponseDataError();
+                } else {console.log(response);
+                    (todo as wu.model.data.ITodo).fromJSON((response as ITodoResponse).data.data[0]);
+                    return todo;
+                }
+            });
     }
 }
 

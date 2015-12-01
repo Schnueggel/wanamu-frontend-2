@@ -7,16 +7,13 @@ export class TodosStateModel extends BaseStateModel<TodosStateModel> implements 
 
     private _todolist: wu.model.data.ITodoList = null;
     private _isTodoUpdating: boolean = false;
+    private _todoUpdateCount: number = 0;
 
     constructor() {
         super();
         Actions.todoAction.updateStream.subscribe(this.notify.bind(this));
         Actions.todoListAction.getSuccessStream.subscribe(this.onTodoListChanged.bind(this));
-        Actions.todoAction.updateCounterStream.subscribe(this.onUpdateAndCreateCountChanged.bind(this));
-    }
-
-    onUpdateAndCreateCountChanged(count: number) {
-        this.isTodoUpdating = count > 0;
+        Actions.todoAction.updateCounterStream.subscribe( v => this.todoUpdateCount = v);
     }
 
     onTodoListChanged(todoList: wu.model.data.ITodoList) {
@@ -39,5 +36,15 @@ export class TodosStateModel extends BaseStateModel<TodosStateModel> implements 
 
     set isTodoUpdating(value:boolean) {
         this._isTodoUpdating = value;
+    }
+
+    @Notify
+    get todoUpdateCount():number {
+        return this._todoUpdateCount;
+    }
+
+    set todoUpdateCount(value:number) {
+        this._isTodoUpdating = value > 0;
+        this._todoUpdateCount = value;
     }
 }
