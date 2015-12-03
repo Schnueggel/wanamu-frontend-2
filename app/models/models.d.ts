@@ -1,20 +1,40 @@
 declare module wu {
 
     module model.state {
-        export interface IBaseStateModel<T> {
+        interface IBaseStateModel<T> {
             changeStateStream: Rx.Observable<T>;
             notify(): void;
         }
-        export interface ILoginStateModel extends IBaseStateModel<ILoginStateModel> {
+
+        interface ILoginStateModel extends IBaseStateModel<ILoginStateModel> {
             errorMessage: string;
             email : string;
             emailErrors : Array<string>;
             passwordErrors : Array<string>;
             user: wu.model.data.IUser;
+            logoutFailed:Error;
+            isLoggingOut:boolean;
         }
 
-        export interface ITodoStateModel extends IBaseStateModel<ITodoStateModel> {
+        interface IAppStateModel extends IBaseStateModel<IAppStateModel> {
+
+            authMenuItems: wu.IMenuItemData[];
+            noAuthMenuItems: wu.IMenuItemData[];
+
+            login: ILoginStateModel;
+            todos: ITodoStateModel;
+
+            isAuthedPath(path: string)
+            menuItems:wu.IMenuItemData[];
+            appStarted:boolean;
+        }
+
+        interface ITodoStateModel extends IBaseStateModel<ITodoStateModel> {
             todolist: wu.model.data.ITodoList;
+            isTodoUpdating:boolean;
+            todoUpdateCount:number;
+            todoListNotFound:boolean;
+            isTodoListLoading:boolean;
         }
     }
 

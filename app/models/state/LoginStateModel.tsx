@@ -1,7 +1,8 @@
 import * as Rx from 'rx';
-import {loginAction} from 'actions/LoginAction';
+import {loginAction, logoutAction} from 'actions/actions';
 import {BaseStateModel} from 'models/state/BaseStateModel';
 import {Notify} from 'models/decorators/NotifyDecorator';
+import {NotFoundError} from "../../errors/NotFoundError";
 
 export class LoginStateModel extends BaseStateModel<LoginStateModel> implements wu.model.state.ILoginStateModel {
 
@@ -10,10 +11,31 @@ export class LoginStateModel extends BaseStateModel<LoginStateModel> implements 
     private _emailErrors: Array<string> = [];
     private _passwordErrors:Array<string> = [];
     private _user: wu.model.data.IUser = null;
+    private _logoutFailed: Error = null;
+    private _isLoggingOut: boolean = false;
 
     constructor() {
         super();
-        loginAction.loginRequestSuccessStream.subscribe( user => this.user = user );
+
+        loginAction.loginRequestSuccessStream.subscribe( user => {
+            this.user = user;
+            this.logoutFailed = null;
+        });
+
+        logoutAction.logoutRequestSuccessStream.subscribe( () => {
+            this.user = null;
+            this.logoutFailed = null;
+        });
+
+        logoutAction.logoutRequestStream.subscribe( () => {
+            this.isLoggingOut = false;
+        });
+
+        logoutAction.logoutRequestStartSubject.subscribe(()=> {
+           this.isLoggingOut = true;
+        });
+
+        logoutAction.logoutRequestErrorStream.subscribe( (err) => this.logoutFailed = err );
     }
 
     @Notify
@@ -59,5 +81,24 @@ export class LoginStateModel extends BaseStateModel<LoginStateModel> implements 
 
     set user(value:wu.model.data.IUser) {
         this._user = value;
+    }
+
+
+    @Notify
+    get logoutFailed():Error {
+        return this._logoutFailed;
+    }
+
+    set logoutFailed(value:Error) {
+        this._logoutFailed = value;
+    }
+
+    @Notify
+    get isLoggingOut():boolean {
+        return this._isLoggingOut;
+    }
+
+    set isLoggingOut(value:boolean) {
+        this._isLoggingOut = value;
     }
 }

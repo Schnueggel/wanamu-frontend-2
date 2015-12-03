@@ -10,12 +10,11 @@ export class TodosStateModel extends BaseStateModel<TodosStateModel> implements 
     private _isTodoUpdating: boolean = false;
     private _todoUpdateCount: number = 0;
     private _todoListNotFound: boolean = false;
-    private _todoListLoading: boolean = false;
+    private _isTodoListLoading: boolean = false;
 
     constructor() {
         super();
         Actions.todoAction.updateStream.subscribe(this.notify.bind(this));
-        Actions.todoListAction.getTodoListSuccessStream.subscribe(this.onTodoListChanged.bind(this));
         Actions.todoAction.updateCounterStream.subscribe( v => this.todoUpdateCount = v);
 
         Actions.todoListAction.getTodoListErrorStream.subscribe((error) => {
@@ -23,21 +22,19 @@ export class TodosStateModel extends BaseStateModel<TodosStateModel> implements 
                this.todoListNotFound = true;
             }
         });
-        Actions.todoListAction.getTodoListSuccessStream.subscribe(() => {
-            this.todoListNotFound = false
+
+        Actions.todoListAction.getTodoListSuccessStream.subscribe((todoList: wu.model.data.ITodoList) => {
+            this.todoListNotFound = false;
+            this.todolist = todoList;
         });
 
         Actions.todoListAction.getTodoListStartStream.subscribe(() => {
-            this.todoListLoading = true;
+            this.isTodoListLoading = true;
         });
 
-        Actions.todoListAction.getTodoListStream.subscribe(() => {
-            this.todoListLoading = false;
+        Actions.todoListAction.getTodoListStream.subscribe((r) => {
+            this.isTodoListLoading = false;
         })
-    }
-
-    onTodoListChanged(todoList: wu.model.data.ITodoList) {
-        this.todolist = todoList;
     }
 
     @Notify
@@ -78,11 +75,11 @@ export class TodosStateModel extends BaseStateModel<TodosStateModel> implements 
     }
 
     @Notify
-    get todoListLoading():boolean {
-        return this._todoListLoading;
+    get isTodoListLoading():boolean {
+        return this._isTodoListLoading;
     }
 
-    set todoListLoading(value:boolean) {
-        this._todoListLoading = value;
+    set isTodoListLoading(value:boolean) {
+        this._isTodoListLoading = value;
     }
 }

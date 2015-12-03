@@ -8,7 +8,7 @@ import {Notify} from 'models/decorators/NotifyDecorator';
 /**
  * Represents the state of the App
  */
-export class AppStateModel extends BaseStateModel<AppStateModel> {
+export class AppStateModel extends BaseStateModel<AppStateModel> implements wu.model.state.IAppStateModel {
 
     private _menuItems: wu.IMenuItemData[];
     private _appStarted: boolean = false;
