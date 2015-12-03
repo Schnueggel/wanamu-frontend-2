@@ -1,10 +1,10 @@
 import * as React from 'react';
-import LoginForm from './LoginForm/LoginForm';
-import authService from '../services/AuthService';
-import {User} from '../models/data/User';
-import {AppStateModel} from "../models/state/AppStateModel";
+import LoginForm from 'components/LoginForm/LoginForm';
+import {loginAction} from 'actions/LoginAction';
+import {User} from 'models/data/User';
+import {AppStateModel} from 'models/state/AppStateModel';
 
-export interface Refs {
+export interface IRefs {
     [key: string]: __React.Component<any, any>;
     form: LoginForm;
 }
@@ -19,8 +19,7 @@ export interface LoginProps extends __React.Props<LoginProps> {
 
 export default class Login extends React.Component<LoginProps, any> {
 
-    refs:Refs;
-    private loginRequestSubscription:Rx.IDisposable;
+    refs:IRefs;
     private loginChangeSubscription:Rx.IDisposable;
 
     constructor(props:LoginProps) {
@@ -31,7 +30,6 @@ export default class Login extends React.Component<LoginProps, any> {
         if (this.props.appState.login.user instanceof User) {
             this.goToTodoList(this.props.appState.login.user.DefaultTodoListId);
         }
-
         this.loginChangeSubscription = this.props.appState.login.changeStateStream.subscribe((state:wu.model.state.ILoginStateModel) => {
             if (state.user instanceof User) {
                 this.goToTodoList(state.user.DefaultTodoListId);
@@ -40,16 +38,11 @@ export default class Login extends React.Component<LoginProps, any> {
     }
 
     componentDidMount() {
-        const stream = authService.createLoginRequestStream(this.refs.form.getLoginSubmitStream());
-        this.loginRequestSubscription = stream.subscribe(
-            (result:wu.model.data.IUser) => {
-                if (result instanceof User) {
-                    this.props.appState.login.user = result;
-                } else {
-                    console.log(result);
-                }
-            }
-        );
+        loginAction.connect(this.refs.form.getLoginSubmitStream());
+    }
+
+    componentWillUnmount() {
+        this.loginChangeSubscription.dispose();
     }
 
     /**
@@ -58,11 +51,6 @@ export default class Login extends React.Component<LoginProps, any> {
      */
     goToTodoList(id:number) {
         this.props.history.pushState(null, `/todolist/${id}`);
-    }
-
-    componentWillUnMount() {
-        this.loginChangeSubscription.dispose();
-        this.loginRequestSubscription.dispose();
     }
 
     render() {

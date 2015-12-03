@@ -11,6 +11,7 @@ import {Notify} from 'models/decorators/NotifyDecorator';
 export class AppStateModel extends BaseStateModel<AppStateModel> {
 
     private _menuItems: wu.IMenuItemData[];
+    private _appStarted: boolean = false;
 
     authMenuItems: wu.IMenuItemData[] = [
         {text:'Home', url: '/'},
@@ -35,6 +36,7 @@ export class AppStateModel extends BaseStateModel<AppStateModel> {
         //Notify AppState change on SubState changes
         this.login.changeStateStream.subscribe(this.loginChanged.bind(this));
         this.todos.changeStateStream.subscribe(this.notify.bind(this));
+        this.changeStateStream = this.changeStateStream.debounce(300);
     }
 
     isAuthedPath(path) {
@@ -57,6 +59,15 @@ export class AppStateModel extends BaseStateModel<AppStateModel> {
 
     set menuItems(value:wu.IMenuItemData[]) {
         this._menuItems = value;
+    }
+
+    @Notify
+    get appStarted():boolean {
+        return this._appStarted;
+    }
+
+    set appStarted(value:boolean) {
+        this._appStarted = value;
     }
 }
 

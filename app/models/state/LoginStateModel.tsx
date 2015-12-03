@@ -1,5 +1,6 @@
 import * as Rx from 'rx';
-import {BaseStateModel} from "models/state/BaseStateModel";
+import {loginAction} from 'actions/LoginAction';
+import {BaseStateModel} from 'models/state/BaseStateModel';
 import {Notify} from 'models/decorators/NotifyDecorator';
 
 export class LoginStateModel extends BaseStateModel<LoginStateModel> implements wu.model.state.ILoginStateModel {
@@ -12,6 +13,7 @@ export class LoginStateModel extends BaseStateModel<LoginStateModel> implements 
 
     constructor() {
         super();
+        loginAction.loginRequestSuccessStream.subscribe( user => this.user = user );
     }
 
     @Notify

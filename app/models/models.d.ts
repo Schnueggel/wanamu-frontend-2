@@ -2,7 +2,7 @@ declare module wu {
 
     module model.state {
         export interface IBaseStateModel<T> {
-            changeStateStream: Rx.Subject<T>;
+            changeStateStream: Rx.Observable<T>;
             notify(): void;
         }
         export interface ILoginStateModel extends IBaseStateModel<ILoginStateModel> {

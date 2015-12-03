@@ -2,14 +2,14 @@ import * as React from 'react';
 import * as _ from 'lodash';
 import * as TList from 'components/TodoList/TodoList';
 import authService from 'services/AuthService';
-import {BaseError} from 'errors/BaseError';
+import {BaseError, NotFoundError} from 'errors/errors';
 import {AppStateModel} from 'models/state/AppStateModel';
 import * as ReactDOM from 'react-dom';
 import * as Actions from 'actions/actions';
 
 export interface TodoListProps extends __React.Props<TodoListProps> {
     params: {
-        id?: number
+        id?: string
     },
     history: any;
     appState: AppStateModel
@@ -21,7 +21,8 @@ export interface TodoListProps extends __React.Props<TodoListProps> {
  */
 export default class TodoList extends React.Component<TodoListProps, any> {
 
-    private currentId: number = null;
+    private todoListGetFailedStreamSubscription: Rx.IDisposable;
+    private id: number;
 
     refs: any = {
         todolist: TList.TodoList
@@ -29,13 +30,20 @@ export default class TodoList extends React.Component<TodoListProps, any> {
 
     constructor(props:TodoListProps) {
         super(props);
-    }
-
-    componentDidUpdate() {
+        this.convertId();
         this.checkParamId();
+
+        this.todoListGetFailedStreamSubscription = Actions.todoListAction.getFailedStream.subscribe((err: any) => {
+            if (err.error instanceof NotFoundError) {
+                if (this.props.appState.login.user.DefaultTodoListId !== this.id) {
+                    this.props.history.pushState(null, `/todolist/${this.props.appState.login.user.DefaultTodoListId}`);
+                }
+            }
+        });
     }
 
-    componentWillMount() {
+    componentWillUpdate() {
+        this.convertId();
         this.checkParamId();
     }
 
@@ -43,11 +51,20 @@ export default class TodoList extends React.Component<TodoListProps, any> {
         componentHandler.upgradeDom();
     }
 
+    componentWillUnmount(){
+        this.todoListGetFailedStreamSubscription.dispose();
+    }
+
+    convertId() {
+        if (_.isString(this.props.params.id)) {
+            this.id = parseInt(this.props.params.id);
+        }
+    }
+
     checkParamId() {
-        if (this.props.params.id) {
-            if (this.currentId !== this.props.params.id) {
-                this.currentId = this.props.params.id;
-                Actions.todoListAction.getTodoList(this.props.params.id);
+        if (this.id) {
+            if (_.get(this.props.appState.todos.todolist, 'id') !== this.id) {
+                Actions.todoListAction.getTodoList(this.id);
             }
         } else if (this.props.appState.login.user) {
             this.props.history.pushState(null, `/todolist/${this.props.appState.login.user.DefaultTodoListId}`);

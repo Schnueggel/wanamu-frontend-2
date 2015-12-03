@@ -59,13 +59,14 @@ export class TodoListService extends BaseDataService {
                     data: todo.toJSON()
                 }));
                 return Rx.Observable.combineLatest(Rx.Observable.just(todo), (promise), (a,b) => [a,b]);
-            }).map(([todo, response]) => {
+            }).map(([todo, response]: [wu.model.data.ITodo, ITodoResponse]) => {
                 if (response instanceof Err.BaseError) {
                     return response as any;
                 } else if (_.get(response, 'data.success', false) === false || _.get(response, 'data.data[0].id', false) === false) {
                     return new Err.InvalidResponseDataError();
-                } else {console.log(response);
-                    (todo as wu.model.data.ITodo).fromJSON((response as ITodoResponse).data.data[0]);
+                } else {
+                    todo.fromJSON(response.data.data[0]);
+                    todo.dirty = false;
                     return todo;
                 }
             });

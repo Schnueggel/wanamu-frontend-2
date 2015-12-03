@@ -1,21 +1,24 @@
 import * as Rx from 'rx';
 
 export class BaseStateModel<T> implements wu.model.state.IBaseStateModel<T> {
-    private _changeStateStream:Rx.Subject<T>;
+
+    private _changeStateStream: Rx.Observable<T>;
+    private _changeStateStartStream: Rx.Subject<T>;
 
     constructor() {
-        this._changeStateStream = new Rx.Subject<T>();
+        this._changeStateStartStream = new Rx.Subject<T>();
+        this._changeStateStream = this._changeStateStartStream;
     }
 
     notify() {
-        this._changeStateStream.onNext(this as any);
+        this._changeStateStartStream.onNext(this as any);
     }
 
-    get changeStateStream():Rx.Subject<T> {
+    get changeStateStream():Rx.Observable<T> {
         return this._changeStateStream;
     }
 
-    set changeStateStream(value:Rx.Subject<T>) {
+    set changeStateStream(value:Rx.Observable<T>) {
         this._changeStateStream = value;
     }
 }

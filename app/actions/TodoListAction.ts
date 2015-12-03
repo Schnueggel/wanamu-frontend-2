@@ -1,17 +1,17 @@
 import * as rx from 'rx';
 import todoListService from 'services/TodoListService';
 
-export interface GetFailedResult {
+export interface IFailedTodoRequestResult {
     error: Error;
     id: number
 }
 
 export class TodoListAction {
-    getFailedStream: Rx.Subject<GetFailedResult>;
+    getFailedStream: Rx.Subject<IFailedTodoRequestResult>;
     getSuccessStream: Rx.Subject<wu.model.data.ITodoList>;
 
     constructor() {
-        this.getFailedStream = new Rx.Subject<GetFailedResult>();
+        this.getFailedStream = new Rx.Subject<IFailedTodoRequestResult>();
         this.getSuccessStream = new Rx.Subject<wu.model.data.ITodoList>();
     }
 
@@ -19,7 +19,7 @@ export class TodoListAction {
         todoListService.getTodosRequestStream(Rx.Observable.just(id))
             .subscribe((result: any) => {
                 if (result instanceof Error) {
-                    const data: GetFailedResult = {
+                    const data: IFailedTodoRequestResult = {
                         error: result,
                         id
                     };

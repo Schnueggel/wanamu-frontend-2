@@ -8,7 +8,7 @@ import {Route, IndexRoute} from 'react-router';
 function upgradeDom() {
     setTimeout(() => {
         componentHandler.upgradeDom();
-    }, 300);
+    }, 400);
 }
 
 export default (

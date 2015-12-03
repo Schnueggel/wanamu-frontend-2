@@ -22,8 +22,7 @@ AppState.changeStateStream.subscribe((state) => {
     );
 });
 
-AppState.changeStateStream.onNext(AppState);
-
+AppState.appStarted = true;
 
 function createElement(Component, props){
     props.appState = AppState;
