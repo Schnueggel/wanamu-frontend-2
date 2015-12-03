@@ -2,6 +2,7 @@ import * as  React from 'react';
 import Page from 'components/Page';
 import Login from 'components/Login';
 import TodoList from 'components/TodoList';
+import Logout from 'components/Logout';
 import Register from 'components/Register';
 import {Route, IndexRoute} from 'react-router';
 
@@ -17,5 +18,6 @@ export default (
         <Route path="login" component={Login} onEnter={upgradeDom}/>
         <Route path="register" component={Register} onEnter={upgradeDom}/>
         <Route path="todolist(/:id)" component={TodoList} onEnter={upgradeDom}/>
+        <Route path="logout" component={Logout} onEnter={upgradeDom}/>
     </Route>
 );
