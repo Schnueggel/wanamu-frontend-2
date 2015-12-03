@@ -1,5 +1,5 @@
 import * as Rx from 'rx';
-import {loginAction, logoutAction} from 'actions/actions';
+import {loginAction, logoutAction, userAction} from 'actions/actions';
 import {BaseStateModel} from 'models/state/BaseStateModel';
 import {Notify} from 'models/decorators/NotifyDecorator';
 import {NotFoundError} from "../../errors/NotFoundError";
@@ -13,6 +13,8 @@ export class LoginStateModel extends BaseStateModel<LoginStateModel> implements 
     private _user: wu.model.data.IUser = null;
     private _logoutFailed: Error = null;
     private _isLoggingOut: boolean = false;
+    private _authCheckError: Error = null;
+    private _isAuthChecking: boolean = false;
 
     constructor() {
         super();
@@ -36,6 +38,19 @@ export class LoginStateModel extends BaseStateModel<LoginStateModel> implements 
         });
 
         logoutAction.logoutRequestErrorStream.subscribe( (err) => this.logoutFailed = err );
+
+
+        userAction.userRequestStartSubject.subscribe( () => this.isAuthChecking = true );
+
+        userAction.userRequestErrorStream.subscribe( err => {
+            this.authCheckError = err;
+            this.isAuthChecking = false;
+        });
+
+        userAction.userRequestSuccessStream.subscribe( (user: wu.model.data.IUser) => {
+            this.isAuthChecking = false;
+            this.user = user;
+        });
     }
 
     @Notify
@@ -100,5 +115,23 @@ export class LoginStateModel extends BaseStateModel<LoginStateModel> implements 
 
     set isLoggingOut(value:boolean) {
         this._isLoggingOut = value;
+    }
+
+    @Notify
+    get authCheckError():Error {
+        return this._authCheckError;
+    }
+
+    set authCheckError(value:Error) {
+        this._authCheckError = value;
+    }
+
+    @Notify
+    get isAuthChecking():boolean {
+        return this._isAuthChecking;
+    }
+
+    set isAuthChecking(value:boolean) {
+        this._isAuthChecking = value;
     }
 }

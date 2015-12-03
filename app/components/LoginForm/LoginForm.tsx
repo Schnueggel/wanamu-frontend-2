@@ -50,7 +50,7 @@ export default class LoginForm extends React.Component<LoginFormProps, any> {
      * @returns {Rx.Observable<{email: string, password: string}>}
      */
     getLoginSubmitStream(): Rx.Subject<SubmitStreamData> {
-        if (this.loginSubmitStream === undefined) {console.log('create login stream');
+        if (this.loginSubmitStream === undefined) {
             this.loginSubmitStream =  new Rx.ReplaySubject<SubmitStreamData>(1);
         }
 

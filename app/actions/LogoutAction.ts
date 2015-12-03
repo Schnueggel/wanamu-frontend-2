@@ -16,8 +16,11 @@ export class LogoutAction {
             .publish()
             .refCount();
 
-        this.logoutRequestSuccessStream = this.logoutRequestStream.filter( (x:boolean) => x === true ) as Observable<boolean>;
-        this.logoutRequestErrorStream = this.logoutRequestStream.filter( (x:any) => x instanceof Error ) as Observable<Error>;
+        this.logoutRequestSuccessStream = this.logoutRequestStream
+            .filter( (x:boolean) => x === true ) as Observable<boolean>;
+
+        this.logoutRequestErrorStream = this.logoutRequestStream
+            .filter( (x:any) => x instanceof Error ) as Observable<Error>;
     }
 
     doLogout() : void {

@@ -1,15 +1,10 @@
 import * as React from 'react';
 import * as _ from 'lodash';
-import {BaseError} from 'errors/BaseError';
-import {AppStateModel} from 'models/state/AppStateModel';
 import * as Actions from 'actions/actions';
 import TextInput from 'components/Form/TextInput';
 import RadioButton from 'components/Form/RadioButton';
 
-export interface RegisterProps extends __React.Props<RegisterProps> {
-    history: any;
-    appState: AppStateModel
-}
+export interface RegisterProps extends wu.IControlProps<RegisterProps> {}
 
 /**
  *

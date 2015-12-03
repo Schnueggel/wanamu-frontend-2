@@ -19,8 +19,10 @@ declare module wu {
     }
 
     interface IControlProps<T> extends __React.Props<T> {
-        history: any;
+        history: History;
         appState: wu.model.state.IAppStateModel;
+        children: any,
+        location: Location;
     }
 }
 

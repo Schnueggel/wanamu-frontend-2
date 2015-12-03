@@ -9,12 +9,10 @@ export interface IRefs {
     form: LoginForm;
 }
 
-export interface LoginProps extends __React.Props<LoginProps> {
+export interface LoginProps extends wu.IControlProps<LoginProps> {
     params: {
         id?: number
-    },
-    history: any;
-    appState: AppStateModel
+    }
 }
 
 export default class Login extends React.Component<LoginProps, any> {
