@@ -1,16 +1,8 @@
 import * as React from 'react';
 import Menu from 'components/Menu/Menu';
-import AppState, {AppStateModel} from 'models/state/AppStateModel';
-import authService from 'services/AuthService';
-import {User} from 'models/data/User';
-import {NetworkError} from 'errors/NetworkError';
+import {userAction} from 'actions/UserAction';
 
-interface PageProps {
-    children: any,
-    appState: AppStateModel;
-    history: History;
-    location: Location;
-}
+interface PageProps extends wu.IControlProps<PageProps> {}
 
 export default class Page extends React.Component<PageProps, any> {
 
@@ -19,22 +11,12 @@ export default class Page extends React.Component<PageProps, any> {
     }
 
     componentWillMount() {
-        authService
-            .createCurrentUserRequestStream()
-            .subscribe((user:wu.model.data.IUser) => {
-                if (user instanceof User) {
-                    this.props.appState.login.user = user;
-                } else {
-                    this.willAuth();
-                }
-            });
+        if (!this.props.appState.login.user) {
+            userAction.doUser();
+        }
     }
 
     componentWillReceiveProps() {
-        this.willAuth();
-    }
-
-    willAuth() {
         if (!this.props.appState.login.user && this.props.appState.isAuthedPath(this.props.location.pathname)) {
             this.props.history.pushState(null, '/login');
         }
