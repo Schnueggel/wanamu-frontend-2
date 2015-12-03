@@ -1,5 +1,5 @@
 import * as _ from 'lodash';
-import * as Rx from 'rx';
+import {Observable} from 'rx';
 import * as Err from '../errors/errors';
 import {User} from '../models/data/models';
 import {BaseDataService} from "./BaseDataService";
@@ -33,7 +33,7 @@ export class AuthService extends BaseDataService {
             .flatMapLatest((data:LoginRequestData) => this.getLoginStream('http://localhost:3001/auth/login', data))
             .catch((e:Error) => {
                 console.error(e);
-                return Rx.Observable.just(new Err.UnknownError('An unknown error happened'));
+                return Observable.just(new Err.UnknownError('An unknown error happened'));
             })
             .map((response:LoginResponse) => {
                 if (response instanceof Err.BaseError) {
@@ -49,12 +49,40 @@ export class AuthService extends BaseDataService {
 
     /**
      *
-     * @returns {Rx.Observable<wu.model.data.IUser>}
+     * @param obs
+     * @returns {Observable<boolean>}
+     * @throws NetworkError|UnknownError|ServerError|InvalidResponseDataError
+     */
+    createLogoutRequestStream(obs: Rx.Observable<any>):Rx.Observable<boolean|Error> {
+        return obs
+            .flatMapLatest(() => {
+                return Observable
+                    .fromPromise(this.axios.post(`http://localhost:3001/auth/logout`, {}))
+            })
+            .catch((e:Error) => {
+                console.error(e);
+                return Observable.just(new Err.UnknownError('An unknown error happened'));
+            })
+            .map((response:LoginResponse) => {
+                if (response instanceof Err.BaseError) {
+                    console.error(response);
+                    return response as any;
+                } else if (_.get(response, '.data.success', false) === false) {
+                    return new Err.InvalidResponseDataError();
+                } else {
+                    return true;
+                }
+            });
+    }
+
+    /**
+     *
+     * @returns {Observable<wu.model.data.IUser>}
      */
     createCurrentUserRequestStream(): Rx.Observable<wu.model.data.IUser> {
-        return Rx.Observable.just(0)
+        return Observable.just(0)
             .flatMapLatest((id) => {
-                return Rx.Observable
+                return Observable
                     .fromPromise(this.axios.get(`http://localhost:3001/user/${id}`));
             })
             .map((response:LoginResponse) => {
@@ -69,11 +97,11 @@ export class AuthService extends BaseDataService {
      *
      * @param url
      * @param data
-     * @returns {Rx.Observable<axios.Response>}
+     * @returns {Observable<axios.Response>}
      * @throws NetworkError|UnknownError|ServerError|CredentialsError
      */
     getLoginStream(url:string, data:LoginRequestData):Rx.Observable<axios.Response> {
-        return Rx.Observable
+        return Observable
             .fromPromise(this.axios.post(url, data));
     }
 }

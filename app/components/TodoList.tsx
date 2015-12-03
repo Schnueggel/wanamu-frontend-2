@@ -30,33 +30,28 @@ export default class TodoList extends React.Component<TodoListProps, any> {
     constructor(props:TodoListProps) {
         super(props);
         this.convertId();
-        this.checkParamId();
     }
 
     componentWillUpdate() {
+        const id = this.id;
         this.convertId();
-        this.checkParamId();
+        if (this.id !== id) {
+            Actions.todoListAction.getTodoList(this.id);
+        }
+    }
+
+    componentWillMount() {
+        Actions.todoListAction.getTodoList(this.id);
     }
 
     componentDidMount() {
         componentHandler.upgradeDom();
+
     }
 
     convertId() {
         if (_.isString(this.props.params.id)) {
             this.id = parseInt(this.props.params.id);
-        }
-    }
-
-    checkParamId() {
-        if (this.id) {
-            if (_.get(this.props.appState.todos.todolist, 'id') !== this.id) {
-                Actions.todoListAction.getTodoList(this.id);
-            }
-        } else if (this.props.appState.login.user) {
-            this.props.history.pushState(null, `/todolist/${this.props.appState.login.user.DefaultTodoListId}`);
-        } else {
-            this.props.history.pushState(null, '/login');
         }
     }
 
@@ -67,6 +62,8 @@ export default class TodoList extends React.Component<TodoListProps, any> {
     render() {
         const todolist = this.props.appState.todos.todolist || {} as any;
 
-        return <TList.TodoList todolist={todolist} onTodoChange={this.handleTodoChange.bind(this)} ref="todolist"/>
+        if (todolist) {console.log(todolist);
+            return <TList.TodoList todolist={todolist} onTodoChange={this.handleTodoChange.bind(this)} ref="todolist"/>
+        }
     }
 }

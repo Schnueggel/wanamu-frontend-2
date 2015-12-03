@@ -11,6 +11,19 @@ declare const componentHandler:ComponentHandler;
 
 declare function require(url:string);
 
+declare module wu {
+
+    interface IMenuItemData {
+        text: string;
+        url: string;
+    }
+
+    interface IControlProps<T> extends __React.Props<T> {
+        history: any;
+        appState: wu.model.state.IAppStateModel;
+    }
+}
+
 declare namespace __React {
     /**
      * Declare Attributes that come from material-lite
@@ -23,12 +36,6 @@ declare namespace __React {
     }
 }
 
-declare module wu {
-    interface IMenuItemData {
-        text: string;
-        url: string;
-    }
-}
 declare module 'history/lib/createBrowserHistory' {
 
     interface createBrowserHistory {

@@ -18,7 +18,7 @@ export class TodoListAction {
             .filter(x => x instanceof Error) as Observable<Error>;
 
         this.getTodoListSuccessStream = this.getTodoListStream
-            .filter( (x:any) => _.isObject(x) && _.isObject(x.id)) as Observable<wu.model.data.ITodoList>;
+            .filter( (x:any) => _.isObject(x) && _.isNumber(x.id)) as Observable<wu.model.data.ITodoList>;
     }
 
     getTodoList(id: number) {

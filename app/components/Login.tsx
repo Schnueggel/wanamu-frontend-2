@@ -20,29 +20,27 @@ export interface LoginProps extends __React.Props<LoginProps> {
 export default class Login extends React.Component<LoginProps, any> {
 
     refs:IRefs;
-    private loginChangeSubscription:Rx.IDisposable;
 
     constructor(props:LoginProps) {
         super(props);
     }
 
     componentWillMount() {
-        if (this.props.appState.login.user instanceof User) {
-            this.goToTodoList(this.props.appState.login.user.DefaultTodoListId);
-        }
-        this.loginChangeSubscription = this.props.appState.login.changeStateStream.subscribe((state:wu.model.state.ILoginStateModel) => {
-            if (state.user instanceof User) {
-                this.goToTodoList(state.user.DefaultTodoListId);
-            }
-        });
+        this.checkForUser();
     }
 
     componentDidMount() {
         loginAction.connect(this.refs.form.getLoginSubmitStream());
     }
 
-    componentWillUnmount() {
-        this.loginChangeSubscription.dispose();
+    componentWillUpdate() {
+        this.checkForUser();
+    }
+
+    checkForUser() {
+        if (this.props.appState.login.user instanceof User) {
+            this.goToTodoList(this.props.appState.login.user.DefaultTodoListId);
+        }
     }
 
     /**
