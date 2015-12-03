@@ -21,7 +21,6 @@ export interface TodoListProps extends __React.Props<TodoListProps> {
  */
 export default class TodoList extends React.Component<TodoListProps, any> {
 
-    private todoListGetFailedStreamSubscription: Rx.IDisposable;
     private id: number;
 
     refs: any = {
@@ -32,14 +31,6 @@ export default class TodoList extends React.Component<TodoListProps, any> {
         super(props);
         this.convertId();
         this.checkParamId();
-
-        this.todoListGetFailedStreamSubscription = Actions.todoListAction.getFailedStream.subscribe((err: any) => {
-            if (err.error instanceof NotFoundError) {
-                if (this.props.appState.login.user.DefaultTodoListId !== this.id) {
-                    this.props.history.pushState(null, `/todolist/${this.props.appState.login.user.DefaultTodoListId}`);
-                }
-            }
-        });
     }
 
     componentWillUpdate() {
@@ -49,10 +40,6 @@ export default class TodoList extends React.Component<TodoListProps, any> {
 
     componentDidMount() {
         componentHandler.upgradeDom();
-    }
-
-    componentWillUnmount(){
-        this.todoListGetFailedStreamSubscription.dispose();
     }
 
     convertId() {

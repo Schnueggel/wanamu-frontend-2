@@ -1,33 +1,28 @@
-import * as rx from 'rx';
+import {Observable, Subject} from 'rx';
 import todoListService from 'services/TodoListService';
-
-export interface IFailedTodoRequestResult {
-    error: Error;
-    id: number
-}
+import * as _ from 'lodash';
 
 export class TodoListAction {
-    getFailedStream: Rx.Subject<IFailedTodoRequestResult>;
-    getSuccessStream: Rx.Subject<wu.model.data.ITodoList>;
+    getTodoListErrorStream: Observable<Error>;
+    getTodoListSuccessStream: Observable<wu.model.data.ITodoList>;
+    getTodoListStream: Observable<wu.model.data.ITodoList|Error>;
+
+    getTodoListStartStream: Subject<number>;
 
     constructor() {
-        this.getFailedStream = new Rx.Subject<IFailedTodoRequestResult>();
-        this.getSuccessStream = new Rx.Subject<wu.model.data.ITodoList>();
+        this.getTodoListStartStream = new Subject<number>();
+        this.getTodoListStream = todoListService.getTodosRequestStream(this.getTodoListStartStream)
+            .publish().refCount();
+
+        this.getTodoListErrorStream = this.getTodoListStream
+            .filter(x => x instanceof Error) as Observable<Error>;
+
+        this.getTodoListSuccessStream = this.getTodoListStream
+            .filter( (x:any) => _.isObject(x) && _.isObject(x.id)) as Observable<wu.model.data.ITodoList>;
     }
 
     getTodoList(id: number) {
-        todoListService.getTodosRequestStream(Rx.Observable.just(id))
-            .subscribe((result: any) => {
-                if (result instanceof Error) {
-                    const data: IFailedTodoRequestResult = {
-                        error: result,
-                        id
-                    };
-                    this.getFailedStream.onNext(data);
-                } else {
-                    this.getSuccessStream.onNext(result);
-                }
-            });
+        this.getTodoListStartStream.onNext(id);
     }
 }
 

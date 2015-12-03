@@ -8,10 +8,11 @@ export class TodoAction {
     updateAndCreationCount:number = 0;
 
     updateFailedStream: Rx.Observable<Error>;
-    updateStartStream: Rx.Subject<ITodo>;
     updateStream: Rx.Observable<ITodo>;
     updateSuccessStream: Rx.Observable<ITodo>;
     updateCounterStream:Rx.Subject<number>;
+
+    updateStartStream: Rx.Subject<ITodo>;
 
     constructor() {
         this.updateCounterStream = new Rx.Subject<number>();
