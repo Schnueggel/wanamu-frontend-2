@@ -30,12 +30,12 @@ export default class TodoList extends React.Component<TodoListProps, any> {
         const id = this.id;
         this.convertId();
         if (this.id !== id) {
-            Actions.todoListAction.getTodoList(this.id);
+            Actions.todoListAction.doGetTodoList(this.id);
         }
     }
 
     componentWillMount() {
-        Actions.todoListAction.getTodoList(this.id);
+        Actions.todoListAction.doGetTodoList(this.id);
     }
 
     componentDidMount() {
@@ -50,7 +50,7 @@ export default class TodoList extends React.Component<TodoListProps, any> {
     }
 
     handleTodoChange(todo: wu.model.data.ITodo) {
-        Actions.todoAction.updateTodo(todo);
+        Actions.todoAction.doUpdate(todo);
     }
 
     render() {

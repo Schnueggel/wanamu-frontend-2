@@ -1,4 +1,3 @@
-import * as Rx from 'rx';
 import * as _ from 'lodash';
 import * as Actions from 'actions/actions';
 import {LoginStateModel} from 'models/state/LoginStateModel';
@@ -10,6 +9,8 @@ import {Notify} from 'models/decorators/NotifyDecorator';
 
 /**
  * Represents the state of the App
+ * @class AppStateModel
+ * @namespace wu.models.state
  */
 export class AppStateModel extends BaseStateModel<AppStateModel> implements wu.model.state.IAppStateModel {
 
@@ -115,7 +116,7 @@ export class AppStateModel extends BaseStateModel<AppStateModel> implements wu.m
      */
     loginChangedObserver() {
         if (this.login.user) {
-            // The the path to the TodoList to the user default todolist ids. This is neccessary as at the moment a user can have only one todolist
+            // The the path to the TodoList depends on the users default todolist id. This is neccessary as at the moment a user can have only one todolist.
             // TODO Optional we can use the TodoList Controller Component redirect to user.DefaultTodoListId feature. Lets thinks about it.
             this.authMenuItems[1].url = `/todolist/${this.login.user.DefaultTodoListId}`;
             this.menuItems = this.authMenuItems;

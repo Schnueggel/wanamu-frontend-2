@@ -1,25 +1,34 @@
-import * as rx from 'rx';
+import {Observable, Subject} from 'rx';
 import * as _ from 'lodash';
 import todoListService from 'services/TodoListService';
 
 interface ITodo extends wu.model.data.ITodo, Object {}
 
+/**
+ * @class TodoAction
+ * @namespace wu.actions
+ */
 export class TodoAction {
     updateAndCreationCount:number = 0;
 
-    updateFailedStream: Rx.Observable<Error>;
-    updateStream: Rx.Observable<ITodo>;
-    updateSuccessStream: Rx.Observable<ITodo>;
-    updateCounterStream:Rx.Subject<number>;
+    updateFailedStream: Observable<Error>;
+    updateStream: Observable<ITodo>;
+    updateSuccessStream: Observable<ITodo>;
+    updateCounterStream:Subject<number>;
+    updateStartStream: Subject<ITodo>;
 
-    updateStartStream: Rx.Subject<ITodo>;
-
+    /**
+     * TodoAction
+     */
     constructor() {
-        this.updateCounterStream = new Rx.Subject<number>();
-        this.updateStartStream = new Rx.Subject<ITodo>();
+        this.updateCounterStream = new Subject<number>();
+        this.updateStartStream = new Subject<ITodo>();
         this.initUpdateStream();
     }
 
+    /**
+     * Creates all streams
+     */
     initUpdateStream() {
         const obs = this.updateStartStream
             .do( x => this.updateCounterStream.onNext(this.updateAndCreationCount += 1))
@@ -27,12 +36,13 @@ export class TodoAction {
             .buffer(this.updateStartStream.debounce(3000))
             .filter((todos:any) => todos.length > 0 )
             .map((buffer:ITodo[]) => {
+                //TODO Still try to find a working stream for this
                 const tmp = _.map(_.groupBy(buffer, 'id'), (v:any) => _.last(v));
                 this.updateAndCreationCount -= (buffer.length - tmp.length);
                 return tmp;
             })
             .flatMap((todos:ITodo[]) => {
-                return Rx.Observable.from(todos);
+                return Observable.from(todos);
             });
 
         this.updateStream = todoListService
@@ -47,7 +57,11 @@ export class TodoAction {
             .filter( todo => _.isObject(todo) && _.isNumber(todo.id)) as any;
     }
 
-    updateTodo(todo:ITodo) {
+    /**
+     * Update action
+     * @param todo
+     */
+    doUpdate(todo:ITodo) {
         if (todo.dirty) {
             this.updateStartStream.onNext(todo);
         }

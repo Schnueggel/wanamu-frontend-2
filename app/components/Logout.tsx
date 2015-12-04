@@ -8,6 +8,11 @@ export interface ILogoutProps extends wu.IControlProps<ILogoutProps> {
     }
 }
 
+/**
+ * Controller Component
+ * @class Logout
+ * @namespace wu.components
+ */
 export default class Logout extends React.Component<ILogoutProps, any> {
 
     constructor(props:ILogoutProps) {
