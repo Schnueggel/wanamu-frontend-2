@@ -54,7 +54,6 @@ declare module ReactRouter {
 
 declare module axios {
 
-
     interface success {
         (response: Response) : void
     }

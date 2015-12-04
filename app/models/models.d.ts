@@ -16,6 +16,12 @@ declare module wu {
             isLoggingOut:boolean;
         }
 
+        interface IRegisterStateModel extends IBaseStateModel<IRegisterStateModel> {
+            registrationSuccess: boolean;
+            registrationFailed:Error;
+            isRegistering:boolean;
+        }
+
         interface IAppStateModel extends IBaseStateModel<IAppStateModel> {
 
             authMenuItems: wu.IMenuItemData[];
@@ -25,8 +31,14 @@ declare module wu {
             todos: ITodoStateModel;
 
             isAuthedPath(path: string)
+
             menuItems:wu.IMenuItemData[];
-            appStarted:boolean;
+            appReady: boolean;
+            config: wu.model.data.IConfig;
+            configError: Error;
+            isBootstrapping: boolean;
+            isConfigLoading: boolean;
+            bootstrappingError: Error;
         }
 
         interface ITodoStateModel extends IBaseStateModel<ITodoStateModel> {
@@ -50,6 +62,10 @@ declare module wu {
             toJSON : Function;
             fromJSON : (data:any) => void;
             changeDataStream: Rx.Subject<T>
+        }
+
+        interface IConfig {
+            apiBaseUrl: string;
         }
 
         interface IUser extends IBaseModel<IUser> {
