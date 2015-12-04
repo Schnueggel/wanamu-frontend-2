@@ -3,6 +3,7 @@
     "module": "commonjs",
     "target": "es5",
     "jsx": "React",
+    "noLib": true,
     "experimentalDecorators": true,
     "sourceMap": true
   },
@@ -10,6 +11,7 @@
     "./typings/tsd.d.ts",
     "./app/app.d.ts",
     "./node_modules/rx/ts/rx.all.d.ts",
-    "./node_modules/axios/axios.d.ts"
+    "./node_modules/axios/axios.d.ts",
+    "./node_modules/typescript/lib/lib.es6.d.ts"
   ]
 }
