@@ -16,8 +16,8 @@ I will have to find a way to handle this Problem without any hacks or I have to 
 
 # Approach 1
 
-* I created StateModels that are holding the application state. StateModels offer a streams. To this streams you can subscribe to get notified when the State changes.
-* The AppStateModel is the top state which contains all other states. The AppState subscribes to all his SubStates and forward this changes to its own change stream.
+* I created StateModels that are holding the application state. StateModels offer a change streams. You can subscribe to this streams to get notified when the State changes.
+* The AppStateModel is the top state which contains all other states. The AppState subscribes to all his SubStates change streams and forward this changes to its own change stream.
 * I created Actions that can trigger certain actions like doLoadTodoList or doUpdateTodo. This actions also offer streams you can subscribe to.
 * I created Controller Components. They build the upper layer of the ReactDom. It is the deepest point in the application where AppState and Actions are visible.
 * StateModels are aware of Actions and can subscribe to the streams they offer.

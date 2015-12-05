@@ -16,11 +16,14 @@ export class TodosStateModel extends BaseStateModel<TodosStateModel> implements 
     private _todoListNotFound: boolean = false;
     private _isTodoListLoading: boolean = false;
 
+    /**
+     * @constructor
+     */
     constructor() {
         super();
-        Actions.todoAction.updateStream.subscribe(this.notify.bind(this));
-        Actions.todoAction.updateStartStream.subscribe( this.setTodo.bind(this) )
-        Actions.todoAction.updateCounterStream.subscribe( v => this.todoUpdateCount = v);
+        Actions.todoAction.updateStream.subscribe( this.notify.bind(this) );
+        Actions.todoAction.updateStartStream.subscribe( this.setTodo.bind(this) );
+        Actions.todoAction.updateCounterStream.subscribe( v => this.todoUpdateCount = v );
         Actions.todoAction.updateSuccessStream.subscribe( this.setTodo.bind(this) );
 
         Actions.todoListAction.getTodoListErrorStream.subscribe((error) => {
@@ -44,7 +47,9 @@ export class TodosStateModel extends BaseStateModel<TodosStateModel> implements 
     }
 
     setTodo(todo: wu.model.data.ITodo) {
-
+        if (this.todolist.getIn(['Todos', todo.id.toString()])) {
+            this.todolist = this.todolist.setIn(['Todos', todo.id.toString()], todo) as wu.model.data.ITodoList;
+        }
     }
 
     @Notify

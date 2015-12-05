@@ -128,7 +128,6 @@ export default class Todo extends React.Component<ITodoProps, ITodoState> {
     }
 
     triggerTodoChanged(todo?: any) {
-        this.todo = todo;
         this.props.onTodoChange(todo);
     }
 
