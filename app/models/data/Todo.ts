@@ -12,7 +12,7 @@ const recordDefault: wu.model.data.ITodoData = {
     deletedAt: null,
     updatedAt: null,
     createdAt: null,
-    color: 'coloe1',
+    color: 'color1',
     repeatWeekly: null,
     repeatMonthly: null,
     repeatYearly: null

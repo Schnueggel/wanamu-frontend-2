@@ -3,7 +3,7 @@ import {Observable} from 'rx';
 import * as Err from 'errors/errors';
 import {User} from 'models/data/models';
 import {BaseDataService} from './BaseDataService';
-import AppState from 'models/state/AppStateModel';
+import AppState from '../models/states/AppStateModel';
 
 export interface IRegistrationRequestData {
     email: string;

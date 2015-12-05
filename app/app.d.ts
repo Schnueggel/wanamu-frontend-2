@@ -20,7 +20,7 @@ declare module wu {
 
     interface IControlProps<T> extends __React.Props<T> {
         history: History;
-        appState: wu.model.state.IAppStateModel;
+        appState: wu.model.states.IAppStateModel;
         children: any,
         location: Location;
     }

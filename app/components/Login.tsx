@@ -2,7 +2,7 @@ import * as React from 'react';
 import LoginForm from 'components/LoginForm/LoginForm';
 import {loginAction} from 'actions/LoginAction';
 import {User} from 'models/data/User';
-import {AppStateModel} from 'models/state/AppStateModel';
+import {AppStateModel} from '../models/states/AppStateModel';
 
 export interface IRefs {
     [key: string]: __React.Component<any, any>;

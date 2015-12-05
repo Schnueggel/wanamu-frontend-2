@@ -1,10 +1,14 @@
 import * as Rx from 'rx';
-import {BaseStateModel} from "models/state/BaseStateModel";
+import {BaseStateModel} from 'models/states/BaseStateModel';
 import {Notify} from 'models/decorators/NotifyDecorator';
 import {NotFoundError} from 'errors/errors';
 import * as Actions from 'actions/actions';
 
-export class TodosStateModel extends BaseStateModel<TodosStateModel> implements wu.model.state.ITodoStateModel {
+/**
+ * @class TodoStateModel
+ * @namespace wu.models.state
+ */
+export class TodosStateModel extends BaseStateModel<TodosStateModel> implements wu.model.states.ITodoStateModel {
 
     private _todolist: wu.model.data.ITodoList = null;
     private _isTodoUpdating: boolean = false;
@@ -15,12 +19,9 @@ export class TodosStateModel extends BaseStateModel<TodosStateModel> implements 
     constructor() {
         super();
         Actions.todoAction.updateStream.subscribe(this.notify.bind(this));
+        Actions.todoAction.updateStartStream.subscribe( this.setTodo.bind(this) )
         Actions.todoAction.updateCounterStream.subscribe( v => this.todoUpdateCount = v);
-        Actions.todoAction.updateSuccessStream.subscribe( (v: wu.model.data.ITodo) => {
-            if (this.todolist.getIn(['Todos', v.id.toString()])) {
-                this.todolist = this.todolist.setIn(['Todos', v.id.toString()], v) as wu.model.data.ITodoList;
-            }
-        });
+        Actions.todoAction.updateSuccessStream.subscribe( this.setTodo.bind(this) );
 
         Actions.todoListAction.getTodoListErrorStream.subscribe((error) => {
             if (error instanceof NotFoundError) {
@@ -40,6 +41,10 @@ export class TodosStateModel extends BaseStateModel<TodosStateModel> implements 
         Actions.todoListAction.getTodoListStream.subscribe((r) => {
             this.isTodoListLoading = false;
         });
+    }
+
+    setTodo(todo: wu.model.data.ITodo) {
+
     }
 
     @Notify

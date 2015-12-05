@@ -6,7 +6,7 @@ import * as React from 'react';
 import * as ReactDom from 'react-dom';
 import { Router } from 'react-router';
 import routes from 'config/routes';
-import AppState from 'models/state/AppStateModel';
+import AppState from 'models/states/AppStateModel';
 import { bootstrapAction } from 'actions/BootstrapAction';
 
 const createBrowserHistory = require('history/lib/createBrowserHistory');
@@ -14,7 +14,7 @@ const createBrowserHistory = require('history/lib/createBrowserHistory');
 const app = document.getElementById('app'),
     history = createBrowserHistory();
 
-AppState.changeStateStream.subscribe((state: wu.model.state.IAppStateModel) => {
+AppState.changeStateStream.subscribe((state: wu.model.states.IAppStateModel) => {
     if (state.appReady) {
         ReactDom.render(
             <Router createElement={createElement} history={history}>

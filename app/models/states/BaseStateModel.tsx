@@ -1,6 +1,6 @@
 import * as Rx from 'rx';
 
-export class BaseStateModel<T> implements wu.model.state.IBaseStateModel<T> {
+export class BaseStateModel<T> implements wu.model.states.IBaseStateModel<T> {
 
     private _changeStateStream: Rx.Observable<T>;
     private _changeStateStartStream: Rx.Subject<T>;

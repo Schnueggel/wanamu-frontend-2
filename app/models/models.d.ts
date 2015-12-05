@@ -1,6 +1,6 @@
 declare module wu {
 
-    module model.state {
+    module model.states {
         interface IBaseStateModel<T> {
             changeStateStream: Rx.Observable<T>;
             notify(): void;

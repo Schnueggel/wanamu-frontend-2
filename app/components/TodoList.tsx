@@ -54,7 +54,7 @@ export default class TodoList extends React.Component<ITodoListProps, any> {
 
     render() {
         const todolist = this.props.appState.todos.todolist || {} as any;
-console.log(this.props.appState.todos.todolist);
+
         if (todolist) {
             return <TList.TodoList todolist={todolist} onTodoChange={this.handleTodoChange.bind(this)} ref="todolist"/>
         }

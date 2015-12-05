@@ -1,9 +1,9 @@
 import * as _ from 'lodash';
 import * as Actions from 'actions/actions';
-import {LoginStateModel} from 'models/state/LoginStateModel';
-import {TodosStateModel} from 'models/state/TodosStateModel';
-import {BaseStateModel} from 'models/state/BaseStateModel';
-import {RegisterStateModel} from 'models/state/RegisterStateModel';
+import {LoginStateModel} from 'models/states/LoginStateModel';
+import {TodosStateModel} from 'models/states/TodosStateModel';
+import {BaseStateModel} from 'models/states/BaseStateModel';
+import {RegisterStateModel} from 'models/states/RegisterStateModel';
 
 import {Notify} from 'models/decorators/NotifyDecorator';
 
@@ -12,7 +12,7 @@ import {Notify} from 'models/decorators/NotifyDecorator';
  * @class AppStateModel
  * @namespace wu.models.state
  */
-export class AppStateModel extends BaseStateModel<AppStateModel> implements wu.model.state.IAppStateModel {
+export class AppStateModel extends BaseStateModel<AppStateModel> implements wu.model.states.IAppStateModel {
 
     private _menuItems: wu.IMenuItemData[];
     private _appReady: boolean = false;

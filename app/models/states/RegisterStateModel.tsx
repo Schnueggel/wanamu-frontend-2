@@ -1,9 +1,9 @@
 import * as Rx from 'rx';
 import {loginAction, logoutAction, userAction} from 'actions/actions';
-import {BaseStateModel} from 'models/state/BaseStateModel';
+import {BaseStateModel} from 'models/states/BaseStateModel';
 import {Notify} from 'models/decorators/NotifyDecorator';
 
-export class RegisterStateModel extends BaseStateModel<RegisterStateModel> implements wu.model.state.IRegisterStateModel {
+export class RegisterStateModel extends BaseStateModel<RegisterStateModel> implements wu.model.states.IRegisterStateModel {
 
     private _registrationSuccess:boolean;
     private _registrationFailed:Error;

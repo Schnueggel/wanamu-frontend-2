@@ -63,7 +63,7 @@ export class TodoList extends React.Component<ITodoListProps, any> {
         if (this.props.todolist.Todos === undefined) {
             return null;
         }
-        return this.props.todolist.Todos.map(this.createTodo.bind(this));
+        return this.props.todolist.Todos.valueSeq().map(this.createTodo.bind(this));
     }
 
     createTodo(todo: wu.model.data.ITodo) {
