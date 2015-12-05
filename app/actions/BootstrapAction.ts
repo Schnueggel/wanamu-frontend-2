@@ -2,6 +2,10 @@ import {Observable, Subject} from 'rx';
 import {configAction} from 'actions/ConfigAction';
 import {configService} from 'services/ConfigService';
 
+/**
+ * @class BootstrapAction
+ * @namespace wu.actions
+ */
 export class BootstrapAction {
 
     bootstrapRequestStream: Observable<any>;
@@ -16,7 +20,11 @@ export class BootstrapAction {
         this.bootstrapRequestSuccessStream = configAction.configRequestSuccessStream;
     }
 
+    /**
+     * Bootstraps the application
+     */
     doBootstrap() {
+        //At the moment the bootstrapping is only dependend on config loading
         configAction.doLoadConfig();
     }
 }

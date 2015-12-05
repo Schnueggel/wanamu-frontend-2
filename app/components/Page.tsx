@@ -4,6 +4,11 @@ import {userAction} from 'actions/UserAction';
 
 interface PageProps extends wu.IControlProps<PageProps> {}
 
+/**
+ * Laoyout for the Page
+ * @class Page
+ * @namespace wu.components
+ */
 export default class Page extends React.Component<PageProps, any> {
 
     constructor(props:PageProps) {
