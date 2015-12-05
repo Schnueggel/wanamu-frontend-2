@@ -1,188 +1,21 @@
-import { BaseModel }  from 'models/data/BaseModel';
-import * as _ from 'lodash';
-import { Dirty, Json, Notify } from 'models/decorators/decorators';
-import * as moment from 'moment';
-import * as Rx from 'rx';
+import { Record } from 'immutable';
 
-export class Todo extends BaseModel<Todo> implements wu.model.data.ITodo {
+const recordDefault: wu.model.data.ITodoData = {
+    id: -1,
+    TodoListId: -1,
+    title: '',
+    alarm: '',
+    description: '',
+    order: 0,
+    repeat: false,
+    finished: false,
+    deletedAt: null,
+    updatedAt: null,
+    createdAt: null,
+    color: 'coloe1',
+    repeatWeekly: null,
+    repeatMonthly: null,
+    repeatYearly: null
+};
 
-    private _id : number;
-    private _TodoListId: number;
-    private _title : string = '';
-    private _alarm : string = null;
-    private _alarmDate : Date = null;
-    private _description : string = '';
-    private _repeat : boolean = false;
-    private _order : number = 1;
-    private _color : string = null;
-    private _finished : boolean = false;
-    private _deletedAt : string = null;
-    private _repeatWeekly : string[] = [];
-    private _repeatMonthly : string[] = [];
-    private _repeatYearly :  string[] = [];
-
-    constructor( data?: wu.model.data.ITodoData ) {
-        super();
-        if (_.isPlainObject(data)){
-            this.fromJSON(data);
-        }
-    }
-
-    /**
-     * @param data
-     */
-    public fromJSON (data: wu.model.data.ITodoData) {
-        const d = data || <wu.model.data.ITodoData>{};
-
-        this._id = d.id;
-        this._TodoListId = d.TodoListId;
-        this._title = d.title || '';
-        this._alarm = d.alarm || null;
-        this._description = d.description || '';
-        this._repeat = d.repeat || this._repeat;
-        this._repeatWeekly =  d.repeatWeekly || [];
-        this._repeatMonthly = d.repeatMonthly || [];
-        this._repeatYearly =  d.repeatYearly || [];
-        this._color = d.color;
-        this._finished = d.finished === true;
-        this._order = _.isNumber(d.order) ? d.order : this._order;
-        this._deletedAt = d.deletedAt;
-    }
-
-    @Json
-    public get id():number {
-        return this._id;
-    }
-
-    public set id(value : number) {
-        console.error('Field id is readonly');
-    }
-
-    @Json
-    public get TodoListId():number {
-        return this._TodoListId;
-    }
-
-    public set TodoListId(value:number) {
-        this._TodoListId = value;
-    }
-
-    @Dirty
-    @Json
-    @Notify
-    public get title():string {
-        return this._title;
-    }
-
-    public set title(value:string) {
-        this._title = value;
-    }
-
-    @Dirty
-    @Json
-    @Notify
-    public get alarm():string {
-        return this._alarm;
-    }
-
-    public set alarm( value: string ) {
-        if (value && value.length > 0 ){
-            this._alarmDate = moment(value).toDate();
-        }
-        this._alarm = value;
-    }
-
-    @Dirty
-    @Json
-    @Notify
-    public get description():string {
-        return this._description;
-    }
-
-
-    public set description(value:string) {
-        this._description = value;
-    }
-
-    @Dirty
-    @Json
-    @Notify
-    public get repeat(): boolean {
-        return this._repeat;
-    }
-
-    public set repeat(value: boolean) {
-        this._repeat = value;
-    }
-
-    @Dirty
-    @Json
-    @Notify
-    public get order():number {
-        return this._order;
-    }
-
-    public set order(value:number) {
-        this._order = value;
-    }
-    @Dirty
-    @Json
-    @Notify
-    public get color(): string {
-        return this._color;
-    }
-    public set color(value: string) {
-        this._color = value;
-    }
-
-    @Json
-    public get deletedAt(): string {
-        return this._deletedAt;
-    }
-
-    public set deletedAt(value: string) {
-        console.error('Property deletedAt is read only');
-    }
-
-    @Dirty
-    @Json
-    @Notify
-    public get repeatWeekly(): string[] {
-        return this._repeatWeekly;
-    }
-
-    public set repeatWeekly(value: string[]) {
-        this._repeatWeekly = value;
-    }
-    @Dirty
-    @Json
-    @Notify
-    public get repeatMonthly():string[] {
-        return this._repeatMonthly;
-    }
-
-    public set repeatMonthly(value: string[]) {
-        this._repeatMonthly = value;
-    }
-    @Dirty
-    @Json
-    @Notify
-    public get repeatYearly():string[] {
-        return this._repeatYearly;
-    }
-
-    public set repeatYearly(value: string[]) {
-        this._repeatYearly = value;
-    }
-
-    @Dirty
-    @Json
-    @Notify
-    public get finished():boolean {
-        return this._finished;
-    }
-
-    public set finished(value:boolean) {
-        this._finished = value;
-    }
-}
+export const Todo = Record<wu.model.data.ITodoClass>(recordDefault, 'Todo');

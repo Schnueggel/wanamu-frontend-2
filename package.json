@@ -6,6 +6,7 @@
   "dependencies": {
     "axios": "git+https://github.com/mzabriskie/axios",
     "history": "^1.13.1",
+    "immutable": "^3.7.5",
     "lodash": "^3.10.1",
     "moment": "^2.10.6",
     "q": "^1.4.1",

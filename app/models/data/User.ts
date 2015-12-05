@@ -17,8 +17,6 @@ export class User extends BaseModel<User> implements wu.model.data.IUser {
     private _password : string;
     public DefaultTodoListId : number;
 
-    public defaulttodolist : TodoList;
-
     public Setting : wu.model.data.ISetting;
     private _Profile : wu.model.data.IProfile;
 

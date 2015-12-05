@@ -16,6 +16,11 @@ export class TodosStateModel extends BaseStateModel<TodosStateModel> implements 
         super();
         Actions.todoAction.updateStream.subscribe(this.notify.bind(this));
         Actions.todoAction.updateCounterStream.subscribe( v => this.todoUpdateCount = v);
+        Actions.todoAction.updateSuccessStream.subscribe( (v: wu.model.data.ITodo) => {
+            if (this.todolist.getIn(['Todos', v.id.toString()])) {
+                this.todolist = this.todolist.setIn(['Todos', v.id.toString()], v) as wu.model.data.ITodoList;
+            }
+        });
 
         Actions.todoListAction.getTodoListErrorStream.subscribe((error) => {
             if (error instanceof NotFoundError) {
@@ -34,7 +39,7 @@ export class TodosStateModel extends BaseStateModel<TodosStateModel> implements 
 
         Actions.todoListAction.getTodoListStream.subscribe((r) => {
             this.isTodoListLoading = false;
-        })
+        });
     }
 
     @Notify

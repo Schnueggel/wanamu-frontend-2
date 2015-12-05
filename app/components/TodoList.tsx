@@ -3,7 +3,7 @@ import * as _ from 'lodash';
 import * as TList from 'components/TodoList/TodoList';
 import * as Actions from 'actions/actions';
 
-export interface TodoListProps extends wu.IControlProps<TodoListProps> {
+export interface ITodoListProps extends wu.IControlProps<ITodoListProps> {
     params: {
         id?: string
     }
@@ -13,7 +13,7 @@ export interface TodoListProps extends wu.IControlProps<TodoListProps> {
  *
  * Controller Component for a TodoList
  */
-export default class TodoList extends React.Component<TodoListProps, any> {
+export default class TodoList extends React.Component<ITodoListProps, any> {
 
     private id: number;
 
@@ -21,7 +21,7 @@ export default class TodoList extends React.Component<TodoListProps, any> {
         todolist: TList.TodoList
     };
 
-    constructor(props:TodoListProps) {
+    constructor(props:ITodoListProps) {
         super(props);
         this.convertId();
     }
@@ -40,7 +40,6 @@ export default class TodoList extends React.Component<TodoListProps, any> {
 
     componentDidMount() {
         componentHandler.upgradeDom();
-
     }
 
     convertId() {
@@ -55,7 +54,7 @@ export default class TodoList extends React.Component<TodoListProps, any> {
 
     render() {
         const todolist = this.props.appState.todos.todolist || {} as any;
-
+console.log(this.props.appState.todos.todolist);
         if (todolist) {
             return <TList.TodoList todolist={todolist} onTodoChange={this.handleTodoChange.bind(this)} ref="todolist"/>
         }

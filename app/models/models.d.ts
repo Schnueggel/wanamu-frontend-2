@@ -75,32 +75,30 @@ declare module wu {
             Setting: ISetting;
             Profile : IProfile;
             DefaultTodoListId : number;
-            defaulttodolist : ITodoList;
             usertype : string;
 
             fromJSON(data:IUserData) : void;
         }
 
-        interface ITodo extends IBaseModel<ITodo> {
+        interface ITodoClass {
             id : number;
             TodoListId: number,
-            title : string;
-            alarm : string;
-            description : string;
-            order : number;
-            repeat : boolean;
-            finished : boolean;
-            deletedAt : string;
-            color : string;
-            repeatWeekly  : string[];
-            repeatMonthly : string[];
-            repeatYearly  : string[];
-            /**
-             * Maps the data to the model. this will not trigger the dirty flag
-             * @param data
-             */
-            fromJSON(data:ITodoData) : void
+            title: string;
+            alarm: string;
+            description: string;
+            order: number;
+            repeat: boolean;
+            finished: boolean;
+            deletedAt: string;
+            updatedAt: string;
+            createdAt: string;
+            color: string;
+            repeatWeekly: string[];
+            repeatMonthly: string[];
+            repeatYearly: string[];
         }
+
+        type ITodo = ITodoClass & Immutable.Record.TypedMap<ITodoClass>;
 
         interface IFriend extends IBaseModel<IFriend> {
             id: number;
@@ -116,13 +114,13 @@ declare module wu {
             color5 : string;
         }
 
-        interface ITodoList extends IBaseModel<ITodoList> {
+        interface ITodoListClass {
             id : number;
             name : string;
-            Todos : Array<ITodo>;
-            todoChangeStream : Rx.Subject<wu.model.data.ITodo>;
-            addNewTodo(todo:ITodo) : void;
+            Todos : Immutable.Map<any,ITodo>;
         }
+
+        type ITodoList = ITodoListClass & Immutable.Record.TypedMap<ITodoListClass>;
 
         interface IProfile extends IProfileData, IBaseModel<IProfile> {
             fromJSON(data:IProfileData) : void;
@@ -146,9 +144,10 @@ declare module wu {
         }
 
         interface ITodoListData {
+            [index:string]: any;
             id : number;
             name : string;
-            Todos : Array<ITodoData>;
+            Todos : Array<ITodo>;
         }
 
         interface IFriendData {
@@ -182,6 +181,8 @@ declare module wu {
             repeatYearly: string[];
             order : number;
             deletedAt: string;
+            updatedAt: string;
+            createdAt: string;
             color: string;
         }
 

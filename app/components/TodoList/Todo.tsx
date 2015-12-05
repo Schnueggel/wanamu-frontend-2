@@ -16,6 +16,10 @@ export interface ITodoState {
     editDescription?: boolean;
 }
 
+/**
+ * @class Todo
+ * @namespace wu.components.TodoList
+ */
 export default class Todo extends React.Component<ITodoProps, ITodoState> {
 
     state: ITodoState = {
@@ -37,6 +41,8 @@ export default class Todo extends React.Component<ITodoProps, ITodoState> {
         color5: 'color5'
     };
 
+    todo: wu.model.data.ITodo;
+
     static propTypes: any = {
         todo: React.PropTypes.object.isRequired
     };
@@ -46,16 +52,38 @@ export default class Todo extends React.Component<ITodoProps, ITodoState> {
         onTodoChange(todo: wu.model.data.ITodo):void {},
     } as ITodoProps;
 
+    /**
+     *
+     * @param props
+     */
     constructor(props:ITodoProps){
         super(props);
+        this.todo = props.todo;
+    }
+
+    /**
+     * React lifecycle
+     * @param nextProps
+     */
+    componentWillUpdate(nextProps: ITodoProps) {
+        this.todo = nextProps.todo;
+    }
+
+    /**
+     * React lifecycle
+     * @param nextProps
+     */
+    shouldComponentUpdate(nextProps: ITodoProps, nextState: ITodoState) {
+        return nextProps.todo !== this.todo || this.state !== nextState;
     }
 
     handleTextOnBlur(evt) {
         this.setState({
             editTitle: false
         });
-        this.props.todo.title = evt.target.value;
-        this.triggerTodoChanged();
+        if (evt.target.value !== this.todo.title) {
+            this.triggerTodoChanged(this.todo.set('title', evt.target.value));
+        }
     }
 
     handleColorPick() {
@@ -85,37 +113,41 @@ export default class Todo extends React.Component<ITodoProps, ITodoState> {
     }
 
     handleDescriptionBlur(evt) {
-        this.props.todo.description = evt.target.value;
-        this.triggerTodoChanged();
+        this.triggerTodoChanged(this.todo.set('description', evt.target.value));
     }
 
     pickColor(color) {
-        this.props.todo.color = color;
-        this.triggerTodoChanged();
+        if (color === this.todo.color) {
+            return;
+        }
+        this.triggerTodoChanged(this.todo.set('color', color));
         this.setState({
             color,
             colorPick: false
         });
     }
 
-    triggerTodoChanged() {
-        if (this.props.todo.dirty) {
-            this.props.onTodoChange(this.props.todo);
-        }
+    triggerTodoChanged(todo?: any) {
+        this.todo = todo;
+        this.props.onTodoChange(todo);
     }
 
+    /**
+     * React lifecycle
+     * @returns {any}
+     */
     render() {
-        const color = this.props.todo.color ? this.props.todo.color : Todo.colors.color1,
-            descriptionHide = this.state.editDescription || this.props.todo.description ? false : true,
+        const color = this.todo.color ? this.todo.color : Todo.colors.color1,
+            descriptionHide = this.state.editDescription || this.todo.description ? false : true,
             colorPickHidden = this.state.colorPick ? '' : 'hidden';
 
         return  (<div className={`todo mdl-card mdl-shadow--2dp`}>
             <div className={`mdl-card__title mdl-card--expand ${color}`}>
-                <TextInput value={this.props.todo.title} onBlur={this.handleTextOnBlur.bind(this)} label="Todo text"/>
+                <TextInput value={this.todo.title} onBlur={this.handleTextOnBlur.bind(this)} label="Todo text"/>
             </div>
             <div class="mdl-card__supporting-text" is hide={descriptionHide}>
-                { this.state.editDescription ? null :<div onClick={this.handleEditDescription.bind(this)} hide={this.state.editDescription} >{this.props.todo.description}</div> }
-                <TextArea value={this.props.todo.description} label="Description" rows={3} onBlur={this.handleDescriptionBlur.bind(this)} ref="description" hide={!this.state.editDescription} />
+                { this.state.editDescription ? null :<div onClick={this.handleEditDescription.bind(this)} hide={this.state.editDescription} >{this.todo.description}</div> }
+                <TextArea value={this.todo.description} label="Description" rows={3} onBlur={this.handleDescriptionBlur.bind(this)} ref="description" hide={!this.state.editDescription} />
             </div>
             <div className="mdl-card__menu">
                 <IconButton icon="subject" onClick={this.handleEditDescription.bind(this)} />
@@ -129,7 +161,7 @@ export default class Todo extends React.Component<ITodoProps, ITodoState> {
 
     createColorPickButtons() {
         return Object.keys(Todo.colors).map((color) => {
-            return <IconButton icon="lens" onClick={() => this.pickColor(color)} className={color} disabled={this.props.todo.color === color} key={color}/>
+            return <IconButton icon="lens" onClick={() => this.pickColor(color)} className={color} disabled={this.todo.color === color} key={color}/>
         });
     }
 }

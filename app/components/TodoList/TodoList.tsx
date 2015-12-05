@@ -2,12 +2,18 @@ import * as React from 'react';
 import * as Rx from 'rx';
 import Todo from './Todo';
 
-export interface TodoListFormProps extends __React.Props<TodoListFormProps> {
+export interface ITodoListProps extends __React.Props<ITodoListProps> {
     todolist: wu.model.data.ITodoList;
     onTodoChange?(todo: wu.model.data.ITodo);
 }
 
-export class TodoList extends React.Component<TodoListFormProps, any> {
+/**
+ * @class TodoList
+ * @namespace wu.components.TodoList
+ */
+export class TodoList extends React.Component<ITodoListProps, any> {
+
+    todolist: wu.model.data.ITodoList;
 
     refs: any = {
         email: HTMLInputElement,
@@ -16,12 +22,35 @@ export class TodoList extends React.Component<TodoListFormProps, any> {
 
     state: any = {};
 
-    constructor(props:TodoListFormProps){
+    /**
+     * Constructor
+     * @param props
+     */
+    constructor(props:ITodoListProps){
         super(props);
+
+        this.todolist = props.todolist;
 
         if (_.isFunction(props.onTodoChange) === false) {
             props.onTodoChange = () => {};
         }
+    }
+
+
+    /**
+     * React lifecycle
+     * @param nextProps
+     */
+    componentWillUpdate(nextProps: ITodoListProps) {
+        this.todolist = nextProps.todolist;
+    }
+
+    /**
+     * React lifecycle
+     * @param nextProps
+     */
+    shouldComponentUpdate(nextProps: ITodoListProps, nextState: any) {
+        return nextProps.todolist !== this.todolist || this.state !== nextState;
     }
 
     render() {
