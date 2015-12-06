@@ -1,8 +1,9 @@
 import * as Rx from 'rx';
-import {loginAction, logoutAction, userAction} from 'actions/actions';
+import {loginAction, logoutAction, userAction, registerAction} from 'actions/actions';
 import {BaseStateModel} from 'models/states/BaseStateModel';
 import {Notify} from 'models/decorators/NotifyDecorator';
 import {NotFoundError} from 'errors/NotFoundError';
+import IUser = wu.model.data.IUser;
 
 export class LoginStateModel extends BaseStateModel<LoginStateModel> implements wu.model.states.ILoginStateModel {
 

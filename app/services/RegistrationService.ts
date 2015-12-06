@@ -1,24 +1,15 @@
 import * as _ from 'lodash';
-import {Observable} from 'rx';
+import { Observable } from 'rx';
 import * as Err from 'errors/errors';
-import {User} from 'models/data/models';
-import {BaseDataService} from './BaseDataService';
-import AppState from '../models/states/AppStateModel';
+import { BaseDataService } from './BaseDataService';
+import { configService } from 'services/ConfigService';
 
-export interface IRegistrationRequestData {
-    email: string;
-    firstname: string;
-    lastname: string;
-    salutation: string;
-    password: string;
-}
-
-export interface IRegistrationResponse extends axios.Response {
-    data: {data: Array<wu.model.data.IUserData>};
-}
+import IUser = wu.model.data.IUser;
+import IRegistrationResponse = wu.services.IRegistrationResponse;
 
 /**
- *
+ * @class RegistrationService
+ * @namespace wu.services
  */
 export class RegistrationService extends BaseDataService {
 
@@ -32,29 +23,28 @@ export class RegistrationService extends BaseDataService {
      * @returns {Rx.Observable<boolean>}
      * @throws NetworkError|UnknownError|ServerError|CredentialsError|InvalidResponseDataError
      */
-    createRegistrationRequestStream(obs:Rx.Observable<IRegistrationRequestData>):Rx.Observable<wu.model.data.IUser> {
+    createRegistrationRequestStream(obs: Observable<IUser>): Observable<IUser> {
         return obs
-            .flatMapLatest((data:IRegistrationResponse) => this.axios.post(`${AppState.config.apiBaseUrl}/user`, {
-                data
-            }))
-            .catch((e:Error) => {
+            .flatMapLatest((data: IUser) => {
+                return Observable.fromPromise(this.axios.post(`http://localhost:3001/user`, {
+                    data: data.toJS()
+                }));
+            })
+            .catch((e: Error) => {
                 console.error(e);
                 return Observable.just(new Err.UnknownError('An unknown error happened'));
             })
-            .map((response:IRegistrationResponse) => {
+            .map((response: IRegistrationResponse) => {
                 if (response instanceof Err.BaseError) {
                     console.error(response);
                     return response as any;
                 } else if (_.get(response, '.data.data[0].id', false) === false) {
                     return new Err.InvalidResponseDataError();
                 } else {
-                    return new User(response.data.data[0]);
+                    return this.mapUserData(response.data.data[0]);
                 }
             });
     }
-
 }
 
-const registerService = new RegistrationService();
-
-export default registerService;
+export const registerService = new RegistrationService();

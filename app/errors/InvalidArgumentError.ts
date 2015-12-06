@@ -1,10 +1,9 @@
-/**
- * Created by Christian on 06.06.2015.
- */
-'use strict';
+import { BaseError } from  './BaseError';
 
-import BaseError = require('./BaseError');
-
-export class InvalidArgumentError extends BaseError.BaseError {
+export class InvalidArgumentError extends BaseError {
     public name: string = 'InvalidArgumentError';
+
+    constructor(message?: string) {
+        super(message);
+    }
 }

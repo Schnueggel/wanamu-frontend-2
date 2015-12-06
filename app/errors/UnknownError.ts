@@ -1,6 +1,10 @@
 import { BaseError } from  './BaseError';
 
 export class UnknownError extends BaseError {
-    public name: string = 'UnkownError';
-    public message : string = 'An undefined error happend';
+    name: string = 'UnkownError';
+    defaultMessage: string = 'An undefined error happend';
+
+    constructor(message?: string) {
+        super(message);
+    }
 }

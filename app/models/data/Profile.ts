@@ -1,5 +1,12 @@
 import { Record } from 'immutable';
 
+export class Salutation {
+    static Mr = 'mr';
+    static Mrs = 'mrs';
+    static Neutrum = 'neutrum';
+    static Human = 'human';
+}
+
 /**
  * Lookup class for salutatubs
  */
@@ -10,14 +17,7 @@ export const salutations = [
     {id: Salutation.Neutrum, name: 'Neutrum'}
 ];
 
-export class Salutation {
-    static Mr = 'mr';
-    static Mrs = 'mrs';
-    static Neutrum = 'neutrum';
-    static Human = 'human';
-}
-
-export const recordDefault: wu.model.data.IProfileData = {
+export const recordDefault: wu.model.data.IProfileClass = {
     id : -1,
     firstname : '',
     lastname : '',

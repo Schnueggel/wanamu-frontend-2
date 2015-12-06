@@ -6,7 +6,7 @@ import * as React from 'react';
 import * as ReactDom from 'react-dom';
 import { Router } from 'react-router';
 import routes from 'config/routes';
-import AppState from 'models/states/AppStateModel';
+import { AppState } from 'models/states/AppStateModel';
 import { bootstrapAction } from 'actions/BootstrapAction';
 
 const createBrowserHistory = require('history/lib/createBrowserHistory');

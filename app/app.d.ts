@@ -1,5 +1,6 @@
 /// <reference path="./components/Form/form.d.ts" />
 /// <reference path="./models/models.d.ts" />
+/// <reference path="./services/services.d.ts" />
 
 // Material-Design-Lite
 declare interface ComponentHandler {

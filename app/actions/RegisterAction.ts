@@ -1,31 +1,34 @@
-import authService from 'services/AuthService';
 import * as _ from 'lodash';
-import {Observable, Subject} from 'rx';
+import { Observable, Subject } from 'rx';
+import { registerService } from 'services/RegistrationService';
+
+import IUser = wu.model.data.IUser;
 
 export class RegisterAction {
-    registerRequestStream: Observable<wu.model.data.IUser|Error>;
-    registerRequestSuccessStream: Observable<wu.model.data.IUser>;
+    registerRequestStream: Observable<IUser|Error>;
+    registerRequestSuccessStream: Observable<IUser>;
     registerRequestErrorStream: Observable<Error>;
 
-    registerRequestStartSubject: Subject<any>;
+    registerRequestStartSubject: Subject<IUser>;
 
-    constructor() {
-        this.registerRequestStartSubject = new Subject<any>();
-        this.registerRequestStream = authService
-            .createCurrentUserRequestStream()
+    constructor() {console.log( registerService );
+        this.registerRequestStartSubject = new Subject<IUser>();
+
+        this.registerRequestStream = registerService
+            .createRegistrationRequestStream(this.registerRequestStartSubject)
             .publish()
             .refCount();
 
         this.registerRequestSuccessStream = this.registerRequestStream
-            .filter( (x:any) => _.isObject(x) && _.isNumber(x.id) ) as Observable<wu.model.data.IUser>;
+            .filter( (x:any) => _.isObject(x) && _.isNumber(x.id) ) as Observable<IUser>;
 
         this.registerRequestErrorStream = this.registerRequestStream
             .filter( (x:any) => x instanceof Error ) as Observable<Error>;
     }
 
-    doRegister() : void {
-        this.registerRequestStartSubject.onNext(null);
+    doRegister(user: IUser) : void {
+        this.registerRequestStartSubject.onNext(user);
     }
 }
 
-export var registerAction = new RegisterAction();
+export const registerAction = new RegisterAction();

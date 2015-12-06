@@ -29,6 +29,7 @@ declare module wu {
 
             login: ILoginStateModel;
             todos: ITodoStateModel;
+            register: IRegisterStateModel;
 
             isAuthedPath(path: string)
 
@@ -68,32 +69,32 @@ declare module wu {
         }
 
         interface IUserClass {
-            password? : string;
-            id : number;
+            id?: number;
+            password?: string;
             email: string;
-            Setting: ISetting;
+            Setting?: ISetting;
             Profile : IProfile;
-            DefaultTodoListId : number;
+            DefaultTodoListId?: number;
         }
 
         type IUser = IUserClass & Immutable.Record.TypedMap<IUserClass>;
 
         interface ITodoClass {
-            id : number;
+            id?: number;
             TodoListId: number,
             title: string;
-            alarm: string;
+            alarm?: string;
             description: string;
-            order: number;
-            repeat: boolean;
+            order?: number;
+            repeat?: boolean;
             finished: boolean;
-            deletedAt: string;
-            updatedAt: string;
-            createdAt: string;
-            color: string;
-            repeatWeekly: string[];
-            repeatMonthly: string[];
-            repeatYearly: string[];
+            deletedAt?: string;
+            updatedAt?: string;
+            createdAt?: string;
+            color?: string;
+            repeatWeekly?: string[];
+            repeatMonthly?: string[];
+            repeatYearly?: string[];
         }
 
         type ITodo = ITodoClass & Immutable.Record.TypedMap<ITodoClass>;
@@ -113,7 +114,7 @@ declare module wu {
         }
 
         interface ITodoListClass {
-            id : number;
+            id?: number;
             name : string;
             Todos : Immutable.Map<any,ITodo>;
         }
@@ -121,11 +122,11 @@ declare module wu {
         type ITodoList = ITodoListClass & Immutable.Record.TypedMap<ITodoListClass>;
 
         interface IProfileClass {
-            id : number;
-            firstname : string;
-            lastname : string;
-            salutation : string;
-            face : string;
+            id?: number;
+            firstname: string;
+            lastname: string;
+            salutation: string;
+            face?: string;
         }
         type IProfile = IProfileClass & Immutable.Record.TypedMap<IProfileClass>;
 
@@ -152,11 +153,12 @@ declare module wu {
         }
 
         interface IUserData {
-            id : number;
+            id?: number;
             email: string;
-            Setting: ISettingData;
-            Profile : IProfileData;
-            DefaultTodoListId : number;
+            password?: string;
+            Setting?: ISettingData;
+            Profile: IProfileData;
+            DefaultTodoListId?: number;
         }
 
         interface ITodoData {
@@ -178,11 +180,11 @@ declare module wu {
         }
 
         interface IProfileData {
-            id : number;
+            id?: number;
             firstname : string;
             lastname : string;
             salutation : string;
-            face : string;
+            face?: string;
         }
 
         interface ISettingData {

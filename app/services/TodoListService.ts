@@ -1,11 +1,13 @@
 import * as _ from 'lodash';
-import * as Rx from 'rx';
+import { Observable } from 'rx';
 import {BaseDataService} from 'services/BaseDataService';
-import ITodoList = wu.model.data.ITodoList;
 import * as Err from 'errors/errors';
 import * as Immutable from 'immutable';
 import { Todo } from 'models/data/Todo';
 import {TodoList} from 'models/data/TodoList';
+
+import ITodoList = wu.model.data.ITodoList;
+import ITodo = wu.model.data.ITodo;
 
 export interface ITodoListResponse extends axios.Response {
     data: {data: Array<wu.model.data.ITodoListData>};
@@ -32,12 +34,12 @@ export class TodoListService extends BaseDataService {
      * @param obs
      * @returns {any}
      */
-     getTodosRequestStream(obs: Rx.Observable<number>) : Rx.Observable<wu.model.data.ITodoList> {
+     getTodosRequestStream(obs: Observable<number>) : Observable<ITodoList> {
         return obs
             .flatMapLatest((id:number) => this.axios.get(`http://localhost:3001/todolist/${id}`))
             .catch((e:Error) => {
                 console.error(e);
-                return Rx.Observable.just(new Err.UnknownError('An unknown error happened'));
+                return Observable.just(new Err.UnknownError('An unknown error happened'));
             })
             .map((response: ITodoListResponse) => {
                 if (response instanceof Err.BaseError) {
@@ -59,12 +61,12 @@ export class TodoListService extends BaseDataService {
     /**
      *
      * @param obs
-     * @returns {Observable<BaseError|InvalidResponseDataError|wu.model.data.ITodoData>}
+     * @returns {Observable<BaseError|InvalidResponseDataError|ITodoData>}
      */
-    getUpdateTodoRequestStream(obs:Rx.Observable<wu.model.data.ITodo>): Rx.Observable<wu.model.data.ITodo> {
+    getUpdateTodoRequestStream(obs:Observable<ITodo>): Observable<ITodo> {
         return obs
-            .flatMapLatest((todo:wu.model.data.ITodo) => {
-                return Rx.Observable.fromPromise(this.axios.put(`http://localhost:3001/todo/${todo.id}`, {
+            .flatMapLatest((todo:ITodo) => {
+                return Observable.fromPromise(this.axios.put(`http://localhost:3001/todo/${todo.id}`, {
                     data: todo.toJS()
                 }));
             }).map( (response: ITodoResponse) => {

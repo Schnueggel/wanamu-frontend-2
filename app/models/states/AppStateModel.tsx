@@ -1,11 +1,11 @@
 import * as _ from 'lodash';
 import * as Actions from 'actions/actions';
-import {LoginStateModel} from 'models/states/LoginStateModel';
-import {TodosStateModel} from 'models/states/TodosStateModel';
-import {BaseStateModel} from 'models/states/BaseStateModel';
-import {RegisterStateModel} from 'models/states/RegisterStateModel';
-
-import {Notify} from 'models/decorators/NotifyDecorator';
+import { LoginStateModel } from 'models/states/LoginStateModel';
+import { TodosStateModel } from 'models/states/TodosStateModel';
+import { BaseStateModel } from 'models/states/BaseStateModel';
+import { RegisterStateModel } from 'models/states/RegisterStateModel';
+import { Notify } from 'models/decorators/NotifyDecorator';
+import { configService } from '../../services/ConfigService';
 
 /**
  * Represents the state of the App
@@ -17,9 +17,9 @@ export class AppStateModel extends BaseStateModel<AppStateModel> implements wu.m
     private _menuItems: wu.IMenuItemData[];
     private _appReady: boolean = false;
     private _config: wu.model.data.IConfig;
-    private _configError: Error = null;
-    private _isBootstrapping: boolean = false;
-    private _isConfigLoading: boolean = false;
+    private _configError: Error        = null;
+    private _isBootstrapping: boolean  = false;
+    private _isConfigLoading: boolean  = false;
     private _bootstrappingError: Error = null;
 
     /**
@@ -28,9 +28,9 @@ export class AppStateModel extends BaseStateModel<AppStateModel> implements wu.m
      * @type {{text: string, url: string}[]}
      */
     authMenuItems: wu.IMenuItemData[] = [
-        {text:'Home', url: '/'},
-        {text:'TodoList', url: '/todolist'},
-        {text:'Logout', url: '/logout'}
+        {text: 'Home', url: '/'},
+        {text: 'TodoList', url: '/todolist'},
+        {text: 'Logout', url: '/logout'}
     ];
 
     /**
@@ -39,9 +39,9 @@ export class AppStateModel extends BaseStateModel<AppStateModel> implements wu.m
      * @type {{text: string, url: string}[]}
      */
     noAuthMenuItems: wu.IMenuItemData[] = [
-        {text:'Home', url: '/'},
-        {text:'Login', url: '/login'},
-        {text:'Register', url: '/register'}
+        {text: 'Home', url: '/'},
+        {text: 'Login', url: '/login'},
+        {text: 'Register', url: '/register'}
     ];
 
     /**
@@ -54,6 +54,7 @@ export class AppStateModel extends BaseStateModel<AppStateModel> implements wu.m
     todos: TodosStateModel;
 
     register: RegisterStateModel;
+
     /**
      * AppStateModel
      */
@@ -63,8 +64,8 @@ export class AppStateModel extends BaseStateModel<AppStateModel> implements wu.m
         this._menuItems = this.noAuthMenuItems;
 
         // Sub App States
-        this.login = new LoginStateModel();
-        this.todos = new TodosStateModel();
+        this.login    = new LoginStateModel();
+        this.todos    = new TodosStateModel();
         this.register = new RegisterStateModel();
 
         //Notify AppState change on SubState changes
@@ -75,31 +76,32 @@ export class AppStateModel extends BaseStateModel<AppStateModel> implements wu.m
         // Debounce changes on AppState  to lower impact on react
         this.changeStateStream = this.changeStateStream.debounce(300);
 
-        Actions.configAction.configRequestStartSubject.subscribe( () => {
-            this._config = null;
+        Actions.configAction.configRequestStartSubject.subscribe(() => {
+            this._config         = null;
             this.isConfigLoading = true;
         });
 
-        Actions.configAction.configRequestSuccessStream.subscribe( (config: wu.model.data.IConfig) => {
+        Actions.configAction.configRequestSuccessStream.subscribe((config: wu.model.data.IConfig) => {
             this._configError = null;
-            this.config = config;
-        } );
+            configService.config = config;
+            this.config       = config;
+        });
 
-        Actions.configAction.configRequestErrorStream.subscribe( (err: Error) => {
+        Actions.configAction.configRequestErrorStream.subscribe((err: Error) => {
             this.configError = err;
         });
 
-        Actions.configAction.configRequestStream.subscribe( () => {
+        Actions.configAction.configRequestStream.subscribe(() => {
             this.isConfigLoading = false;
         });
 
-        Actions.bootstrapAction.bootstrapRequestErrorStream.subscribe( err => this.bootstrappingError = err);
-        Actions.bootstrapAction.bootstrapRequestStream.subscribe( () => this.isBootstrapping = false );
-        Actions.bootstrapAction.bootstrapRequestStartStream.subscribe( () => this.isBootstrapping = true );
-        Actions.bootstrapAction.bootstrapRequestSuccessStream.subscribe( () => {
+        Actions.bootstrapAction.bootstrapRequestErrorStream.subscribe(err => this.bootstrappingError = err);
+        Actions.bootstrapAction.bootstrapRequestStream.subscribe(() => this.isBootstrapping = false);
+        Actions.bootstrapAction.bootstrapRequestStartStream.subscribe(() => this.isBootstrapping = true);
+        Actions.bootstrapAction.bootstrapRequestSuccessStream.subscribe(() => {
             this._bootstrappingError = null;
-            this.appReady = true;
-        } );
+            this.appReady            = true;
+        });
     }
 
     /**
@@ -119,75 +121,74 @@ export class AppStateModel extends BaseStateModel<AppStateModel> implements wu.m
             // The the path to the TodoList depends on the users default todolist id. This is neccessary as at the moment a user can have only one todolist.
             // TODO Optional we can use the TodoList Controller Component redirect to user.DefaultTodoListId feature. Lets thinks about it.
             this.authMenuItems[1].url = `/todolist/${this.login.user.DefaultTodoListId}`;
-            this.menuItems = this.authMenuItems;
+            this.menuItems            = this.authMenuItems;
         } else {
             this.menuItems = this.noAuthMenuItems;
         }
     }
 
     @Notify
-    get menuItems():wu.IMenuItemData[] {
+    get menuItems(): wu.IMenuItemData[] {
         return this._menuItems;
     }
 
-    set menuItems(value:wu.IMenuItemData[]) {
+    set menuItems(value: wu.IMenuItemData[]) {
         this._menuItems = value;
     }
 
     @Notify
-    get appReady():boolean {
+    get appReady(): boolean {
         return this._appReady;
     }
 
-    set appReady(value:boolean) {
+    set appReady(value: boolean) {
         this._appReady = value;
     }
 
     @Notify
-    get config():wu.model.data.IConfig {
+    get config(): wu.model.data.IConfig {
         return this._config;
     }
 
-    set config(value:wu.model.data.IConfig) {
+    set config(value: wu.model.data.IConfig) {
         this._config = value;
     }
 
     @Notify
-    get configError():Error {
+    get configError(): Error {
         return this._configError;
     }
 
-    set configError(value:Error) {
+    set configError(value: Error) {
         this._configError = value;
     }
 
     @Notify
-    get isBootstrapping():boolean {
+    get isBootstrapping(): boolean {
         return this._isBootstrapping;
     }
 
-    set isBootstrapping(value:boolean) {
+    set isBootstrapping(value: boolean) {
         this._isBootstrapping = value;
     }
 
     @Notify
-    get isConfigLoading():boolean {
+    get isConfigLoading(): boolean {
         return this._isConfigLoading;
     }
 
-    set isConfigLoading(value:boolean) {
+    set isConfigLoading(value: boolean) {
         this._isConfigLoading = value;
     }
+
     @Notify
-    get bootstrappingError():Error {
+    get bootstrappingError(): Error {
         return this._bootstrappingError;
     }
 
-    set bootstrappingError(value:Error) {
+    set bootstrappingError(value: Error) {
         this._bootstrappingError = value;
     }
 }
 
-const AppState = new AppStateModel();
-
-export default AppState;
+export const AppState = new AppStateModel();

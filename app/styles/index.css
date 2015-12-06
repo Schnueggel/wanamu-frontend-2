@@ -5,6 +5,7 @@ input[type="text"], textarea {
 [hide="true"] {
     display: none;
 }
+
 input:-webkit-autofill {
     -webkit-box-shadow: 0 0 0 1000px white inset;
 }
@@ -18,7 +19,7 @@ input:-webkit-autofill {
 }
 .wu-theme-1 .login.mdl-card,.wu-theme-1 .register.mdl-card  {
     position: absolute;
-    top: 30%;
+    top: 50%;
     left: 50%;
     width: 660px;
     transform: translate(-50%, -50%);

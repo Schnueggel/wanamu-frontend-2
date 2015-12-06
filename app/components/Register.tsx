@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as Actions from 'actions/actions';
-import { salutations, Salutation } from 'models/data/Profile';
-import { RegisterForm } from 'components/Register/RegisterForm';
+import { salutations, Salutation, User, Profile } from 'models/data/models';
+import { RegisterForm, ISubmitStreamData } from 'components/Register/RegisterForm';
 
 export interface RegisterProps extends wu.IControlProps<RegisterProps> {}
 
@@ -20,9 +20,33 @@ export default class Register extends React.Component<RegisterProps, any> {
         super(props);
     }
 
+    componentWillReceiveProps(nextProps: RegisterProps) {
+        if (nextProps.appState.register.registrationSuccess === true) {
+            nextProps.appState.register.registrationSuccess = false;
+            nextProps.history.pushState(null, `/login`);
+        }
+    }
+
+    handleSubmit({email, password, salutation,firstname, lastname}: ISubmitStreamData) {
+        const user = new User({
+            email,
+            password,
+            Profile: new Profile({
+                salutation,
+                firstname,
+                lastname
+            })
+        });
+        Actions.registerAction.doRegister(user);
+    }
     render() {
         return (
-            <RegisterForm ref="regform" salutations={salutations} salutation={Salutation.Mr} />
+            <div className="register mdl-card mdl-shadow--2dp">
+                <h3>Registration</h3>
+                <div className="mdl-card__title mdl-card--expand">
+                    <RegisterForm handleSubmit={this.handleSubmit} salutations={salutations} salutation={Salutation.Mr} />
+                </div>
+            </div>
         );
     }
 }

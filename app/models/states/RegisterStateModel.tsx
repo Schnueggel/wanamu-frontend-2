@@ -1,7 +1,8 @@
 import * as Rx from 'rx';
-import {loginAction, logoutAction, userAction} from 'actions/actions';
-import {BaseStateModel} from 'models/states/BaseStateModel';
+import * as Actions from 'actions/actions';
+import { BaseStateModel } from 'models/states/BaseStateModel';
 import {Notify} from 'models/decorators/NotifyDecorator';
+import IUser = wu.model.data.IUser;
 
 export class RegisterStateModel extends BaseStateModel<RegisterStateModel> implements wu.model.states.IRegisterStateModel {
 
@@ -11,6 +12,10 @@ export class RegisterStateModel extends BaseStateModel<RegisterStateModel> imple
 
     constructor() {
         super();
+
+        Actions.registerAction.registerRequestSuccessStream.subscribe( (user: IUser) => {
+            this.registrationSuccess = true;
+        });
     }
 
     @Notify

@@ -1,21 +1,17 @@
-
-declare class Error {
-    public name: string;
-    public message: string;
-    public stack: string;
-    constructor(message?: string);
-}
-
 export class BaseError extends Error {
     public name: string = 'BaseError';
+    public defaultMessage = null;
 
-    constructor(public message?: string) {
+    constructor(message?: string) {
         super(message);
-        if (message !== undefined) {
-            this.message = message;
+
+        this.message = message;
+
+        if (!message && this.defaultMessage) {
+            this.message = this.defaultMessage;
         }
-        this.stack = (<any>new Error()).stack;
     }
+
     toString() {
         return this.name + ': ' + this.message;
     }
