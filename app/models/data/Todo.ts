@@ -1,6 +1,6 @@
 import { Record } from 'immutable';
 
-const recordDefault: wu.model.data.ITodoData = {
+const recordDefault: wu.model.data.ITodoClass = {
     id: -1,
     TodoListId: -1,
     title: '',
