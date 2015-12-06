@@ -1,7 +1,7 @@
 import * as _ from 'lodash';
 import {Observable} from 'rx';
 import * as Err from '../errors/errors';
-import {User} from '../models/data/models';
+import {User, Profile, Setting} from '../models/data/models';
 import {BaseDataService} from "./BaseDataService";
 
 export interface LoginRequestData {
@@ -42,7 +42,7 @@ export class AuthService extends BaseDataService {
                 } else if (_.get(response, '.data.data[0].id', false) === false) {
                     return new Err.InvalidResponseDataError();
                 } else {
-                    return new User(response.data.data[0]);
+                    return this.mapUserDataToUser(response.data.data[0]);
                 }
             });
     }
@@ -87,7 +87,7 @@ export class AuthService extends BaseDataService {
             })
             .map((response:LoginResponse) => {
                 if (_.get(response, '.data.data[0].id', false)) {
-                    return new User(response.data.data[0]);
+                    return this.mapUserDataToUser(response.data.data[0]);
                 }
                 return null;
             });
@@ -103,6 +103,20 @@ export class AuthService extends BaseDataService {
     getLoginStream(url:string, data:LoginRequestData):Rx.Observable<axios.Response> {
         return Observable
             .fromPromise(this.axios.post(url, data));
+    }
+
+    /**
+     *
+     * @param data
+     */
+    mapUserDataToUser(data: wu.model.data.IUserData) : wu.model.data.IUser {
+        return new User({
+            id: data.id,
+            email: data.email,
+            DefaultTodoListId: data.DefaultTodoListId,
+            Setting: new Setting(data.Setting),
+            Profile: new Profile(data.Profile)
+        });
     }
 }
 

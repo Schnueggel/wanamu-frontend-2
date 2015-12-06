@@ -56,7 +56,6 @@ declare module wu {
 
     module model.data {
 
-
         interface IBaseModel<T> extends IDirty {
             [index: string] : any;
             toJSON : Function;
@@ -68,17 +67,16 @@ declare module wu {
             apiBaseUrl: string;
         }
 
-        interface IUser extends IBaseModel<IUser> {
-            password : string;
+        interface IUserClass {
+            password? : string;
             id : number;
             email: string;
             Setting: ISetting;
             Profile : IProfile;
             DefaultTodoListId : number;
-            usertype : string;
-
-            fromJSON(data:IUserData) : void;
         }
+
+        type IUser = IUserClass & Immutable.Record.TypedMap<IUserClass>;
 
         interface ITodoClass {
             id : number;
@@ -122,29 +120,22 @@ declare module wu {
 
         type ITodoList = ITodoListClass & Immutable.Record.TypedMap<ITodoListClass>;
 
-        interface IProfile extends IProfileData, IBaseModel<IProfile> {
-            fromJSON(data:IProfileData) : void;
-        }
-
-        interface ISetting extends IBaseModel<ISetting>,IColor {
+        interface IProfileClass {
             id : number;
-
-            /**
-             * Returns all colors as an array
-             * @returns {{}}
-             */
-            colors() : IColor;
-
-            /**
-             * Returns a single color with its value e.g.: rgba(0,0,0,0)
-             * @param string color e.g.: color1, color2 ... color5
-             * @returns {String} e.g.: rgba(0,0,0,0)
-             */
-            color(color:string) : string
+            firstname : string;
+            lastname : string;
+            salutation : string;
+            face : string;
         }
+        type IProfile = IProfileClass & Immutable.Record.TypedMap<IProfileClass>;
+
+        interface ISettingClass extends IColor {
+            id : number;
+        }
+
+        type ISetting = ISettingClass & Immutable.Record.TypedMap<ISettingClass>;
 
         interface ITodoListData {
-            [index:string]: any;
             id : number;
             name : string;
             Todos : Array<ITodo>;
