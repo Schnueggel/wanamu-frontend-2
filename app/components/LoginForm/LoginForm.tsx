@@ -110,6 +110,8 @@ export default class LoginForm extends React.Component<LoginFormProps, any> {
         const email:any = {
             type: 'email',
             label: 'Email',
+            ref: 'email',
+            name: 'email',
             value: this.props.email,
             errors: this.state.emailErrors,
             onChange: this.validateEmail.bind(this)
@@ -117,14 +119,16 @@ export default class LoginForm extends React.Component<LoginFormProps, any> {
             password:any = {
             type: 'password',
             label: 'Password',
+            ref: 'password',
+            name: 'password',
             errors: this.state.passwordErrors,
             onChange: this.validatePassword.bind(this)
         },
             enabled = this.state.isEmailValid && this.state.isPasswordValid;
 
         return  <form name="login" action="#">
-            <TextInput {...email} ref="email" name="username"/>
-            <TextInput {...password} ref="password" name="password"/>
+            <TextInput {...email}/>
+            <TextInput {...password}/>
             <div className="form-actionbar">
                 <button type="button" className="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" ref="submit" onClick={this.handleClick.bind(this)} disabled={!enabled}>Login</button>
             </div>
