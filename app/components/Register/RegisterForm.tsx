@@ -113,7 +113,7 @@ export class RegisterForm extends React.Component<IRegisterFormProps, any> {
             this.refs.lastname.stateStream,
             this.refs.password.stateStream,
             this.refs.passwordConfirm.stateStream,
-            (e: any, f: any, l: any, p: any, pc: any)=> {console.log('hund2');
+            (e: any, f: any, l: any, p: any, pc: any)=> {
                 return {
                     valid    : e.valid && f.valid && l.valid && p.valid && pc.valid,
                     email    : e.value,

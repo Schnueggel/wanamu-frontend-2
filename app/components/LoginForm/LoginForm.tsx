@@ -1,104 +1,96 @@
 import * as React from 'react';
-import * as Rx from 'rx';
-import TextInput from '../Form/TextInput';
+import { Subject, Observable } from 'rx';
+import TextInput from 'components/Form/TextInput';
 import * as _ from 'lodash';
 
-export interface LoginFormProps extends __React.Props<LoginFormProps> {
+export interface ILoginFormProps extends __React.Props<ILoginFormProps> {
     email?: string;
     emailErrors?: Array<string>;
     passwordErrors?: Array<string>;
 }
 
-export interface  Refs {
+export interface  IRefs {
     [key: string]: __React.Component<any, any>;
     email: TextInput,
     password: TextInput,
     submit: __React.Component<any, any> & HTMLButtonElement
 }
 
-export interface SubmitStreamData {
+export interface ISubmitStreamData {
     username: string;
     password: string;
 }
 
-export default class LoginForm extends React.Component<LoginFormProps, any> {
+export default class LoginForm extends React.Component<ILoginFormProps, any> {
 
-    refs: Refs;
+    refs: IRefs;
 
     state: any = {
-        emailErrors: [],
-        passwordErrors: [],
-        isEmailValid: false,
-        isPasswordValid: false
+        valid: false
     };
 
-    private loginSubmitStream: Rx.ReplaySubject<SubmitStreamData>;
+    email: any = {
+        type   : 'email',
+        label  : 'Email',
+        ref    : 'email',
+        name   : 'email',
+        pattern: /[^ @]*@[^ @]*/,
+        errors : ['Please type your email']
+    };
+
+    password: any = {
+        type   : 'password',
+        label  : 'Password',
+        ref    : 'password',
+        name   : 'password',
+        pattern: /.+/,
+        errors : ['Password required']
+    };
+
+    private loginSubmitStream: Subject<ISubmitStreamData>;
+    private formStateStream: Observable<any>;
 
     /**
      *
      * @param props
      */
-    constructor(props:LoginFormProps){
+    constructor(props: ILoginFormProps) {
         super(props);
-
-        this.state.emailErrors = this.props.emailErrors;
-        this.state.passwordErrors = this.props.passwordErrors;
     }
 
     /**
      *
      * @returns {Rx.Observable<{email: string, password: string}>}
      */
-    getLoginSubmitStream(): Rx.Subject<SubmitStreamData> {
+    getLoginSubmitStream(): Subject<ISubmitStreamData> {
         if (this.loginSubmitStream === undefined) {
-            this.loginSubmitStream =  new Rx.ReplaySubject<SubmitStreamData>(1);
+            this.loginSubmitStream = new Subject<ISubmitStreamData>();
         }
 
         return this.loginSubmitStream;
     }
 
-    /**
-     *
-     * @param evt
-     */
-    validateEmail(evt) {
-        const isValid = evt.target.value.match(/^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@"]+)*)|(".+"))@(([^<>()[\]\.,;:\s@"]+\.)+[^<>()[\]\.,;:\s@"]{2,})$/i) !== null;
-
-        this.state.emailErrors = [];
-
-        if (isValid === false) {
-            this.state.emailErrors.push('Please enter a valid Email');
-        }
-
-        this.setState({
-            isEmailValid: isValid
-        });
-    }
-
-    /**
-     *
-     * @param evt
-     */
-    validatePassword(evt) {
-        const isValid = evt.target.value.match(/.+/) !== null;
-        this.state.passwordErrors = [];
-
-        if (isValid === false) {
-            this.state.passwordErrors.push('Password required');
-        }
-
-        this.setState({
-            isPasswordValid: isValid
-        });
-    }
-
     handleClick() {
-        this.getLoginSubmitStream().onNext(
-            {
-                username: this.refs.email.state.value,
-                password: this.refs.password.state.value
+        this.getLoginSubmitStream().onNext({
+            username: this.state.email,
+            password: this.state.password
+        });
+    }
+
+    componentDidMount() {
+        this.formStateStream = Observable.combineLatest(
+            this.refs.email.stateStream,
+            this.refs.password.stateStream,
+            (e: any, p: any)=> {
+                return {
+                    valid    : e.valid && p.valid,
+                    email    : e.value,
+                    password : p.value
+                }
             }
         );
+
+        this.formStateStream.subscribe((data)=> this.setState(data));
     }
 
     /**
@@ -106,31 +98,13 @@ export default class LoginForm extends React.Component<LoginFormProps, any> {
      * @returns {any}
      */
     render() {
-
-        const email:any = {
-            type: 'email',
-            label: 'Email',
-            ref: 'email',
-            name: 'email',
-            value: this.props.email,
-            errors: this.state.emailErrors,
-            onChange: this.validateEmail.bind(this)
-        },
-            password:any = {
-            type: 'password',
-            label: 'Password',
-            ref: 'password',
-            name: 'password',
-            errors: this.state.passwordErrors,
-            onChange: this.validatePassword.bind(this)
-        },
-            enabled = this.state.isEmailValid && this.state.isPasswordValid;
-
         return  <form name="login" action="#">
-            <TextInput {...email}/>
-            <TextInput {...password}/>
+            <TextInput {...this.email}/>
+            <TextInput {...this.password}/>
             <div className="form-actionbar">
-                <button type="button" className="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" ref="submit" onClick={this.handleClick.bind(this)} disabled={!enabled}>Login</button>
+                <button type="button" className="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" ref="submit" onClick={this.handleClick.bind(this)}
+                        disabled={!this.state.valid}>Login
+                </button>
             </div>
         </form>
     }
