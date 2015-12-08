@@ -1,36 +1,83 @@
 import * as React from 'react';
+import * as _ from 'lodash';
+import { Subject, Observable } from 'rx';
 
-export default class TextInput extends React.Component<wu.Form.ITextInputProps, any> {
+import ITextInputProps = wu.Form.ITextInputProps;
+
+interface IRef {
+    field: HTMLInputElement,
+    textbox: HTMLDivElement & IMaterialTexfield;
+}
+
+interface IMaterialTexfield {
+    MaterialTextfield: {
+        checkDirty(): boolean;
+        checkValidity(): boolean;
+    }
+}
+
+interface IState {
+    valid: boolean,
+    value: string
+}
+
+/**
+ * @class TextInput
+ * @namespace wu.components.Form
+ */
+export default class TextInput extends React.Component<ITextInputProps, IState> {
 
     state: any = {
         value: ''
     };
 
-    refs: any = {
-        field: HTMLInputElement
-    };
+    refs: IRef & any = {
+        field  : null,
+        textbox: null
+    } as IRef;
 
     private defaultId: string;
 
-    static defaultProps: wu.Form.ITextInputProps = {
-        errors: [],
-        value: '',
-        type: 'text',
-        className: '',
-        onBlur: () => {},
-        onChange: () => {}
-    } as wu.Form.ITextInputProps;
+    public stateStream: Observable<IState>;
 
-    constructor(props:wu.Form.ITextInputProps){
+    private startStream: Subject<IState>;
+
+    static defaultProps: ITextInputProps = {
+        errors   : [],
+        value    : '',
+        type     : 'text',
+        pattern  : /.*/,
+        className: '',
+        onBlur   : () => {
+        },
+        onChange : () => {
+        }
+    } as ITextInputProps;
+
+    /**
+     * @constructor
+     * @param props
+     */
+    constructor(props: ITextInputProps) {
         super(props);
-        this.defaultId = `generated-${new Date().getTime()}-${Math.floor(Math.random()*100000000)}`;
+        this.defaultId   = `generated-${new Date().getTime()}-${Math.floor(Math.random() * 100000000)}`;
         this.state.value = props.value;
+
+        this.startStream = new Subject<any>();
+        this.stateStream = this.startStream.map((evt: any) => {
+                const newState = {
+                    valid: this.props.pattern.test(evt.target.value),
+                    value: evt.target.value
+                };
+                this.setState(newState);
+                return newState;
+            })
+            .publish()
+            .refCount();
     }
 
     handleChange(evt) {
-        this.setState({
-            value: evt.target.value
-        });
+        this.startStream.onNext(evt);
         this.props.onChange(evt);
     }
 
@@ -38,26 +85,35 @@ export default class TextInput extends React.Component<wu.Form.ITextInputProps, 
         evt.target.select();
     }
 
-    render() {
-        let errs: JSX.Element[],
-            label:JSX.Element;
-        const id = this.props.id ? this.props.id : this.defaultId;
-        //Generate error elements
-        errs = this.props.errors.map(this.createErrorElements);
+    shouldComponentUpdate(nextProps: ITextInputProps, nextState: any) {
+        return _.isEqual(nextState, this.state) === false || _.isEqual(nextProps, this.props) === false;
+    }
 
-        if (this.props.label) {
-            label = <label className="mdl-textfield__label" htmlFor={id}>{this.props.label}</label>
+    render() {
+        const id   = this.props.id ? this.props.id : this.defaultId,
+              errs = this.props.errors.map(this.createErrorElements);
+
+        let className = this.props.className;
+
+        if (this.state.value) {
+            className += ' is-dirty';
         }
 
-        return  (<div className={`mdl-textfield mdl-js-textfield ${this.props.className}`}>
-            <input type={this.props.type} ref="field" className="mdl-textfield__input" value={this.state.value} id={id}
-                   onBlur={this.props.onBlur} onChange={this.handleChange.bind(this)} onFocus={this.handeFieldOnFocus.bind(this)}/>
+        if (this.state.valid === false) {
+            className += ' is-invalid';
+        }
+
+        const label = this.props.label ? <label className="wu-textfield__label" htmlFor={id}>{this.props.label}</label> : null;
+
+        return (<div className={`wu-textfield wu-js-textfield ${className}`} ref="textbox">
+            <input type={this.props.type} ref="field" className="wu-textfield__input" value={this.state.value} id={id}
+                   onBlur={this.props.onBlur} onChange={this.handleChange.bind(this)} onFocus={this.handeFieldOnFocus.bind(this)} noValidate name={this.props.name}/>
             {label}
             {errs}
         </div>);
     }
 
     createErrorElements(text, key) {
-        return <span className="mdl-textfield__error" key={key}>{text}</span>
+        return <span className="wu-textfield__error" key={key}>{text}</span>
     }
 }

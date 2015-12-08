@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Subject } from 'rx';
+import { Subject, Observable } from 'rx';
 import TextInput from '../Form/TextInput';
 import RadioButton from '../Form/RadioButton';
 import * as _ from 'lodash';
@@ -25,66 +25,106 @@ export interface ISubmitStreamData {
 export class RegisterForm extends React.Component<IRegisterFormProps, any> {
 
     refs: any = {
-        email: TextInput,
-        password: TextInput,
+        email          : TextInput,
+        password       : TextInput,
         passwordConfirm: TextInput,
-        lastname: TextInput,
-        firstname: TextInput
+        lastname       : TextInput,
+        firstname      : TextInput
     };
 
     state: any = {
-        salutation: '',
-        emailErrors: [],
-        passwordErrors: [],
-        passwordConfirmErrors: [],
-        lastnameErrors: [],
-        firstnameErrors: [],
-        isEmailValid: false,
-        isPasswordValid: false,
+        salutation            : '',
+        emailErrors           : [],
+        passwordErrors        : [],
+        passwordConfirmErrors : [],
+        lastnameErrors        : [],
+        firstnameErrors       : [],
+        isEmailValid          : false,
+        isPasswordValid       : false,
         isPasswordConfirmValid: false,
-        isFirstnameValid: false,
-        isLastnameValid: false
+        isFirstnameValid      : false,
+        isLastnameValid       : false
     };
 
-    private registerSubmitStream: Subject<ISubmitStreamData>;
+    email: any = {
+        type   : 'email',
+        label  : 'Email',
+        ref    : 'email',
+        name   : 'email',
+        pattern: /[^ @]*@[^ @]*/,
+        errors : ['Valid Email required']
+    };
+
+    password: any = {
+        type    : 'password',
+        label   : 'Password',
+        ref     : 'password',
+        name    : 'password',
+        pattern : /(.+){8,}/,
+        errors  : ['Password must be at least 8 chars long'],
+        onChange: this.validatePassword.bind(this)
+    };
+
+    passwordConfirm: any = {
+        type   : 'password',
+        label  : 'Confirm Password',
+        ref    : 'passwordConfirm',
+        name   : 'password-confirm',
+        pattern: /.+/,
+        errors : ['Confirm your password']
+    };
+
+    lastname: any = {
+        type   : 'text',
+        label  : 'Lastname',
+        ref    : 'lastname',
+        name   : 'lastname',
+        pattern: /.+/,
+        errors : ['Lastname is required']
+    };
+
+    firstname: any = {
+        type   : 'text',
+        label  : 'Firstname',
+        ref    : 'firstname',
+        name   : 'firstname',
+        pattern: /.+/,
+        errors : ['Lastname is required']
+    };
+
+    private formStateStream: Observable<any>;
 
     /**
      * @constructor
      * @param props
      */
-    constructor(props:IRegisterFormProps){
+    constructor(props: IRegisterFormProps) {
         super(props);
         this.state.salutation = props.salutation;
     }
 
     /**
-     *
-     * @returns {Rx.Observable<{email: string, password: string}>}
+     * Lifecycle
      */
-    getRegisterSubmitStream(): Subject<ISubmitStreamData> {
-        if (this.registerSubmitStream === undefined) {
-            this.registerSubmitStream =  new Subject<ISubmitStreamData>();
-        }
+    componentDidMount() {
+        this.formStateStream = Observable.combineLatest(
+            this.refs.email.stateStream,
+            this.refs.firstname.stateStream,
+            this.refs.lastname.stateStream,
+            this.refs.password.stateStream,
+            this.refs.passwordConfirm.stateStream,
+            (e: any, f: any, l: any, p: any, pc: any)=> {console.log('hund2');
+                return {
+                    valid    : e.valid && f.valid && l.valid && p.valid && pc.valid,
+                    email    : e.value,
+                    firstname: f.value,
+                    lastname : l.value,
+                    password : p.value
+                }
+            }
+            );
 
-        return this.registerSubmitStream;
-    }
-
-    /**
-     *
-     * @param evt
-     */
-    validateEmail(evt: any) {
-        const isValid = evt.target.value.match(/^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@"]+)*)|(".+"))@(([^<>()[\]\.,;:\s@"]+\.)+[^<>()[\]\.,;:\s@"]{2,})$/i) !== null;
-
-        this.state.emailErrors = [];
-
-        if (isValid === false) {
-            this.state.emailErrors.push('Please enter a valid Email');
-        }
-
-        this.setState({
-            isEmailValid: isValid
-        });
+        this.formStateStream.subscribe((data)=> this.setState(data));
     }
 
     /**
@@ -92,71 +132,10 @@ export class RegisterForm extends React.Component<IRegisterFormProps, any> {
      * @param evt
      */
     validatePassword(evt: any) {
-        let isValid = evt.target.value.match(/.+/) !== null;
-        this.state.passwordErrors = [];
-
-        if (isValid === false) {
-            this.state.passwordErrors.push('Password required');
-        }
-
-        if (evt.target.value !== this.refs.passwordConfirm.refs.field.value) {
-            isValid = false;
-        }
+        this.passwordConfirm.pattern = new RegExp(evt.target.value);
 
         this.setState({
-            isPasswordValid: isValid
-        });
-    }
-
-    /**
-     *
-     * @param evt
-     */
-    validatePasswordConfirm(evt: any) {
-        const isValid = evt.target.value === this.refs.password.refs.field.value;
-        this.state.passwordConfirmErrors = [];
-
-        if (isValid === false) {
-            this.state.passwordConfirmErrors.push('Password confirmation must match password');
-        }
-
-        this.setState({
-            isPasswordValid: isValid ? true : this.state.isPasswordValid,
-            isPasswordConfirmValid: isValid
-        });
-    }
-
-    /**
-     *
-     * @param evt
-     */
-    validateLastname(evt) {
-        const isValid = evt.target.value.match(/.+/) !== null;
-        this.state.lastnameErrors = [];
-
-        if (isValid === false) {
-            this.state.lastnameErrors.push('Firstname required');
-        }
-
-        this.setState({
-            isLastnameValid: isValid
-        });
-    }
-
-    /**
-     *
-     * @param evt
-     */
-    validateFirstname(evt) {
-        const isValid = evt.target.value.match(/.+/) !== null;
-        this.state.firstnameErrors = [];
-
-        if (isValid === false) {
-            this.state.firstnameErrors.push('Firstname required');
-        }
-
-        this.setState({
-            isFirstnameValid: isValid
+            pattern: this.password.pattern
         });
     }
 
@@ -171,19 +150,15 @@ export class RegisterForm extends React.Component<IRegisterFormProps, any> {
     }
 
     handleSubmit() {
-        if (this.isFormValid()) {
+        if (this.state.valid) {
             this.props.handleSubmit({
                 salutation: this.state.salutation,
-                email: this.refs.email.refs.field.value,
-                password: this.refs.password.refs.field.value,
-                firstname: this.refs.firstname.refs.field.value,
-                lastname: this.refs.lastname.refs.field.value
+                email     : this.state.email,
+                password  : this.state.password,
+                firstname : this.state.firstname,
+                lastname  : this.state.lastname
             });
         }
-    }
-
-    isFormValid(): boolean {
-        return this.state.isEmailValid && this.state.isPasswordValid && this.state.isFirstnameValid && this.state.isLastnameValid;
     }
 
     /**
@@ -191,74 +166,34 @@ export class RegisterForm extends React.Component<IRegisterFormProps, any> {
      * @returns {any}
      */
     render() {
-        const email:any = {
-            type: 'email',
-            label: 'Email',
-            ref: 'email',
-            name: 'email',
-            errors: this.state.emailErrors,
-            onChange: this.validateEmail.bind(this)
-        },
-        password:any = {
-            type: 'password',
-            label: 'Password',
-            ref: 'password',
-            name: 'password',
-            errors: this.state.passwordErrors,
-            onChange: this.validatePassword.bind(this)
-        },
-        passwordConfirm:any = {
-            type: 'password',
-            label: 'Confirm Password',
-            ref: 'passwordConfirm',
-            name: 'password-confirm',
-            errors: this.state.passwordConfirmErrors,
-            onChange: this.validatePasswordConfirm.bind(this)
-        },
-        lastname: any = {
-            type: 'text',
-            label: 'Lastname',
-            ref: 'lastname',
-            name: 'lastname',
-            errors: this.state.lastnameErrors,
-            onChange: this.validateFirstname.bind(this)
-        },
-        firstname: any = {
-            type: 'text',
-            label: 'Firstname',
-            ref: 'firstname',
-            name: 'firstname',
-            errors: this.state.firstnameErrors,
-            onChange: this.validateLastname.bind(this)
-        },
-        disabled = !this.isFormValid();
+        const disabled = !this.state.valid;
 
         return (
-           <form name="register" action="#">
+            <form name="register" action="#">
                 <div>
-                {this.createSalutationRadioButtons()}
+                    {this.createSalutationRadioButtons()}
                 </div>
-                <TextInput {...email} />
-                <TextInput {...firstname} />
-                <TextInput {...lastname} />
-                <TextInput {...password} />
-                <TextInput {...passwordConfirm} />
+                <TextInput {...this.email} />
+                <TextInput {...this.firstname} />
+                <TextInput {...this.lastname} />
+                <TextInput {...this.password} />
+                <TextInput {...this.passwordConfirm} />
                 <div className="form-actionbar">
                     <button type="button" className="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" ref="submit"
                             onClick={this.handleSubmit.bind(this)} disabled={disabled}>Register
                     </button>
                 </div>
             </form>
-         );
+        );
     }
 
     /**
      * Creates the saluation radio buttons
      */
     createSalutationRadioButtons() {
-        return this.props.salutations.map(( sal ) => (
+        return this.props.salutations.map((sal) => (
                 <RadioButton name="salutation" value={sal.id} id={`register-salutation-${sal.id}`} key={sal.id} label={sal.name} checked={this.state.salutation === sal.id}
-                                 onChange={this.handleSalutationChange.bind(this)}/>
+                             onChange={this.handleSalutationChange.bind(this)}/>
             )
         );
     }

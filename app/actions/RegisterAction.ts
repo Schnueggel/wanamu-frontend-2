@@ -11,7 +11,7 @@ export class RegisterAction {
 
     registerRequestStartSubject: Subject<IUser>;
 
-    constructor() {console.log( registerService );
+    constructor() {
         this.registerRequestStartSubject = new Subject<IUser>();
 
         this.registerRequestStream = registerService

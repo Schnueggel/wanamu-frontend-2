@@ -1,11 +1,6 @@
 declare module wu {
 
     module Form {
-        interface Validator {
-            regex: RegExp;
-            text: string;
-        }
-
         interface IRadioButton extends IInputElementProps<IRadioButton> {
             label: string;
             checked?: boolean;
@@ -14,6 +9,7 @@ declare module wu {
         }
 
         interface ITextInputProps extends IInputElementProps<ITextInputProps> {
+            pattern?: RegExp;
             type?: string;
         }
 

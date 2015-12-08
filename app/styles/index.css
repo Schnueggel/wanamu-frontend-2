@@ -1,4 +1,4 @@
-input[type="text"], textarea {
+input, textarea {
     outline: none;
 }
 
@@ -26,7 +26,7 @@ input:-webkit-autofill {
     text-align: center;
 }
 
-.wu-theme-1 .login.mdl-card .mdl-textfield, .wu-theme-1 .register.mdl-card .mdl-textfield  {
+.wu-theme-1 .login.mdl-card .mdl-textfield, .wu-theme-1 .register.mdl-card .wu-textfield  {
     width: 600px;
 }
 
@@ -88,3 +88,137 @@ input:-webkit-autofill {
     background-color: var(--color1);
     color: white;
 }
+
+/*
+ Originally mdl textfield code
+ Would be nicer with nested css like sass but webstorm does not support nested css with cssnext
+ Perhaps I should switch to Atom
+ TODO think about it :)
+*/
+.wu-textfield {
+    position: relative;
+    font-size: 16px;
+    display: block;
+    box-sizing: border-box;
+    width: 300px;
+    max-width: 100%;
+    margin: 0;
+    padding: 20px 0; }
+.wu-textfield .mdl-button {
+    position: absolute;
+    bottom: 20px; }
+
+.wu-textfield--align-right {
+    text-align: right; }
+
+.wu-textfield--full-width {
+    width: 100%; }
+
+.wu-textfield--expandable {
+    min-width: 32px;
+    width: auto;
+    min-height: 32px; }
+
+.wu-textfield__input {
+    border: none;
+    border-bottom: 1px solid rgba(0,0,0, 0.12);
+    display: block;
+    font-size: 16px;
+    margin: 0;
+    padding: 4px 0;
+    width: 100%;
+    background: none;
+    text-align: left;
+    color: inherit; }
+.wu-textfield.is-focused .wu-textfield__input {
+    outline: none; }
+.wu-textfield.is-invalid .wu-textfield__input {
+    border-color: rgb(222, 50, 38);
+    box-shadow: none; }
+.wu-textfield.is-disabled .wu-textfield__input {
+    background-color: transparent;
+    border-bottom: 1px dotted rgba(0,0,0, 0.12);
+    color: rgba(0,0,0, 0.26); }
+
+.wu-textfield textarea.wu-textfield__input {
+    display: block; }
+
+.wu-textfield__label {
+    bottom: 0;
+    color: rgba(0,0,0, 0.26);
+    font-size: 16px;
+    left: 0;
+    right: 0;
+    pointer-events: none;
+    position: absolute;
+    display: block;
+    top: 24px;
+    width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-align: left; }
+.wu-textfield.is-dirty .wu-textfield__label {
+    visibility: hidden; }
+.wu-textfield--floating-label .wu-textfield__label {
+    -webkit-transition-duration: 0.2s;
+    transition-duration: 0.2s;
+    -webkit-transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); }
+.wu-textfield.is-disabled.is-disabled .wu-textfield__label {
+    color: rgba(0,0,0, 0.26); }
+.wu-textfield--floating-label.is-focused .wu-textfield__label,
+.wu-textfield--floating-label.is-dirty .wu-textfield__label {
+    color: rgb(63,81,181);
+    font-size: 12px;
+    top: 4px;
+    visibility: visible; }
+.wu-textfield--floating-label.is-focused .wu-textfield__expandable-holder .wu-textfield__label,
+.wu-textfield--floating-label.is-dirty .wu-textfield__expandable-holder .wu-textfield__label {
+    top: -16px; }
+.wu-textfield--floating-label.is-invalid .wu-textfield__label {
+    color: rgb(222, 50, 38);
+    font-size: 12px; }
+.wu-textfield__label:after {
+    background-color: rgb(63,81,181);
+    bottom: 20px;
+    content: '';
+    height: 2px;
+    left: 45%;
+    position: absolute;
+    -webkit-transition-duration: 0.2s;
+    transition-duration: 0.2s;
+    -webkit-transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    visibility: hidden;
+    width: 10px; }
+.wu-textfield.is-focused .wu-textfield__label:after {
+    left: 0;
+    visibility: visible;
+    width: 100%; }
+.wu-textfield.is-invalid .wu-textfield__label:after {
+    background-color: rgb(222, 50, 38); }
+
+.wu-textfield__error {
+    color: rgb(222, 50, 38);
+    position: absolute;
+    font-size: 12px;
+    margin-top: 3px;
+    visibility: hidden;
+    display: block; }
+.wu-textfield.is-invalid .wu-textfield__error {
+    visibility: visible; }
+
+.wu-textfield__expandable-holder {
+    display: inline-block;
+    position: relative;
+    margin-left: 32px;
+    -webkit-transition-duration: 0.2s;
+    transition-duration: 0.2s;
+    -webkit-transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    display: inline-block;
+    max-width: 0.1px; }
+.wu-textfield.is-focused .wu-textfield__expandable-holder, .wu-textfield.is-dirty .wu-textfield__expandable-holder {
+    max-width: 600px; }
+.wu-textfield__expandable-holder .wu-textfield__label:after {
+    bottom: 0; }
