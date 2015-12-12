@@ -5,14 +5,14 @@
   "main": "public/index.html",
   "dependencies": {
     "axios": "git+https://github.com/mzabriskie/axios",
-    "history": "^1.13.1",
+    "history": "^1.16.0",
     "immutable": "^3.7.5",
     "lodash": "^3.10.1",
     "moment": "^2.10.6",
     "q": "^1.4.1",
     "react": "^0.14.3",
     "react-dom": "^0.14.3",
-    "react-router": "^1.0.0",
+    "react-router": "^1.0.2",
     "rx": "^4.0.7"
   },
   "devDependencies": {
