@@ -6,14 +6,7 @@ import ITextInputProps = wu.Form.ITextInputProps;
 
 interface IRef {
     field: HTMLInputElement,
-    textbox: HTMLDivElement & IMaterialTexfield;
-}
-
-interface IMaterialTexfield {
-    MaterialTextfield: {
-        checkDirty(): boolean;
-        checkValidity(): boolean;
-    }
+    textbox: HTMLDivElement;
 }
 
 interface IState {

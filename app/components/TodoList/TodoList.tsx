@@ -1,10 +1,19 @@
 import * as React from 'react';
 import * as Rx from 'rx';
+import * as _ from 'lodash';
 import Todo from './Todo';
+import ITodo = wu.model.data.ITodo;
 
 export interface ITodoListProps extends __React.Props<ITodoListProps> {
     todolist: wu.model.data.ITodoList;
+    showTodos?: VisibleTodos,
     onTodoChange?(todo: wu.model.data.ITodo);
+}
+
+export class VisibleTodos {
+    static All      = 'All';
+    static Finished = 'Finished';
+    static Open     = 'Open';
 }
 
 /**
@@ -16,33 +25,25 @@ export class TodoList extends React.Component<ITodoListProps, any> {
     todolist: wu.model.data.ITodoList;
 
     refs: any = {
-        email: HTMLInputElement,
+        email   : HTMLInputElement,
         password: HTMLInputElement,
     };
 
     state: any = {};
 
+    static defaultProps: ITodoListProps = {
+        showTodos   : VisibleTodos.Open,
+        todolist    : null,
+        onTodoChange: () => {
+        }
+    } as ITodoListProps;
+
     /**
      * Constructor
      * @param props
      */
-    constructor(props:ITodoListProps){
+    constructor(props: ITodoListProps) {
         super(props);
-
-        this.todolist = props.todolist;
-
-        if (_.isFunction(props.onTodoChange) === false) {
-            props.onTodoChange = () => {};
-        }
-    }
-
-
-    /**
-     * React lifecycle
-     * @param nextProps
-     */
-    componentWillUpdate(nextProps: ITodoListProps) {
-        this.todolist = nextProps.todolist;
     }
 
     /**
@@ -50,7 +51,7 @@ export class TodoList extends React.Component<ITodoListProps, any> {
      * @param nextProps
      */
     shouldComponentUpdate(nextProps: ITodoListProps, nextState: any) {
-        return nextProps.todolist !== this.todolist || this.state !== nextState;
+        return nextProps.todolist !== this.props.todolist || nextProps.showTodos !== this.props.showTodos || _.isEqual(this.state, nextState);
     }
 
     render() {
@@ -59,14 +60,27 @@ export class TodoList extends React.Component<ITodoListProps, any> {
         </div>);
     }
 
-    createTodos() {
-        if (this.todolist.Todos === undefined) {
-            return null;
+    isTodoVisible(todo: ITodo): boolean {
+        switch (true) {
+            case this.props.showTodos === VisibleTodos.All:
+            case todo.finished === false && this.props.showTodos === VisibleTodos.Open:
+            case todo.finished === true && this.props.showTodos === VisibleTodos.Finished:
+                return true;
+            default:
+                console.log(todo.finished, this.props.showTodos);
+                return false;
         }
-        return this.todolist.Todos.valueSeq().map(this.createTodo.bind(this));
     }
 
-    createTodo(todo: wu.model.data.ITodo) {
-        return <Todo todo={todo} key={todo.id} onTodoChange={this.props.onTodoChange} />
+    createTodos() {
+        if (this.props.todolist.Todos === undefined) {
+            return null;
+        }
+        console.log(this.props.todolist.Todos.valueSeq());
+        return this.props.todolist.Todos.valueSeq().filter((t: ITodo) => this.isTodoVisible(t)).map(this.createTodo.bind(this));
+    }
+
+    createTodo(todo: ITodo) {
+        return <Todo todo={todo} key={todo.id} onTodoChange={this.props.onTodoChange.bind(this)}/>
     }
 }

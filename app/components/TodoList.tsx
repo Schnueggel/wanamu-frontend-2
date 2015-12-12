@@ -2,6 +2,8 @@ import * as React from 'react';
 import * as _ from 'lodash';
 import * as TList from 'components/TodoList/TodoList';
 import * as Actions from 'actions/actions';
+import { Select, IState as SelectIState } from 'components/Form/Select';
+import { VisibleTodos } from 'components/TodoList/TodoList';
 
 export interface ITodoListProps extends wu.IControlProps<ITodoListProps> {
     params: {
@@ -17,11 +19,23 @@ export default class TodoList extends React.Component<ITodoListProps, any> {
 
     private id: number;
 
-    refs: any = {
-        todolist: TList.TodoList
+    state: any = {
+        todoVisiblityState: VisibleTodos.All
     };
 
-    constructor(props:ITodoListProps) {
+    refs: {
+        [index:string]: any,
+        todolist: TList.TodoList,
+        todosVisible: Select
+    };
+
+    options: Array<{key: string, value:any}> = [
+        {key: VisibleTodos.All, value: 'All'},
+        {key: VisibleTodos.Open, value: 'Open'},
+        {key: VisibleTodos.Finished, value: 'Finished'}
+    ];
+
+    constructor(props: ITodoListProps) {
         super(props);
         this.convertId();
     }
@@ -36,10 +50,17 @@ export default class TodoList extends React.Component<ITodoListProps, any> {
 
     componentWillMount() {
         Actions.todoListAction.doGetTodoList(this.id);
+
     }
 
     componentDidMount() {
         componentHandler.upgradeDom();
+
+        this.refs.todosVisible.stateStream.subscribe((state: SelectIState) => {
+            this.setState({
+                todoVisibilityState: state.value
+            })
+        });
     }
 
     convertId() {
@@ -56,7 +77,13 @@ export default class TodoList extends React.Component<ITodoListProps, any> {
         const todolist = this.props.appState.todos.todolist || {} as any;
 
         if (todolist) {
-            return <TList.TodoList todolist={todolist} onTodoChange={this.handleTodoChange.bind(this)} ref="todolist"/>
+            return (
+                <div>
+                    <div className="wu-actionbar">
+                        <Select options={this.options} label="Select Todo" ref="todosVisible" value={VisibleTodos.Open}/>
+                    </div>
+                    <TList.TodoList todolist={todolist} onTodoChange={this.handleTodoChange.bind(this)} ref="todolist" showTodos={this.state.todoVisibilityState}/>
+                </div>)
         }
     }
 }

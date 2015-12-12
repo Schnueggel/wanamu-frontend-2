@@ -14,12 +14,12 @@ export default class IconButton extends React.Component<IIconButtonProps, any> {
     };
 
     static defaultProps: IIconButtonProps = {
-        icon: '',
+        icon     : '',
         className: '',
-        disabled: false
+        disabled : false
     };
 
-    constructor(props:IIconButtonProps){
+    constructor(props: IIconButtonProps) {
         super(props);
     }
 

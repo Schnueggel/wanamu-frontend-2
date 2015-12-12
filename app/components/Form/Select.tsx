@@ -5,11 +5,11 @@ import { Subject, Observable } from 'rx';
 import ISelectProps = wu.Form.ISelectProps;
 import IOption = wu.Form.IOption;
 
-interface IRef {
+export interface IRef {
     field: HTMLInputElement
 }
 
-interface IState {
+export interface IState {
     valid: boolean;
     value: string;
 }
@@ -56,9 +56,10 @@ export class Select extends React.Component<ISelectProps, IState> {
 
         this.startStream = new Subject<any>();
         this.stateStream = this.startStream.map((evt: any) => {
+                const val = evt.target.options[evt.target.selectedIndex].value;
                 const newState = {
-                    valid: this.props.pattern.test(evt.target.value),
-                    value: evt.target.value
+                    valid: this.props.pattern.test(val),
+                    value: val
                 };
                 this.setState(newState);
                 return newState;
@@ -92,8 +93,9 @@ export class Select extends React.Component<ISelectProps, IState> {
 
         const options = this.props.options.map(this.createOptions.bind(this));
 
-        const label = this.props.label ? <label className="wu-textfield__label" htmlFor={id}></label> : null;
+        const label = this.props.label ? <label className="wu-textfield__label" htmlFor={id}/> : null;
 
+        console.log(this.state.value);
         return (<div className={`wu-select wu-textfield wu-js-textfield ${className}`} ref="textbox">
                 <select ref="field" className="wu-textfield__input" value={this.state.value} id={id}
                         onBlur={this.props.onBlur} onChange={this.handleChange.bind(this)} noValidate name={this.props.name}>

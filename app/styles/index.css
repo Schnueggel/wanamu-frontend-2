@@ -109,6 +109,12 @@ input:-webkit-autofill {
 }
 
 /*
+ Actionbar
+*/
+.wu-actionbar {
+    padding: 0.2rem 1rem;
+}
+/*
  Originally mdl textfield code
  Would be nicer with nested css like sass but webstorm does not support nested css with cssnext
  Perhaps I should switch to Atom

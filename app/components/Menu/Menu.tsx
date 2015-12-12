@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {Link, IndexLink} from 'react-router';
+import { Link, IndexLink } from 'react-router';
 
 export interface IMenuProps {
     title: string;

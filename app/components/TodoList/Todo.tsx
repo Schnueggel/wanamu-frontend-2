@@ -122,6 +122,10 @@ export default class Todo extends React.Component<ITodoProps, ITodoState> {
         this.triggerTodoChanged(this.todo.set('finished', true));
     }
 
+    handleUndo() {
+        this.triggerTodoChanged(this.todo.set('finished', false));
+    }
+
     pickColor(color) {
         if (color === this.todo.color) {
             return;
@@ -143,19 +147,22 @@ export default class Todo extends React.Component<ITodoProps, ITodoState> {
      */
     render() {
         const color = this.todo.color ? this.todo.color : Todo.colors.color1,
-            descriptionHide = this.state.editDescription || this.todo.description ? false : true,
+            descriptionHideClass = this.state.editDescription || this.todo.description ? 'hidden' : '',
+              doneHideClass = this.todo.finished ? 'hidden' : '',
+              undoHideClass = this.todo.finished ? '' : 'hidden',
             colorPickHidden = this.state.colorPick ? '' : 'hidden';
 
         return  (<div className={`todo mdl-card mdl-shadow--2dp`}>
             <div className={`mdl-card__title mdl-card--expand ${color}`}>
                 <TextInput value={this.todo.title} onBlur={this.handleTextOnBlur.bind(this)} label="Todo text"/>
             </div>
-            <div class="mdl-card__supporting-text" is="true" hide={descriptionHide}>
+            <div class={`mdl-card__supporting-text ${descriptionHideClass}`}>
                 { this.state.editDescription ? null :<div onClick={this.handleEditDescription.bind(this)} hide={this.state.editDescription} >{this.todo.description}</div> }
                 <TextArea value={this.todo.description} label="Description" rows={3} onBlur={this.handleDescriptionBlur.bind(this)} ref="description" hide={!this.state.editDescription} />
             </div>
             <div className="mdl-card__menu">
-                <IconButton icon="done" onClick={this.handleDone.bind(this)} />
+                <IconButton icon="undo" onClick={this.handleUndo.bind(this)} className={undoHideClass}/>
+                <IconButton icon="done" onClick={this.handleDone.bind(this)} className={doneHideClass}/>
                 <span className="mdl-layout-spacer"/>
                 <IconButton icon="subject" onClick={this.handleEditDescription.bind(this)} />
                 <IconButton icon="color_lens" onClick={this.handleColorPick.bind(this)} />
