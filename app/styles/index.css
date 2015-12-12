@@ -1,4 +1,4 @@
-input, textarea {
+input, textarea, select {
     outline: none;
 }
 
@@ -87,9 +87,25 @@ input:-webkit-autofill {
     padding-top: 0.3rem;
     padding-bottom: 0.3rem;
 }
+.wu-theme-1 .todo .mdl-card__menu {
+    display: flex;
+    width: 95%;
+    width: calc(100% - 32px);
+}
 .wu-theme-1 .mdl-layout__drawer .mdl-navigation__link.active {
     background-color: var(--color1);
     color: white;
+}
+
+/*
+ Select
+*/
+.wu-select.wu-textfield {
+   width: auto;
+}
+
+.wu-select select.wu-textfield__input {
+    width: auto;
 }
 
 /*
@@ -224,4 +240,5 @@ input:-webkit-autofill {
 .wu-textfield.is-focused .wu-textfield__expandable-holder, .wu-textfield.is-dirty .wu-textfield__expandable-holder {
     max-width: 600px; }
 .wu-textfield__expandable-holder .wu-textfield__label:after {
-    bottom: 0; }
+    bottom: 0;
+}

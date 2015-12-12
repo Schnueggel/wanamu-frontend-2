@@ -8,6 +8,16 @@ declare module wu {
             id: string;
         }
 
+        interface ISelectProps extends IInputElementProps<ITextInputProps> {
+            pattern?: RegExp;
+            options: Array<IOption>;
+        }
+
+        interface IOption {
+            key: any;
+            value: any;
+        }
+
         interface ITextInputProps extends IInputElementProps<ITextInputProps> {
             pattern?: RegExp;
             type?: string;
@@ -22,8 +32,8 @@ declare module wu {
             className?: string;
             label?: string;
             id?: string;
-            hide?: boolean;
             name?: string;
+            hide?: boolean;
             errors?: Array<string>;
             onChange?: (ev?:__React.FormEvent) => any;
             onBlur?: (ev?:__React.FormEvent) => any;
