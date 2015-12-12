@@ -33,7 +33,6 @@ declare namespace __React {
      */
     interface HTMLAttributes {
         'for'?: string;
-        'is'?: any;
         'class'?: any;
         'hide'?: boolean;
     }
@@ -46,12 +45,6 @@ declare module 'history/lib/createBrowserHistory' {
     }
     export default createBrowserHistory;
 }
-
-declare module ReactRouter {
-    interface IndexLinkClass extends ReactRouter.LinkClass{}
-    let IndexLink:IndexLinkClass;
-}
-
 
 declare module axios {
 

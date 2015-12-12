@@ -47,7 +47,7 @@ export default class TextArea extends React.Component<wu.Form.ITextAreaProps, an
             label = <label className="mdl-textfield__label" htmlFor={this.props.id}>{this.props.label}</label>
         }
 
-        return (<div class="mdl-textfield mdl-js-textfield" is ref="text" hide={this.props.hide}>
+        return (<div class="mdl-textfield mdl-js-textfield" is="true" ref="text" hide={this.props.hide}>
             <textarea className="mdl-textfield__input" rows={this.props.rows} ref="field" id={this.props.id}  value={this.state.value}
                       onBlur={this.props.onBlur} onChange={this.handleChange.bind(this)}>
             </textarea>

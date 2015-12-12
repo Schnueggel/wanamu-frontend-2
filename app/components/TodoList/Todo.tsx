@@ -144,7 +144,7 @@ export default class Todo extends React.Component<ITodoProps, ITodoState> {
             <div className={`mdl-card__title mdl-card--expand ${color}`}>
                 <TextInput value={this.todo.title} onBlur={this.handleTextOnBlur.bind(this)} label="Todo text"/>
             </div>
-            <div class="mdl-card__supporting-text" is hide={descriptionHide}>
+            <div class="mdl-card__supporting-text" is="true" hide={descriptionHide}>
                 { this.state.editDescription ? null :<div onClick={this.handleEditDescription.bind(this)} hide={this.state.editDescription} >{this.todo.description}</div> }
                 <TextArea value={this.todo.description} label="Description" rows={3} onBlur={this.handleDescriptionBlur.bind(this)} ref="description" hide={!this.state.editDescription} />
             </div>
