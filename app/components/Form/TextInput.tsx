@@ -57,25 +57,30 @@ export default class TextInput extends React.Component<ITextInputProps, IState> 
         this.state.value = props.value;
 
         this.startStream = new Subject<any>();
-        this.stateStream = this.startStream.map((evt: any) => {
-                const newState = {
-                    valid: this.props.pattern.test(evt.target.value),
-                    value: evt.target.value
-                };
-                this.setState(newState);
-                return newState;
+        this.stateStream = this.startStream.map(() => {
+                return this.state;
             })
             .publish()
             .refCount();
     }
 
     handleChange(evt) {
-        this.startStream.onNext(evt);
+        this.setState({
+            valid: this.props.pattern.test(evt.target.value),
+            value: evt.target.value
+        });
+
         this.props.onChange(evt);
     }
 
     handeFieldOnFocus(evt) {
         evt.target.select();
+    }
+
+    componentWillUpdatee(nextProps: ITextInputProps, nextState: any) {
+        if (_.isEqual(nextState, this.state) === false) {
+            this.startStream.onNext(null);
+        }
     }
 
     shouldComponentUpdate(nextProps: ITextInputProps, nextState: any) {
