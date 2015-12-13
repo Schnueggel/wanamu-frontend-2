@@ -4,7 +4,7 @@ const recordDefault: wu.model.data.ITodoClass = {
     id: -1,
     TodoListId: -1,
     title: '',
-    alarm: '',
+    alarm: null,
     description: '',
     order: 0,
     repeat: false,

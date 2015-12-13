@@ -1,5 +1,5 @@
-import {Observable, Subject} from 'rx';
-import todoListService from 'services/TodoListService';
+import { Observable, Subject } from 'rx';
+import { todoListService } from 'services/TodoListService';
 import * as _ from 'lodash';
 
 /**

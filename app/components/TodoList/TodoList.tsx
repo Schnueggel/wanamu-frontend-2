@@ -8,6 +8,7 @@ export interface ITodoListProps extends __React.Props<ITodoListProps> {
     todolist: wu.model.data.ITodoList;
     showTodos?: VisibleTodos,
     onTodoChange?(todo: wu.model.data.ITodo);
+    onTodoAdd?();
 }
 
 export class VisibleTodos {
@@ -35,6 +36,8 @@ export class TodoList extends React.Component<ITodoListProps, any> {
         showTodos   : VisibleTodos.Open,
         todolist    : null,
         onTodoChange: () => {
+        },
+        onTodoAdd   : () => {
         }
     } as ITodoListProps;
 
@@ -57,6 +60,9 @@ export class TodoList extends React.Component<ITodoListProps, any> {
     render() {
         return (<div className="todolist">
             {this.createTodos()}
+            <div className={`todo todo-add mdl-card mdl-shadow--2dp`} onClick={this.props.onTodoAdd}>
+                <div className="todo__content">+</div>
+            </div>
         </div>);
     }
 
@@ -67,7 +73,6 @@ export class TodoList extends React.Component<ITodoListProps, any> {
             case todo.finished === true && this.props.showTodos === VisibleTodos.Finished:
                 return true;
             default:
-                console.log(todo.finished, this.props.showTodos);
                 return false;
         }
     }
@@ -76,7 +81,7 @@ export class TodoList extends React.Component<ITodoListProps, any> {
         if (this.props.todolist.Todos === undefined) {
             return null;
         }
-        console.log(this.props.todolist.Todos.valueSeq());
+
         return this.props.todolist.Todos.valueSeq().filter((t: ITodo) => this.isTodoVisible(t)).map(this.createTodo.bind(this));
     }
 

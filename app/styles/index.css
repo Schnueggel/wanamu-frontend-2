@@ -17,6 +17,15 @@ input:-webkit-autofill {
     --color4: rgb(63,81,181);
     --color5: rgb(139,195,74);
 }
+
+/**
+  Layout
+**/
+.wu-theme-1 .mdl-layout__drawer .mdl-navigation__link.active {
+    background-color: var(--color1);
+    color: white;
+}
+
 .wu-theme-1 .mdl-card form {
     margin: 0 auto;
 }
@@ -58,15 +67,19 @@ input:-webkit-autofill {
 .wu-theme-1 .todo .color1 {
     background-color: color(var(--color1) alpha(-40%));
 }
+
 .wu-theme-1 .todo .color2 {
     background-color: color(var(--color2) alpha(-30%));
 }
+
 .wu-theme-1 .todo .color3 {
     background-color: color(var(--color3) alpha(-30%));
 }
+
 .wu-theme-1 .todo .color4 {
     background-color: color(var(--color4) alpha(-30%));
 }
+
 .wu-theme-1 .todo .color5 {
     background-color: color(var(--color5) alpha(-30%));
 }
@@ -83,18 +96,27 @@ input:-webkit-autofill {
 .wu-theme-1 .todo textarea {
     border: none;
 }
+
 .wu-theme-1 .todo .mdl-card__supporting-text {
     padding-top: 0.3rem;
     padding-bottom: 0.3rem;
 }
+
 .wu-theme-1 .todo .mdl-card__menu {
     display: flex;
     width: 95%;
     width: calc(100% - 32px);
 }
-.wu-theme-1 .mdl-layout__drawer .mdl-navigation__link.active {
-    background-color: var(--color1);
-    color: white;
+
+.wu-theme-1 .todo-add {
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+.wu-theme-1 .todo-add .todo__content {
+    flex: 0 1 auto;
+    font-size: 5rem;
+    font-weight: bold;
 }
 
 /*
@@ -114,6 +136,7 @@ input:-webkit-autofill {
 .wu-actionbar {
     padding: 0.2rem 1rem;
 }
+
 /*
  Originally mdl textfield code
  Would be nicer with nested css like sass but webstorm does not support nested css with cssnext

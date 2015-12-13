@@ -2,6 +2,7 @@ import * as React from 'react';
 import * as _ from 'lodash';
 import * as TList from 'components/TodoList/TodoList';
 import * as Actions from 'actions/actions';
+import { Todo } from 'models/data/Todo';
 import { Select, IState as SelectIState } from 'components/Form/Select';
 import { VisibleTodos } from 'components/TodoList/TodoList';
 
@@ -56,11 +57,11 @@ export default class TodoList extends React.Component<ITodoListProps, any> {
     componentDidMount() {
         componentHandler.upgradeDom();
 
-        this.refs.todosVisible.stateStream.subscribe((state: SelectIState) => {
+        this.refs.todosVisible.stateStream.subscribe((state: SelectIState) =>
             this.setState({
                 todoVisibilityState: state.value
             })
-        });
+        );
     }
 
     convertId() {
@@ -73,6 +74,13 @@ export default class TodoList extends React.Component<ITodoListProps, any> {
         Actions.todoAction.doUpdate(todo);
     }
 
+    handleCreateTodo() {
+        let todo = new Todo();
+
+        todo = todo.set('TodoListId', this.props.appState.todos.todolist.id);
+        Actions.todoAction.doCreate(todo);
+    }
+
     render() {
         const todolist = this.props.appState.todos.todolist || {} as any;
 
@@ -82,7 +90,11 @@ export default class TodoList extends React.Component<ITodoListProps, any> {
                     <div className="wu-actionbar">
                         <Select options={this.options} label="Select Todo" ref="todosVisible" value={VisibleTodos.Open}/>
                     </div>
-                    <TList.TodoList todolist={todolist} onTodoChange={this.handleTodoChange.bind(this)} ref="todolist" showTodos={this.state.todoVisibilityState}/>
+                    <TList.TodoList todolist={todolist}
+                                    onTodoChange={this.handleTodoChange.bind(this)}
+                                    onTodoAdd={this.handleCreateTodo.bind(this)}
+                                    ref="todolist"
+                                    showTodos={this.state.todoVisibilityState}/>
                 </div>)
         }
     }

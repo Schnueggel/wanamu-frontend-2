@@ -1,6 +1,7 @@
-import {Observable, Subject} from 'rx';
+import { Observable, Subject } from 'rx';
 import * as _ from 'lodash';
-import todoListService from 'services/TodoListService';
+import { todoListService } from 'services/TodoListService';
+import { Todo } from 'models/data/Todo';
 
 import ITodo = wu.model.data.ITodo;
 /**
@@ -16,17 +17,23 @@ export class TodoAction {
     updateCounterStream: Subject<number>;
     updateStartStream: Subject<ITodo>;
 
+    createStartStream: Subject<ITodo>;
+    createStream: Observable<ITodo|Error>;
+    createErrorStream: Observable<Error>;
+    createSuccessStream: Observable<ITodo>;
     /**
      * TodoAction
      */
     constructor() {
         this.updateCounterStream = new Subject<number>();
         this.updateStartStream   = new Subject<ITodo>();
+        this.createStartStream   = new Subject<ITodo>();
         this.initUpdateStream();
+        this.initCreateStream();
     }
 
     /**
-     * Creates all streams
+     * Creates all update streams
      */
     initUpdateStream() {
         const obs = this.updateStartStream
@@ -45,7 +52,7 @@ export class TodoAction {
             });
 
         this.updateStream = todoListService
-            .getUpdateTodoRequestStream(obs)
+            .getUpdateTodoStream(obs)
             .do(x => this.updateCounterStream.onNext(this.updateAndCreationCount -= 1))
             .publish()
             .refCount();
@@ -54,7 +61,27 @@ export class TodoAction {
             .filter((err: any) => err instanceof Error) as Observable<Error>;
 
         this.updateSuccessStream = this.updateStream
-            .filter((todo: any) => _.isObject(todo) && _.isNumber(todo.id)) as Observable<ITodo>;
+            .filter((todo: any) => todo instanceof Todo ) as Observable<ITodo>;
+    }
+
+    /**
+     * Creates all creation streams
+     */
+    initCreateStream() {
+        const obs = this.createStartStream
+            .do(x => this.updateCounterStream.onNext(this.updateAndCreationCount += 1));
+
+        this.createStream = todoListService
+            .getCreateTodoStream(obs)
+            .do(x => this.updateCounterStream.onNext(this.updateAndCreationCount -= 1))
+            .publish()
+            .refCount();
+
+        this.createErrorStream = this.createStream
+            .filter((err: any) => err instanceof Error) as Observable<Error>;
+
+        this.createSuccessStream = this.createStream
+            .filter((todo: any) => todo instanceof Todo ) as Observable<ITodo>;
     }
 
     /**
@@ -63,6 +90,13 @@ export class TodoAction {
      */
     doUpdate(todo: ITodo) {
         this.updateStartStream.onNext(todo);
+    }
+
+    /**
+     * Create Action
+     */
+    doCreate(todo: ITodo) {
+        this.createStartStream.onNext(todo);
     }
 }
 

@@ -5,8 +5,6 @@ import {InvalidResponseDataError} from 'errors/InvalidResponseDataError';
 
 import IConfig = wu.model.data.IConfig;
 
-
-
 export class ConfigService extends BaseDataService {
 
     configUrl:string = '/config.json';

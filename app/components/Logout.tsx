@@ -34,7 +34,7 @@ export default class Logout extends React.Component<ILogoutProps, any> {
             return (
                 <div>
                     <h3>Logging out</h3>
-                    <div class="mdl-spinner mdl-js-spinner is-active"></div>
+                    <div className="mdl-spinner mdl-js-spinner is-active"></div>
                 </div>
             )
         } else if (this.props.appState.login.logoutFailed) {

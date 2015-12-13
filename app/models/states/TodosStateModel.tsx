@@ -44,12 +44,12 @@ export class TodosStateModel extends BaseStateModel<TodosStateModel> implements 
         Actions.todoListAction.getTodoListStream.subscribe((r) => {
             this.isTodoListLoading = false;
         });
+
+        Actions.todoAction.createSuccessStream.subscribe( this.setTodo.bind(this) );
     }
 
     setTodo(todo: wu.model.data.ITodo) {
-        if (this.todolist.getIn(['Todos', todo.id.toString()])) {
-            this.todolist = this.todolist.setIn(['Todos', todo.id.toString()], todo) as wu.model.data.ITodoList;
-        }
+        this.todolist = this.todolist.setIn(['Todos', todo.id.toString()], todo) as wu.model.data.ITodoList;
     }
 
     @Notify
