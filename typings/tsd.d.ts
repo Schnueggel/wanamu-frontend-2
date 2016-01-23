@@ -6,4 +6,6 @@
 /// <reference path="moment/moment.d.ts" />
 /// <reference path="react-router/history.d.ts" />
 /// <reference path="lodash/lodash.d.ts" />
+/// <reference path="history/history.d.ts" />
+/// <reference path="redux/redux.d.ts" />
 
