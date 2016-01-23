@@ -25,7 +25,7 @@ export default class Logout extends React.Component<ILogoutProps, any> {
 
     componentWillUpdate() {
         if (this.props.appState.login.user === null) {
-            this.props.history.pushState(null, 'login');
+            this.props.router.push('login');
         }
     }
 

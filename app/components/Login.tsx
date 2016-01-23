@@ -46,7 +46,7 @@ export default class Login extends React.Component<LoginProps, any> {
      * @param id
      */
     goToTodoList(id:number) {
-        this.props.history.pushState(null, `/todolist/${id}`);
+        this.props.router.push(`/todolist/${id}`);
     }
 
     render() {

@@ -23,7 +23,7 @@ export default class Page extends React.Component<PageProps, any> {
 
     componentWillReceiveProps(nextProps: PageProps) {
         if (!nextProps.appState.login.user && nextProps.appState.isAuthedPath(this.props.location.pathname)) {
-            this.props.history.pushState(null, '/login');
+            this.props.router.push('/login');
         }
     }
 

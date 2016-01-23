@@ -23,7 +23,7 @@ export default class Register extends React.Component<RegisterProps, any> {
     componentWillReceiveProps(nextProps: RegisterProps) {
         if (nextProps.appState.register.registrationSuccess === true) {
             nextProps.appState.register.registrationSuccess = false;
-            nextProps.history.pushState(null, `/login`);
+            nextProps.router.push(`/login`);
         }
     }
 
