@@ -1,28 +1,49 @@
-import {Observable, Subject} from 'rx';
-import {configService} from 'services/ConfigService';
-import {Config} from 'models/data/Config';
+import * as fetch from 'isomorphic-fetch';
+import * as Actions from './index';
 
-export class ConfigAction {
+/**
+ * Config Loaded Action creator
+ * @param config
+ * @returns {{type: string, config: any}}
+ */
+export function configLoaded(config: Object) {
+    return {
+        type: Actions.ACTION_CONFIG_LOADED,
+        config
+    };
+}
 
-    configRequestStartSubject: Subject<any>;
-    configRequestStream: Observable<Error|wu.model.data.IConfig>;
-    configRequestSuccessStream: Observable<wu.model.data.IConfig>;
-    configRequestErrorStream: Observable<Error>;
+/**
+ * Config Error action creator
+ * @param error
+ * @returns {{type: string, error: any}}
+ */
+export function configError(error: string) {
+    return {
+        type: Actions.ACTION_CONFIG_LOADED_ERROR,
+        error
+    };
+}
 
-    constructor() {
-        this.configRequestStartSubject = new Subject<any>();
-        this.configRequestStream = configService.createConfigRequestStream(this.configRequestStartSubject).publish().refCount();
-
-        this.configRequestErrorStream = this.configRequestStream
-            .filter( (err: any) => err instanceof Error ) as Observable<Error>;
-
-        this.configRequestSuccessStream = this.configRequestStream
-                .filter( (config: Config) => config instanceof Config) as Observable<Config>;
-    }
-
-    doLoadConfig() {
-        this.configRequestStartSubject.onNext(null);
+/**
+ * Config Request action
+ * @returns {{type: string}}
+ */
+export function configRequest() {
+    return {
+        type: Actions.ACTION_CONFIG_REQUEST
     }
 }
 
-export const configAction = new ConfigAction();
+/**
+ * Loads the config from the backend
+ * @returns {function(any): Promise<TResult>|Promise<U>}
+ */
+export function configLoad() {
+    return (dispatch) => {
+        return fetch('./config.json')
+            .then( response => response.json())
+            .then( config => dispatch(configLoaded(config)))
+            .catch( err => configError(err))
+    }
+}

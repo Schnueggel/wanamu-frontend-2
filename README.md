@@ -1,18 +1,19 @@
 # Goal
-At the moment I try to marry React and Rx in this Project to avoid Flux.
+
+~~At the moment I try to marry React and Rx in this Project to avoid Flux.~~
+At the moment I implement the Todo App with React and Redux
 
 In the end a want to have an easy to understand setup where the code follows a simple strategy.
-
-`[2015-12-01]`
-
-I copied some code here from other apps. Like the data models. This code will change most likly. Especially because of ImmutableJs that I will integrate later.
-
 
 # Material-Design-Lite
 I also try Material-Design-Lite (mdl) css framework with this App. So far it looks good. But mdl updates the dom after windows.load and dont react
 to any changes made after this. To make mld aware of a new mdl element we have to use the javascript object componentHandler that comes with mdl.
 So far I used a timeout to trigger componentHandler.upgradeDom() after react finished rendering. This is working most of the time but not always.
 I will have to find a way to handle this Problem without any hacks or I have to remove mdl.
+
+# Redux `[2016-01-23]`
+
+I started to remove my own state tree with rxjs implementation and replacing it with redux
 
 # Good bye mdl `[2015-12-08]`
 

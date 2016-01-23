@@ -7,14 +7,18 @@
     "axios": "git+https://github.com/mzabriskie/axios",
     "history": "^2.0.0-rc2",
     "immutable": "^3.7.6",
+    "isomorphic-fetch": "^2.2.1",
     "lodash": "^4.0.0",
     "moment": "^2.11.1",
     "q": "^1.4.1",
     "react": "^0.14.6",
     "react-dom": "^0.14.6",
+    "react-redux": "^4.0.6",
     "react-router": "^2.0.0-rc5",
     "redux": "^3.0.5",
+    "redux-logger": "^2.4.0",
     "redux-simple-router": "^2.0.4",
+    "redux-thunk": "^1.0.3",
     "rx": "^4.0.7"
   },
   "devDependencies": {

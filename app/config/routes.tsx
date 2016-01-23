@@ -6,6 +6,9 @@ import Logout from 'components/Logout';
 import Register from 'components/Register';
 import {Route, IndexRoute} from 'react-router';
 
+/**
+ * TODO remove this and material-design-lite
+ */
 function upgradeDom() {
     setTimeout(() => {
         componentHandler.upgradeDom();

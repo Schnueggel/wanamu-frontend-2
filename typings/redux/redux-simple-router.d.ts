@@ -6,7 +6,7 @@ declare module ReduxSimpleRouter {
     export const TRANSITION: string;
     export const UPDATE_LOCATION: string;
 
-    interface HistoryMiddleware<S> extends R.Middleware<S> {
+    interface HistoryMiddleware<S> extends R.Middleware {
         listenForReplays(store: R.Store, selectRouterState?: Function): void;
         unsubscribe(): void;
     }

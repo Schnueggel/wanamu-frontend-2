@@ -24,10 +24,42 @@ declare module wu {
     }
 
     interface IControlProps<T> extends __React.Props<T> {
-        appState: wu.model.states.IAppStateModel;
         children: any,
         location: Location;
+        history: HistoryModule.History
     }
+
+    interface IPageProps extends IControlProps<IPageProps> {
+        app: IAppState;
+        login: ILoginState;
+    }
+
+    interface ILoginProps extends IControlProps<ILoginProps> {
+        app: IAppState;
+        login: ILoginState;
+        params: {
+            id?: number
+        }
+    }
+
+    interface IAppState {
+        isLoading: boolean;
+        user: any;
+        appState: number;
+    }
+
+    interface ILoginState {
+        error: string;
+    }
+}
+
+declare module 'isomorphic-fetch' {
+    namespace fetch {
+        interface Window {
+            fetch(url: string|Request, init?: RequestInit): Promise<Response>;
+        }
+    }
+    export = fetch;
 }
 
 declare namespace __React {
@@ -39,14 +71,6 @@ declare namespace __React {
         'class'?: any;
         'hide'?: boolean;
     }
-}
-
-declare module 'history/lib/createBrowserHistory' {
-
-    interface createBrowserHistory {
-        (): History;
-    }
-    export default createBrowserHistory;
 }
 
 declare module axios {

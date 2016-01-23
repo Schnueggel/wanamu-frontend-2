@@ -9,5 +9,8 @@
 /// <reference path="history/history.d.ts" />
 /// <reference path="redux/redux.d.ts" />
 /// <reference path="redux/redux-simple-router.d.ts" />
-
+/// <reference path="react-redux/react-redux.d.ts" />
+/// <reference path="redux-thunk/redux-thunk.d.ts" />
+/// <reference path="redux-logger/redux-logger.d.ts" />
+/// <reference path="whatwg-fetch/whatwg-fetch.d.ts" />
 

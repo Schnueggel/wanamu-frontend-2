@@ -1,35 +1,57 @@
 import * as React from 'react';
 import Menu from 'components/Menu/Menu';
 import {userAction} from 'actions/UserAction';
-
-interface PageProps extends wu.IControlProps<PageProps> {}
+import { connect } from 'react-redux';
+import { routeActions } from 'redux-simple-router';
+import { AppStates } from '../constants';
 
 /**
  * Laoyout for the Page
  * @class Page
  * @namespace wu.components
  */
-export default class Page extends React.Component<PageProps, any> {
+export class Page extends React.Component<wu.IPageProps, any> implements React.ComponentLifecycle<wu.IPageProps, any> {
 
     context: wu.IContext;
 
-    constructor(props:PageProps) {
+    /**
+     * Menu items for authed user
+     * @type {{text: string, url: string}[]}
+     */
+    authMenuItems: wu.IMenuItemData[] = [
+        {text: 'Home', url: '/'},
+        {text: 'TodoList', url: '/todolist'},
+        {text: 'Logout', url: '/logout'}
+    ];
+
+    /**
+     * Menu Items for non authed users
+     * @type {{text: string, url: string}[]}
+     */
+    noAuthMenuItems: wu.IMenuItemData[] = [
+        {text: 'Home', url: '/'},
+        {text: 'Login', url: '/login'},
+        {text: 'Register', url: '/register'}
+    ];
+
+    constructor(props: wu.IPageProps) {
         super(props);
     }
 
-    componentWillMount() {
-        if (!this.props.appState.login.user) {
-            userAction.doUser();
-        }
+    componentWillReceiveProps(nextProps: wu.IPageProps) {
+        console.log(this.context);
     }
 
-    componentWillReceiveProps(nextProps: PageProps) {
-        if (!nextProps.appState.login.user && nextProps.appState.isAuthedPath(this.props.location.pathname)) {
-            this.context.router.push('/login');
-        }
+    componentDidMount() {
+        console.log(this.props);
     }
 
     render() {
+        if (this.props.app.appState === AppStates.Booting) {
+            return <div>Loading...</div>
+        } else if(this.props.app.appState === AppStates.Error) {
+            return <div>this.props.app.error</div>
+        }
         return (
             <div className="wu-theme-1 mdl-layout__container">
                 <div className="mdl-layout mdl-js-layout">
@@ -37,10 +59,10 @@ export default class Page extends React.Component<PageProps, any> {
                         <div className="mdl-layout__header-row">
                             <span className="mdl-layout-title">Wanamu</span>
                             <div className="mdl-layout-spacer"></div>
-                            <div class="mdl-spinner mdl-spinner--single-color mdl-js-spinner is-active" is="true" hide={!this.props.appState.todos.isTodoUpdating}></div>
+                            <div class="mdl-spinner mdl-spinner--single-color mdl-js-spinner is-active" is="true" hide={!this.props.app.isLoading}></div>
                         </div>
                     </header>
-                    <Menu title="Wanamu" items={this.props.appState.menuItems}/>
+                    <Menu title="Wanamu" items={ this.props.app.user ? this.authMenuItems : this.noAuthMenuItems }/>
                     <div className="mdl-layout__content">
                         {this.props.children}
                     </div>
@@ -49,3 +71,7 @@ export default class Page extends React.Component<PageProps, any> {
         );
     }
 }
+
+const connectedPage = connect(state => state, routeActions as any)(Page);
+
+export default connectedPage;
