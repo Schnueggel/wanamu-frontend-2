@@ -13,4 +13,5 @@
 /// <reference path="redux-thunk/redux-thunk.d.ts" />
 /// <reference path="redux-logger/redux-logger.d.ts" />
 /// <reference path="whatwg-fetch/whatwg-fetch.d.ts" />
+/// <reference path="classnames/classnames.d.ts" />
 

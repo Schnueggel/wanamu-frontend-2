@@ -4,6 +4,9 @@ import {userAction} from 'actions/UserAction';
 import { connect } from 'react-redux';
 import { routeActions } from 'redux-simple-router';
 import { AppStates } from '../constants';
+import * as classNames from 'classnames';
+import { bindActionCreators } from 'redux';
+import {menuToggle} from '../actions/AppAction';
 
 /**
  * Laoyout for the Page
@@ -11,9 +14,6 @@ import { AppStates } from '../constants';
  * @namespace wu.components
  */
 export class Page extends React.Component<wu.IPageProps, any> implements React.ComponentLifecycle<wu.IPageProps, any> {
-
-    context: wu.IContext;
-
     /**
      * Menu items for authed user
      * @type {{text: string, url: string}[]}
@@ -38,13 +38,9 @@ export class Page extends React.Component<wu.IPageProps, any> implements React.C
         super(props);
     }
 
-    componentWillReceiveProps(nextProps: wu.IPageProps) {
-        console.log(this.context);
-    }
+    componentWillReceiveProps(nextProps: wu.IPageProps) {}
 
-    componentDidMount() {
-        console.log(this.props);
-    }
+    componentDidMount() {}
 
     render() {
         if (this.props.app.appState === AppStates.Booting) {
@@ -52,17 +48,22 @@ export class Page extends React.Component<wu.IPageProps, any> implements React.C
         } else if(this.props.app.appState === AppStates.Error) {
             return <div>this.props.app.error</div>
         }
+
+        const menuOpen = classNames({open: this.props.app.menuOpen});
+
         return (
             <div className="wu-theme-1 mdl-layout__container">
                 <div className="mdl-layout mdl-js-layout">
-                    <header className="mdl-layout__header mdl-layout__header--transparent">
-                        <div className="mdl-layout__header-row">
-                            <span className="mdl-layout-title">Wanamu</span>
-                            <div className="mdl-layout-spacer"></div>
-                            <div class="mdl-spinner mdl-spinner--single-color mdl-js-spinner is-active" is="true" hide={!this.props.app.isLoading}></div>
+                    <header className="header">
+                        <div className="header-row">
+                            <i className="material-icons icon" onClick={this.props.menuToggle}>menu</i>
+                            <span className="title">Wanamu</span>
+                            <div className="spacer"></div>
+                            <div class="spinner active" is="true" hide={!this.props.app.isLoading}></div>
                         </div>
                     </header>
-                    <Menu title="Wanamu" items={ this.props.app.user ? this.authMenuItems : this.noAuthMenuItems }/>
+                    <Menu title="Wanamu" items={ this.props.app.user ? this.authMenuItems : this.noAuthMenuItems } className={menuOpen}/>
+                    <div className={`menu-overlay ${menuOpen}`} onClick={this.props.menuToggle}></div>
                     <div className="mdl-layout__content">
                         {this.props.children}
                     </div>
@@ -72,6 +73,17 @@ export class Page extends React.Component<wu.IPageProps, any> implements React.C
     }
 }
 
-const connectedPage = connect(state => state, routeActions as any)(Page);
+function mapStateToProps(state) {
+    return { app: state.app }
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        routeActions,
+        menuToggle: bindActionCreators(menuToggle, dispatch)
+    }
+}
+
+const connectedPage = connect(mapStateToProps, mapDispatchToProps)(Page);
 
 export default connectedPage;

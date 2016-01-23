@@ -24,14 +24,15 @@ declare module wu {
     }
 
     interface IControlProps<T> extends __React.Props<T> {
-        children: any,
-        location: Location;
-        history: HistoryModule.History
+        children?: any,
+        location?: Location;
+        history?: HistoryModule.History
     }
 
     interface IPageProps extends IControlProps<IPageProps> {
         app: IAppState;
         login: ILoginState;
+        menuToggle: __React.MouseEventHandler;
     }
 
     interface ILoginProps extends IControlProps<ILoginProps> {
@@ -42,10 +43,17 @@ declare module wu {
         }
     }
 
+    export interface IMenuProps extends IControlProps<IMenuProps> {
+        title: string;
+        items: Array<wu.IMenuItemData>;
+        className: string;
+    }
+
     interface IAppState {
         isLoading: boolean;
         user: any;
         appState: number;
+        menuOpen: boolean
     }
 
     interface ILoginState {

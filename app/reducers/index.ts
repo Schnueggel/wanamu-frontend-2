@@ -11,7 +11,8 @@ const initialState = {
     user         : null,
     configLoading: false,
     config       : null,
-    configError  : null
+    configError  : null,
+    menuOpen     : false
 };
 
 function app(state = initialState, action: any) {
@@ -38,6 +39,10 @@ function app(state = initialState, action: any) {
                 configError: error,
                 error,
                 appState   : AppStates.Error
+            });
+        case Actions.ACTION_MENU_TOGGLE:
+            return Object.assign({}, state, {
+                menuOpen: !state.menuOpen
             });
         default:
             return state;
