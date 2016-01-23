@@ -19,8 +19,11 @@ declare module wu {
         url: string;
     }
 
-    interface IControlProps<T> extends __React.Props<T> {
+    interface IContext {
         router: HistoryModule.History;
+    }
+
+    interface IControlProps<T> extends __React.Props<T> {
         appState: wu.model.states.IAppStateModel;
         children: any,
         location: Location;

@@ -15,6 +15,7 @@ export default class Register extends React.Component<RegisterProps, any> {
     refs: any = {
         regform: RegisterForm
     };
+    context: wu.IContext;
 
     constructor(props:RegisterProps) {
         super(props);
@@ -23,7 +24,7 @@ export default class Register extends React.Component<RegisterProps, any> {
     componentWillReceiveProps(nextProps: RegisterProps) {
         if (nextProps.appState.register.registrationSuccess === true) {
             nextProps.appState.register.registrationSuccess = false;
-            nextProps.router.push(`/login`);
+            this.context.router.push(`/login`);
         }
     }
 

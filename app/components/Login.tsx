@@ -18,6 +18,7 @@ export interface LoginProps extends wu.IControlProps<LoginProps> {
 export default class Login extends React.Component<LoginProps, any> {
 
     refs:IRefs;
+    context: wu.IContext;
 
     constructor(props:LoginProps) {
         super(props);
@@ -46,7 +47,7 @@ export default class Login extends React.Component<LoginProps, any> {
      * @param id
      */
     goToTodoList(id:number) {
-        this.props.router.push(`/todolist/${id}`);
+        this.context.router.push(`/todolist/${id}`);
     }
 
     render() {

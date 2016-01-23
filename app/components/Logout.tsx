@@ -15,6 +15,8 @@ export interface ILogoutProps extends wu.IControlProps<ILogoutProps> {
  */
 export default class Logout extends React.Component<ILogoutProps, any> {
 
+    context: wu.IContext;
+
     constructor(props:ILogoutProps) {
         super(props);
     }
@@ -25,7 +27,7 @@ export default class Logout extends React.Component<ILogoutProps, any> {
 
     componentWillUpdate() {
         if (this.props.appState.login.user === null) {
-            this.props.router.push('login');
+            this.context.router.push('login');
         }
     }
 

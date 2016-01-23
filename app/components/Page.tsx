@@ -11,6 +11,8 @@ interface PageProps extends wu.IControlProps<PageProps> {}
  */
 export default class Page extends React.Component<PageProps, any> {
 
+    context: wu.IContext;
+
     constructor(props:PageProps) {
         super(props);
     }
@@ -23,7 +25,7 @@ export default class Page extends React.Component<PageProps, any> {
 
     componentWillReceiveProps(nextProps: PageProps) {
         if (!nextProps.appState.login.user && nextProps.appState.isAuthedPath(this.props.location.pathname)) {
-            this.props.router.push('/login');
+            this.context.router.push('/login');
         }
     }
 
