@@ -19,7 +19,7 @@ export default class Menu extends React.Component<wu.IMenuProps, any> {
         const list = this.props.items.map(this.createMenuItem.bind(this));
         return (
             <div className={`menu ${this.props.className}`} ref="menu">
-                <span className="title">{this.props.title}</span>
+                <h3 className="title">{this.props.title}</h3>
                 <nav className="navigation">
                     {list}
                 </nav>

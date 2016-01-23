@@ -37,9 +37,10 @@ input:-webkit-autofill {
 }
 
 .header .header-row .title {
-    margin-left: 0.3rem;
+    margin:0 0 0 0.3rem;
     align-self: center;
     display: inline-block;
+    font-size: 3rem;
 }
 
 .menu {

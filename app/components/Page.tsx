@@ -57,7 +57,7 @@ export class Page extends React.Component<wu.IPageProps, any> implements React.C
                     <header className="header">
                         <div className="header-row">
                             <i className="material-icons icon" onClick={this.props.menuToggle}>menu</i>
-                            <span className="title">Wanamu</span>
+                            <h1 className="title">Wanamu</h1>
                             <div className="spacer"></div>
                             <div class="spinner active" is="true" hide={!this.props.app.isLoading}></div>
                         </div>
