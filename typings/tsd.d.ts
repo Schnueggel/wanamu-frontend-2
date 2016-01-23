@@ -8,4 +8,6 @@
 /// <reference path="lodash/lodash.d.ts" />
 /// <reference path="history/history.d.ts" />
 /// <reference path="redux/redux.d.ts" />
+/// <reference path="redux/redux-simple-router.d.ts" />
+
 
