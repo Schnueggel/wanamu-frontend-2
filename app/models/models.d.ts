@@ -80,24 +80,23 @@ declare module wu {
         type IUser = IUserClass & Immutable.Record.TypedMap<IUserClass>;
 
         interface ITodoClass {
-            id?: number;
-            TodoListId: number,
+            _id?: number;
+            todolistId: number,
             title: string;
-            alarm?: string;
             description: string;
-            order?: number;
-            repeat?: boolean;
+            sorting?: number;
+            owner?: string;
             finished: boolean;
             deletedAt?: string;
             updatedAt?: string;
             createdAt?: string;
             color?: string;
-            repeatWeekly?: string[];
-            repeatMonthly?: string[];
-            repeatYearly?: string[];
+            parent?: string;
+            shared?: string[];
+            accepted?: boolean;
         }
 
-        type ITodo = ITodoClass & Immutable.Record.TypedMap<ITodoClass>;
+        type ITodo = ITodoClass;
 
         interface IFriend extends IBaseModel<IFriend> {
             id: number;

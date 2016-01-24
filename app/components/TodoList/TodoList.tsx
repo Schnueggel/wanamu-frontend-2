@@ -1,5 +1,4 @@
 import * as React from 'react';
-import * as Rx from 'rx';
 import * as _ from 'lodash';
 import Todo from './Todo';
 import ITodo = wu.model.data.ITodo;
@@ -35,10 +34,8 @@ export class TodoList extends React.Component<ITodoListProps, any> {
     static defaultProps: ITodoListProps = {
         showTodos   : VisibleTodos.Open,
         todolist    : null,
-        onTodoChange: () => {
-        },
-        onTodoAdd   : () => {
-        }
+        onTodoChange: () => {},
+        onTodoAdd   : () => {}
     } as ITodoListProps;
 
     /**
@@ -78,14 +75,14 @@ export class TodoList extends React.Component<ITodoListProps, any> {
     }
 
     createTodos() {
-        if (this.props.todolist.Todos === undefined) {
+        if (Array.isArray(this.props.todolist) === false) {
             return null;
         }
 
-        return this.props.todolist.Todos.valueSeq().filter((t: ITodo) => this.isTodoVisible(t)).map(this.createTodo.bind(this));
+        return this.props.todolist.filter((t: ITodo) => this.isTodoVisible(t)).map(this.createTodo.bind(this));
     }
 
     createTodo(todo: ITodo) {
-        return <Todo todo={todo} key={todo.id} onTodoChange={this.props.onTodoChange.bind(this)}/>
+        return <Todo todo={todo} key={todo._id} onTodoChange={this.props.onTodoChange.bind(this)}/>
     }
 }
