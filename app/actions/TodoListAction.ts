@@ -12,7 +12,7 @@ import * as _ from 'lodash';
  */
 export function todoListLoaded(todolist: Object) {
     return {
-        type: Actions.ACTION_TODOLIST_ERROR,
+        type: Actions.ACTION_TODOLIST_LOADED,
         todolist
     };
 }
@@ -73,7 +73,7 @@ export function todoListLoad(id:string) {
                 }
             })
             .then( data => {
-                return _.get(data, '.data[0]');
+                return _.get(data, '.data');
             })
             .then( todolist => {
                 if (todolist) {
