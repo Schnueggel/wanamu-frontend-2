@@ -32,12 +32,13 @@ declare module wu {
 
     interface IPageProps extends IControlProps<IPageProps> {
         app: IAppState;
+        user: IUserState;
         login: ILoginState;
         menuToggle: __React.MouseEventHandler;
     }
 
     interface ILoginProps extends IControlProps<ILoginProps> {
-        app: IAppState;
+        user: IUserState;
         login: ILoginState;
         actions: {
             routeActions: RouteActions,
@@ -46,6 +47,13 @@ declare module wu {
 
         params: {
             id?: number
+        };
+    }
+
+    export interface ILogoutProps extends wu.IControlProps<ILogoutProps> {
+        actions: {
+            routeActions: RouteActions,
+            logout: () => void
         };
     }
 
@@ -66,6 +74,12 @@ declare module wu {
         title: string;
         items: Array<wu.IMenuItemData>;
         className: string;
+    }
+
+    interface IUserState {
+        error: string;
+        user: any;
+        isLoading: boolean;
     }
 
     interface IAppState {

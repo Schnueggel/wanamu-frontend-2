@@ -4,7 +4,7 @@ import { User } from 'models/data/User';
 import { connect } from 'react-redux';
 import { routeActions } from 'redux-simple-router';
 import { bindActionCreators } from 'redux';
-import { login } from '../actions/LoginAction';
+import { login } from '../actions/LoginActions';
 import * as _ from 'lodash';
 
 export interface IRefs {
@@ -23,16 +23,15 @@ export class Login extends React.Component<wu.ILoginProps, any> implements React
     }
 
     componentWillMount() {
-        this.checkForUser(this.props.app.user);
+        this.checkForUser(this.props.user.user);
     }
 
     componentWillReceiveProps(nextProps: wu.ILoginProps) {
-        this.checkForUser(nextProps.app.user);
+        this.checkForUser(nextProps.user.user);
     }
 
     checkForUser(user: any) {
         if (typeof _.get(user, '._id') === 'string') {
-            console.log(this.props.actions.routeActions);
             this.props.actions.routeActions.push(`/todolist/${user.defaultTodolistId}`);
         }
     }
@@ -56,7 +55,7 @@ export class Login extends React.Component<wu.ILoginProps, any> implements React
 
 function mapStateToProps(state) {
     return {
-        app: state.app,
+        user: state.user,
         login: state.login
     }
 }

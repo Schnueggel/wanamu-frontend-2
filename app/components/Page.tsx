@@ -1,6 +1,5 @@
 import * as React from 'react';
 import Menu from 'components/Menu/Menu';
-import {userAction} from 'actions/UserAction';
 import { connect } from 'react-redux';
 import { routeActions } from 'redux-simple-router';
 import { AppStates } from '../constants';
@@ -64,7 +63,7 @@ export class Page extends React.Component<wu.IPageProps, any> implements React.C
                             <div class="spinner active" is="true" hide={!this.props.app.isLoading}></div>
                         </div>
                     </header>
-                    <Menu title="Wanamu" items={ this.props.app.user ? this.authMenuItems : this.noAuthMenuItems } className={menuOpen}/>
+                    <Menu title="Wanamu" items={ this.props.user.user ? this.authMenuItems : this.noAuthMenuItems } className={menuOpen}/>
                     <div className={`menu-overlay ${menuOpen}`} onClick={this.props.menuToggle}></div>
                     <div className="mdl-layout__content">
                         {error}
@@ -77,14 +76,17 @@ export class Page extends React.Component<wu.IPageProps, any> implements React.C
 }
 
 function mapStateToProps(state) {
-    return { app: state.app }
+    return {
+        app: state.app,
+        user: state.user
+    };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
         routeActions,
         menuToggle: bindActionCreators(menuToggle, dispatch)
-    }
+    };
 }
 
 const connectedPage = connect(mapStateToProps, mapDispatchToProps)(Page);

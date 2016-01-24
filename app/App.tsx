@@ -8,7 +8,7 @@ import { Router, browserHistory } from 'react-router';
 import routes from 'config/routes';
 import { Provider } from 'react-redux';
 import store from './stores/appStore';
-import { loadDefaultUser, bootstrap } from './actions/BootstrapAction';
+import { loadDefaultUser, bootstrap } from './actions/BootstrapActions';
 
 ReactDom.render(
     <Provider store={store}>

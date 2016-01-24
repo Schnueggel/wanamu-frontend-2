@@ -1,50 +1,43 @@
 import * as React from 'react';
-import {logoutAction} from 'actions/LogoutAction';
-import {Button} from 'components/Elements/Button';
-
-export interface ILogoutProps extends wu.IControlProps<ILogoutProps> {
-    params: {
-        id?: number
-    }
-}
-
+import { logout } from 'actions/LogoutActions';
+import { connect } from 'react-redux';
+import { routeActions } from 'redux-simple-router';
+import { bindActionCreators } from 'redux';
 /**
  * Controller Component
  * @class Logout
  * @namespace wu.components
  */
-export default class Logout extends React.Component<ILogoutProps, any> {
+export class Logout extends React.Component<wu.ILogoutProps, any> implements React.ComponentLifecycle<wu.ILoginProps, any> {
 
     context: wu.IContext;
 
-    constructor(props:ILogoutProps) {
+    constructor(props:wu.ILogoutProps) {
         super(props);
     }
 
     componentWillMount() {
-        logoutAction.doLogout();
-    }
-
-    componentWillUpdate() {
-        if (this.props.appState.login.user === null) {
-            this.props.history.push('login');
-        }
+        console.log(this.props.actions.logout());
+        this.props.actions.routeActions.push('/login');
     }
 
     render() {
-        if (this.props.appState.login.isLoggingOut) {
-            return (
-                <div>
-                    <h3>Logging out</h3>
-                    <div className="mdl-spinner mdl-js-spinner is-active"></div>
-                </div>
-            )
-        } else if (this.props.appState.login.logoutFailed) {
-            return (<div>
-                <h3>Logging out failed</h3>
-                <Button onClick={ evt => logoutAction.doLogout()} text="Retry"/>
-            </div>)
-        }
         return null;
     }
 }
+function mapStateToProps() {
+    return {};
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        actions: {
+            routeActions: bindActionCreators(routeActions, dispatch),
+            logout: bindActionCreators(logout, dispatch)
+        }
+    }
+}
+
+const connected = connect(mapStateToProps, mapDispatchToProps)(Logout);
+
+export default connected;

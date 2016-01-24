@@ -20,7 +20,7 @@ export function configLoaded(config: Object) {
  */
 export function configError(error: string) {
     return {
-        type: Actions.ACTION_CONFIG_LOADED_ERROR,
+        type: Actions.ACTION_CONFIG_ERROR,
         error
     };
 }

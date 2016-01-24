@@ -1,8 +1,9 @@
 import * as Actions from './index';
-import { userLoaded } from './AppAction';
 import * as fetch from 'isomorphic-fetch';
 import * as _ from 'lodash';
 import { defaultRequestOptions, LocalStorage } from '../constants';
+import { tokenStore } from './TokenActions';
+import { userLoaded, userRequest } from './UserActions';
 
 export function loginRequest() {
     return {
@@ -17,30 +18,10 @@ export function loginError(error: string) {
     };
 }
 
-/**
- * Stores the token in the localStorage and dispatches the token loaded action
- * @param token
- * @returns {{type: string, token: any}}
- */
-export function tokenStore(token) {
-
-    localStorage.setItem(LocalStorage.token, token);
-
-    return dispatch => {
-        dispatch(tokenLoaded(token));
-    }
-}
-
-export function tokenLoaded(token) {
-    return {
-        type: Actions.ACTION_TOKEN_LOADED,
-        token
-    };
-}
-
 export function login(username, password) {
     return (dispatch, getState) => {
         dispatch(loginRequest());
+        dispatch(userRequest());
 
         const options = defaultRequestOptions();
 
