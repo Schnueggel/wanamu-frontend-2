@@ -42,9 +42,17 @@ export function configRequest() {
 export function configLoad() {
     return (dispatch) => {
         dispatch(configRequest());
-        return fetch('./config.json')
-            .then( response => response.json())
-            .then( config => dispatch(configLoaded(config)))
-            .catch( err => configError(err))
+        return fetch('/config.json')
+            .then( response => {
+                if ([304, 200].indexOf(response.status) > -1) {
+                    return response.json();
+                } else {
+                    dispatch(configError('Unable to load application config from server'));
+                }
+            })
+            .then( config => {
+                dispatch(configLoaded(config));
+            })
+            .catch(err => console.error(err))
     }
 }

@@ -22,10 +22,16 @@ export function loginError(error: string) {
  * @param token
  * @returns {{type: string, token: any}}
  */
-export function storeToken(token) {
+export function tokenStore(token) {
 
     localStorage.setItem(LocalStorage.token, token);
 
+    return dispatch => {
+        dispatch(tokenLoaded(token));
+    }
+}
+
+export function tokenLoaded(token) {
     return {
         type: Actions.ACTION_TOKEN_LOADED,
         token
@@ -58,7 +64,7 @@ export function login(username, password) {
                 if (typeof data.token !== 'string' || typeof _.get(data, '.data[0]._id') !== 'string') {
                     throw new Error('Invalid server response');
                 }
-                dispatch(storeToken(data.token));
+                dispatch(tokenStore(data.token));
                 dispatch(userLoaded(data.data[0]));
             })
             .catch(err => {

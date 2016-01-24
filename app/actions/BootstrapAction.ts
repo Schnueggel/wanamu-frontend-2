@@ -2,7 +2,7 @@ import * as Actions from './index';
 import { configRequest, configLoad } from './ConfigAction';
 import * as fetch from 'isomorphic-fetch';
 import { userLoaded } from './AppAction';
-import { storeToken, loginRequest } from './LoginAction';
+import { tokenLoaded, loginRequest } from './LoginAction';
 import { LocalStorage, defaultRequestOptions } from '../constants';
 import * as _  from 'lodash';
 
@@ -11,7 +11,7 @@ export function restoreToken() {
         const token = localStorage.getItem(LocalStorage.token);
 
         if (token) {
-            dispatch(storeToken(token));
+            dispatch(tokenLoaded(token));
         }
     }
 }
@@ -44,7 +44,7 @@ export function loadDefaultUser() {
 export function bootstrap() {
     return (dispatch, getState) => {
         dispatch(restoreToken());
-        dispatch(configLoad()).then( () =>  {
+        dispatch(configLoad()).then( (t) =>  { console.log(t);
             if (getState().auth.token) {
                 dispatch(loginRequest());
                 dispatch(loadDefaultUser());
