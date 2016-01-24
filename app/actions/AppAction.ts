@@ -12,3 +12,10 @@ export function menuToggle() {
         type: Actions.ACTION_MENU_TOGGLE
     };
 }
+
+export function userLoaded(user) {
+    return  {
+        type: Actions.ACTION_USER_LOADED,
+        user
+    };
+}

@@ -41,6 +41,7 @@ export function configRequest() {
  */
 export function configLoad() {
     return (dispatch) => {
+        dispatch(configRequest());
         return fetch('./config.json')
             .then( response => response.json())
             .then( config => dispatch(configLoaded(config)))

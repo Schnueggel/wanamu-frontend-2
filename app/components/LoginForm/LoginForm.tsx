@@ -7,6 +7,7 @@ export interface ILoginFormProps extends __React.Props<ILoginFormProps> {
     email?: string;
     emailErrors?: Array<string>;
     passwordErrors?: Array<string>;
+    submit: (username: string, password: string) => void
 }
 
 export interface  IRefs {
@@ -26,7 +27,11 @@ export default class LoginForm extends React.Component<ILoginFormProps, any> {
     refs: IRefs;
 
     state: any = {
-        valid: false
+        valid: false,
+        username: null,
+        usernameValid: false,
+        password: null,
+        passwordValid: false
     };
 
     email: any = {
@@ -47,9 +52,6 @@ export default class LoginForm extends React.Component<ILoginFormProps, any> {
         errors : ['Password required']
     };
 
-    private loginSubmitStream: Subject<ISubmitStreamData>;
-    private formStateStream: Observable<any>;
-
     /**
      *
      * @param props
@@ -58,39 +60,25 @@ export default class LoginForm extends React.Component<ILoginFormProps, any> {
         super(props);
     }
 
-    /**
-     *
-     * @returns {Rx.Observable<{email: string, password: string}>}
-     */
-    getLoginSubmitStream(): Subject<ISubmitStreamData> {
-        if (this.loginSubmitStream === undefined) {
-            this.loginSubmitStream = new Subject<ISubmitStreamData>();
-        }
-
-        return this.loginSubmitStream;
-    }
 
     handleClick() {
-        this.getLoginSubmitStream().onNext({
-            username: this.state.email,
-            password: this.state.password
+        this.props.submit( this.state.username,  this.state.password);
+    }
+
+    handleUsernameChange({valid, value}) {
+        this.setState({
+            valid: valid && this.state.passwordValid,
+            usernameValid: valid,
+            username: value
         });
     }
 
-    componentDidMount() {
-        this.formStateStream = Observable.combineLatest(
-            this.refs.email.stateStream,
-            this.refs.password.stateStream,
-            (e: any, p: any)=> {
-                return {
-                    valid    : e.valid && p.valid,
-                    email    : e.value,
-                    password : p.value
-                }
-            }
-        );
-
-        this.formStateStream.subscribe((data)=> this.setState(data));
+    handlePasswordChange({valid, value}) {
+        this.setState({
+            valid: this.state.usernameValid && valid,
+            passwordValid: valid,
+            password: value
+        });
     }
 
     /**
@@ -99,8 +87,8 @@ export default class LoginForm extends React.Component<ILoginFormProps, any> {
      */
     render() {
         return  <form name="login" action="#">
-            <TextInput {...this.email}/>
-            <TextInput {...this.password}/>
+            <TextInput {...this.email} onChange={this.handleUsernameChange.bind(this)}/>
+            <TextInput {...this.password} onChange={this.handlePasswordChange.bind(this)} />
             <div className="form-actionbar">
                 <button type="button" className="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" ref="submit" onClick={this.handleClick.bind(this)}
                         disabled={!this.state.valid}>Login

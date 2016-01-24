@@ -38,9 +38,13 @@ declare module wu {
     interface ILoginProps extends IControlProps<ILoginProps> {
         app: IAppState;
         login: ILoginState;
+        actions: {
+            login: __React.MouseEventHandler
+        };
+
         params: {
             id?: number
-        }
+        };
     }
 
     export interface IMenuProps extends IControlProps<IMenuProps> {

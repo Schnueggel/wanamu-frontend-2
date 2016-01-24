@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as _ from 'lodash';
 import { Subject, Observable } from 'rx';
-
+import * as classNames from 'classnames';
 import ITextInputProps = wu.Form.ITextInputProps;
 
 interface IRef {
@@ -18,10 +18,11 @@ interface IState {
  * @class TextInput
  * @namespace wu.components.Form
  */
-export default class TextInput extends React.Component<ITextInputProps, IState> {
+export default class TextInput extends React.Component<ITextInputProps, IState> implements React.ComponentLifecycle<ITextInputProps, IState> {
 
     state: any = {
-        value: ''
+        value: '',
+        valid: false
     };
 
     refs: IRef & any = {
@@ -32,8 +33,6 @@ export default class TextInput extends React.Component<ITextInputProps, IState> 
     private defaultId: string;
 
     public stateStream: Observable<IState>;
-
-    private startStream: Subject<IState>;
 
     static defaultProps: ITextInputProps = {
         errors   : [],
@@ -55,32 +54,21 @@ export default class TextInput extends React.Component<ITextInputProps, IState> 
         super(props);
         this.defaultId   = `generated-${new Date().getTime()}-${Math.floor(Math.random() * 100000000)}`;
         this.state.value = props.value;
-
-        this.startStream = new Subject<any>();
-        this.stateStream = this.startStream.map(() => {
-                return this.state;
-            })
-            .publish()
-            .refCount();
     }
 
     handleChange(evt) {
-        this.setState({
+        const newState = {
             valid: this.props.pattern.test(evt.target.value),
             value: evt.target.value
-        });
+        };
 
-        this.props.onChange(evt);
+        this.setState(newState);
+
+        this.props.onChange(newState);
     }
 
-    handeFieldOnFocus(evt) {
+    handleFieldOnFocus(evt) {
         evt.target.select();
-    }
-
-    componentWillUpdatee(nextProps: ITextInputProps, nextState: any) {
-        if (_.isEqual(nextState, this.state) === false) {
-            this.startStream.onNext(null);
-        }
     }
 
     shouldComponentUpdate(nextProps: ITextInputProps, nextState: any) {
@@ -91,21 +79,17 @@ export default class TextInput extends React.Component<ITextInputProps, IState> 
         const id   = this.props.id ? this.props.id : this.defaultId,
               errs = this.props.errors.map(this.createErrorElements);
 
-        let className = this.props.className;
-
-        if (this.state.value) {
-            className += ' is-dirty';
-        }
-
-        if (this.state.valid === false) {
-            className += ' is-invalid';
-        }
+        let className = classNames({
+            [this.props.className]: true,
+            'is-dirty'            : this.state.value ? true : false,
+            'is-invalid'          : this.state.valid === false
+        });
 
         const label = this.props.label ? <label className="wu-textfield__label" htmlFor={id}>{this.props.label}</label> : null;
 
         return (<div className={`wu-textfield wu-js-textfield ${className}`} ref="textbox">
             <input type={this.props.type} ref="field" className="wu-textfield__input" value={this.state.value} id={id}
-                   onBlur={this.props.onBlur} onChange={this.handleChange.bind(this)} onFocus={this.handeFieldOnFocus.bind(this)} noValidate name={this.props.name}/>
+                   onBlur={this.props.onBlur} onChange={this.handleChange.bind(this)} onFocus={this.handleFieldOnFocus.bind(this)} noValidate name={this.props.name}/>
             {label}
             {errs}
         </div>);

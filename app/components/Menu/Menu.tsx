@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { Link, IndexLink } from 'react-router';
 
-
 export default class Menu extends React.Component<wu.IMenuProps, any> {
 
     refs: any = {

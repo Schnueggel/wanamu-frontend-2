@@ -6,7 +6,7 @@ import { routeActions } from 'redux-simple-router';
 import { AppStates } from '../constants';
 import * as classNames from 'classnames';
 import { bindActionCreators } from 'redux';
-import {menuToggle} from '../actions/AppAction';
+import { menuToggle } from '../actions/AppAction';
 
 /**
  * Laoyout for the Page
@@ -38,10 +38,6 @@ export class Page extends React.Component<wu.IPageProps, any> implements React.C
         super(props);
     }
 
-    componentWillReceiveProps(nextProps: wu.IPageProps) {}
-
-    componentDidMount() {}
-
     render() {
         if (this.props.app.appState === AppStates.Booting) {
             return <div>Loading...</div>
@@ -52,7 +48,7 @@ export class Page extends React.Component<wu.IPageProps, any> implements React.C
         const menuOpen = classNames({open: this.props.app.menuOpen});
 
         return (
-            <div className="wu-theme-1 mdl-layout__container">
+            <div className="mdl-layout__container">
                 <div className="mdl-layout mdl-js-layout">
                     <header className="header">
                         <div className="header-row">

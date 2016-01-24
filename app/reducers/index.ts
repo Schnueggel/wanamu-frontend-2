@@ -2,6 +2,7 @@ import { combineReducers } from 'redux';
 import * as Actions from '../actions/index';
 import { routeReducer } from 'redux-simple-router';
 import { login } from './login';
+import { auth } from './auth';
 import { AppStates } from '../constants';
 
 const initialState = {
@@ -9,10 +10,12 @@ const initialState = {
     error        : null,
     isLoading    : false,
     user         : null,
+    userLoading  : false,
     configLoading: false,
     config       : null,
     configError  : null,
-    menuOpen     : false
+    menuOpen     : false,
+    token        : null
 };
 
 function app(state = initialState, action: any) {
@@ -44,6 +47,16 @@ function app(state = initialState, action: any) {
             return Object.assign({}, state, {
                 menuOpen: !state.menuOpen
             });
+        case Actions.ACTION_USER_LOADED:
+            return Object.assign({}, state, {
+                userLoading: false,
+                error: null,
+                user: action.user
+            });
+        case Actions.ACTION_LOGIN_REQUEST:
+            return Object.assign({}, state, {
+                userLoading: true
+            });
         default:
             return state;
     }
@@ -52,6 +65,7 @@ function app(state = initialState, action: any) {
 const rootReducer = combineReducers({
     app,
     login,
+    auth,
     routing: routeReducer
 });
 

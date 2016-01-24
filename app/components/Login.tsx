@@ -1,9 +1,11 @@
 import * as React from 'react';
 import LoginForm from 'components/LoginForm/LoginForm';
-import {loginAction} from 'actions/LoginAction';
-import {User} from 'models/data/User';
+import { User } from 'models/data/User';
 import { connect } from 'react-redux';
 import { routeActions } from 'redux-simple-router';
+import { bindActionCreators } from 'redux';
+import { login } from '../actions/LoginAction';
+import * as _ from 'lodash';
 
 export interface IRefs {
     [key: string]: React.Component<any, any>;
@@ -16,37 +18,22 @@ export interface IRefs {
 export class Login extends React.Component<wu.ILoginProps, any> implements React.ComponentLifecycle<wu.ILoginProps, any> {
 
     refs:IRefs;
-    context: wu.IContext;
-
     constructor(props:wu.ILoginProps) {
         super(props);
-        console.log(this);
     }
 
     componentWillMount() {
-        this.checkForUser();
+        this.checkForUser(this.props.app.user);
     }
 
-    componentDidMount() {
-        loginAction.connect(this.refs.form.getLoginSubmitStream());
+    componentWillReceiveProps(nextProps: wu.ILoginProps) {
+        this.checkForUser(nextProps.app.user);
     }
 
-    componentWillUpdate() {
-        this.checkForUser();
-    }
-
-    checkForUser() {
-        if (this.props.app.user instanceof User) {
-            this.goToTodoList(this.props.app.user.DefaultTodoListId);
+    checkForUser(user: any) {
+        if (typeof _.get(user, '._id') === 'string') {
+            this.props.history.push(`/todolist/${user.defaultTodolistId}`);
         }
-    }
-
-    /**
-     * Navigate to todolist
-     * @param id
-     */
-    goToTodoList(id:number) {
-        this.props.history.push(`/todolist/${id}`);
     }
 
     render() {
@@ -56,15 +43,32 @@ export class Login extends React.Component<wu.ILoginProps, any> implements React
             error = <p className="error-message">{this.props.login.error}</p>
         }
 
-        return (<div className="login mdl-card mdl-shadow--2dp">
-            <h3>Login</h3>
-            <div className="mdl-card__title mdl-card--expand">
-                <LoginForm ref="form"/>
+        return (<div className="login card">
+            {error}
+            <h3 className="title">Login</h3>
+            <div className="content">
+                <LoginForm ref="form" submit={this.props.actions.login}/>
             </div>
         </div>);
     }
 }
 
-const connected = connect(state => state)(Login);
+function mapStateToProps(state) {
+    return {
+        app: state.app,
+        login: state.login
+    }
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        actions: {
+            routeActions,
+            login: bindActionCreators(login, dispatch)
+        }
+    }
+}
+
+const connected = connect(mapStateToProps, mapDispatchToProps)(Login);
 
 export default connected;

@@ -16,6 +16,7 @@ input:-webkit-autofill {
     --color3: rgb(96,125,139);
     --color4: rgb(63,81,181);
     --color5: rgb(139,195,74);
+    --shadow1: 0 1px 3px 0 rgba(0,0,0,.2),0 1px 1px 0 rgba(0,0,0,.14),0 2px 1px -1px rgba(0,0,0,.12);
 }
 
 /**
@@ -24,6 +25,13 @@ input:-webkit-autofill {
 .spacer {
     flex: 1 1 auto;
 }
+
+.error-message {
+    padding: 0.5rem;
+    color: var(--color2);
+    font-size: 1rem;
+}
+
 .header .header-row {
     padding: 0.4rem 0.4rem 0.2rem 0.8rem;
     font-size: 3rem;
@@ -58,6 +66,7 @@ input:-webkit-autofill {
 .menu.open {
     display: flex;
 }
+
 .menu .title {
     font-size: 3rem;
     padding:2rem 0.5rem;
@@ -97,11 +106,16 @@ input:-webkit-autofill {
     display: block;
 }
 
-.mdl-card form {
+.card {
+    padding: 2rem;
+    box-shadow: var(--shadow1);
+}
+
+.card form {
     margin: 0 auto;
 }
 
-.login.mdl-card,.register.mdl-card  {
+.login.card,.register.card  {
     margin: 0 auto;
     position: absolute;
     top: 50%;
@@ -111,8 +125,8 @@ input:-webkit-autofill {
     text-align: center;
 }
 
-.login.mdl-card .wu-textfield, .register.mdl-card .wu-textfield  {
-    width: 600px;
+.login .wu-textfield, .register .wu-textfield  {
+    width: 100%;
 }
 
 .form-actionbar button {
@@ -222,10 +236,13 @@ input:-webkit-autofill {
     width: 300px;
     max-width: 100%;
     margin: 0;
-    padding: 20px 0; }
+    padding: 20px 0;
+}
+
 .wu-textfield .mdl-button {
     position: absolute;
-    bottom: 20px; }
+    bottom: 20px;
+}
 
 .wu-textfield--align-right {
     text-align: right; }

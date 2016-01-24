@@ -1,3 +1,6 @@
+import {ACTION_LOGIN_ERROR} from '../actions/index';
+import {ACTION_LOGIN_REQUEST} from '../actions/index';
+
 const initalState = {
     error: null
 };
@@ -5,8 +8,11 @@ const initalState = {
 export function login(state = initalState, action: any) {
     const { type, error } = action;
 
-    if (type === 'loginError') {
-        return Object.assign({}, state, {error});
+    switch (type) {
+        case ACTION_LOGIN_ERROR:
+            return Object.assign({}, state, {error});
+        case ACTION_LOGIN_REQUEST:
+            return Object.assign({}, state, {error: null});
     }
 
     return state;
