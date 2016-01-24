@@ -1,16 +1,17 @@
 import * as React from 'react';
-import { Subject, Observable } from 'rx';
 import TextInput from '../Form/TextInput';
 import RadioButton from '../Form/RadioButton';
 import * as _ from 'lodash';
+import { Button } from '../Elements/Button';
 
 export interface IRegisterFormProps extends __React.Props<IRegisterFormProps> {
     salutation: string;
     salutations: Array<{id:string, name:string}>;
-    handleSubmit: (data: ISubmitStreamData) => void
+    handleSubmit: (data: ISubmitData) => void
 }
 
-export interface ISubmitStreamData {
+export interface ISubmitData {
+    username: string;
     email: string;
     password: string;
     salutation: string;
@@ -22,28 +23,26 @@ export interface ISubmitStreamData {
  * @class RegisterForm
  * @namespace wu.components.Register
  */
-export class RegisterForm extends React.Component<IRegisterFormProps, any> {
+export class RegisterForm extends React.Component<IRegisterFormProps, any> implements React.ComponentLifecycle<IRegisterFormProps, any> {
 
     refs: any = {
         email          : TextInput,
         password       : TextInput,
         passwordConfirm: TextInput,
         lastname       : TextInput,
-        firstname      : TextInput
+        firstname      : TextInput,
+        username       : TextInput
     };
 
     state: any = {
-        salutation            : '',
-        emailErrors           : [],
-        passwordErrors        : [],
-        passwordConfirmErrors : [],
-        lastnameErrors        : [],
-        firstnameErrors       : [],
-        isEmailValid          : false,
-        isPasswordValid       : false,
-        isPasswordConfirmValid: false,
-        isFirstnameValid      : false,
-        isLastnameValid       : false
+        valid                 : false,
+        salutation            : {valid: false, value: ''},
+        username              : {valid: false, value: ''},
+        firstname             : {valid: false, value: ''},
+        lastname              : {valid: false, value: ''},
+        email                 : {valid: false, value: ''},
+        password              : {valid: false, value: ''},
+        passwordConfirm       : {valid: false, value: ''}
     };
 
     email: any = {
@@ -52,7 +51,8 @@ export class RegisterForm extends React.Component<IRegisterFormProps, any> {
         ref    : 'email',
         name   : 'email',
         pattern: /[^ @]*@[^ @]*/,
-        errors : ['Valid Email required']
+        errors : ['Valid Email required'],
+        onChange: (...args) => this.handleChange(...args, 'email')
     };
 
     password: any = {
@@ -71,7 +71,8 @@ export class RegisterForm extends React.Component<IRegisterFormProps, any> {
         ref    : 'passwordConfirm',
         name   : 'password-confirm',
         pattern: /.+/,
-        errors : ['Confirm your password']
+        errors : ['Confirm your password'],
+        onChange: (...args) => this.handleChange(...args, 'passwordConfirm')
     };
 
     lastname: any = {
@@ -80,7 +81,8 @@ export class RegisterForm extends React.Component<IRegisterFormProps, any> {
         ref    : 'lastname',
         name   : 'lastname',
         pattern: /.+/,
-        errors : ['Lastname is required']
+        errors : ['Lastname is required'],
+        onChange: (...args) => this.handleChange(...args, 'lastname')
     };
 
     firstname: any = {
@@ -89,10 +91,19 @@ export class RegisterForm extends React.Component<IRegisterFormProps, any> {
         ref    : 'firstname',
         name   : 'firstname',
         pattern: /.+/,
-        errors : ['Lastname is required']
+        errors : ['Firstname is required'],
+        onChange: (...args) => this.handleChange(...args, 'firstname')
     };
 
-    private formStateStream: Observable<any>;
+    username: any = {
+        type   : 'text',
+        label  : 'Username',
+        ref    : 'username',
+        name   : 'username',
+        pattern: /.+/,
+        errors : ['Username is required'],
+        onChange: (...args) => this.handleChange(...args, 'username')
+    };
 
     /**
      * @constructor
@@ -100,63 +111,54 @@ export class RegisterForm extends React.Component<IRegisterFormProps, any> {
      */
     constructor(props: IRegisterFormProps) {
         super(props);
-        this.state.salutation = props.salutation;
-    }
-
-    /**
-     * Lifecycle
-     */
-    componentDidMount() {
-        this.formStateStream = Observable.combineLatest(
-            this.refs.email.stateStream,
-            this.refs.firstname.stateStream,
-            this.refs.lastname.stateStream,
-            this.refs.password.stateStream,
-            this.refs.passwordConfirm.stateStream,
-            (e: any, f: any, l: any, p: any, pc: any)=> {
-                return {
-                    valid    : e.valid && f.valid && l.valid && p.valid && pc.valid,
-                    email    : e.value,
-                    firstname: f.value,
-                    lastname : l.value,
-                    password : p.value
-                }
-            }
-            );
-
-        this.formStateStream.subscribe((data)=> this.setState(data));
+        this.state.salutation.value = props.salutation;
     }
 
     /**
      *
      * @param evt
      */
-    validatePassword(evt: any) {
-        this.passwordConfirm.pattern = new RegExp(evt.target.value);
+    validatePassword({value, valid}) {
+        this.passwordConfirm.pattern = new RegExp(`^${value}$`);
 
-        this.setState({
-            pattern: this.password.pattern
-        });
+        this.handleChange({value, valid}, 'password');
     }
 
-    handleSalutationChange(evt) {
-        if (evt.target.value === this.state.salutation) {
+    handleSalutationChange({value, valid}) {
+        if (value === this.state.salutation.value) {
             return;
         }
 
+        this.handleChange({value, valid}, 'salutation');
+    }
+
+    /**
+     *
+     * @param state
+     * @param field
+     */
+    handleChange(state, field){
+        const valid = ['username', 'lastname', 'firstname', 'email', 'password', 'passwordConfirm'].every( v => {
+            if (v === field) {
+                return state.valid;
+            }
+            return this.state[v].valid;
+        });
         this.setState({
-            salutation: evt.target.value
+            [field]: state,
+            valid
         });
     }
 
     handleSubmit() {
         if (this.state.valid) {
             this.props.handleSubmit({
-                salutation: this.state.salutation,
-                email     : this.state.email,
-                password  : this.state.password,
-                firstname : this.state.firstname,
-                lastname  : this.state.lastname
+                salutation: this.state.salutation.value,
+                email     : this.state.email.value,
+                password  : this.state.password.value,
+                firstname : this.state.firstname.value,
+                lastname  : this.state.lastname.value,
+                username  : this.state.username.value
             });
         }
     }
@@ -170,18 +172,19 @@ export class RegisterForm extends React.Component<IRegisterFormProps, any> {
 
         return (
             <form name="register" action="#">
-                <div>
+                <div className="radiogroup__container">
                     {this.createSalutationRadioButtons()}
                 </div>
+                <TextInput {...this.username} />
                 <TextInput {...this.email} />
                 <TextInput {...this.firstname} />
                 <TextInput {...this.lastname} />
                 <TextInput {...this.password} />
                 <TextInput {...this.passwordConfirm} />
                 <div className="form-actionbar">
-                    <button type="button" className="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" ref="submit"
-                            onClick={this.handleSubmit.bind(this)} disabled={disabled}>Register
-                    </button>
+                    <Button ref="submit" onClick={this.handleSubmit.bind(this)} disabled={disabled}>
+                        Register
+                    </Button>
                 </div>
             </form>
         );
@@ -192,7 +195,7 @@ export class RegisterForm extends React.Component<IRegisterFormProps, any> {
      */
     createSalutationRadioButtons() {
         return this.props.salutations.map((sal) => (
-                <RadioButton name="salutation" value={sal.id} id={`register-salutation-${sal.id}`} key={sal.id} label={sal.name} checked={this.state.salutation === sal.id}
+                <RadioButton name="salutation" value={sal.id} id={`register-salutation-${sal.id}`} key={sal.id} label={sal.name} checked={this.state.salutation.value === sal.id}
                              onChange={this.handleSalutationChange.bind(this)}/>
             )
         );

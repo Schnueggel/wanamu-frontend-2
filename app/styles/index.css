@@ -1,3 +1,7 @@
+body, html {
+    font-size: 16px;
+}
+
 input, textarea, select {
     outline: none;
 }
@@ -16,6 +20,11 @@ input:-webkit-autofill {
     --color3: rgb(96,125,139);
     --color4: rgb(63,81,181);
     --color5: rgb(139,195,74);
+    --color6: rgb(255, 255, 255);
+    --color7: rgb(0,0,0);
+    --color8: rgb(99, 99, 99);
+    --color9: rgb(161, 161, 161);
+    --color1Inv: rgb(255, 255, 255);
     --shadow1: 0 1px 3px 0 rgba(0,0,0,.2),0 1px 1px 0 rgba(0,0,0,.14),0 2px 1px -1px rgba(0,0,0,.12);
 }
 
@@ -84,11 +93,12 @@ input:-webkit-autofill {
     font-size: 2rem;
     text-decoration: none;
     cursor: pointer;
+    color: var(--color1);
 }
 
 .menu .navigation .link.active {
     background-color: var(--color1);
-    color: white;
+    color: var(--color1Inv);
 }
 
 .menu-overlay  {
@@ -115,6 +125,25 @@ input:-webkit-autofill {
     margin: 0 auto;
 }
 
+.button {
+    border: none;
+    font-size: 2.5rem;
+    padding: 0.4rem;
+    box-sizing: border-box;
+    background: var(--color6);
+    box-shadow: var(--shadow1);
+}
+
+.button[disabled], .button[disabled]:hover {
+    color: var(--color8);
+    background: var(--color9);
+}
+
+.button:hover {
+    color: var(--color1Inv);
+    background: var(--color1);
+}
+
 .login.card,.register.card  {
     margin: 0 auto;
     position: absolute;
@@ -123,6 +152,26 @@ input:-webkit-autofill {
     width: 660px;
     transform: translate(-50%, -50%);
     text-align: center;
+}
+
+.login .button,.register .button {
+    width: 100%;
+}
+
+.register .radiogroup__container {
+    text-align: left;
+}
+
+.register .radio__container {
+    margin: 0 1rem;
+}
+
+.register .radio__container:first-child {
+    margin-left: 0;
+}
+
+.register .radio__container .label {
+    margin-left: 0.2rem;
 }
 
 .login .wu-textfield, .register .wu-textfield  {
@@ -135,7 +184,8 @@ input:-webkit-autofill {
 
 .form-actionbar {
     text-align: center;
-    display: inline-block;
+    line-height: 1;
+    margin: 1rem 0 0 0;
 }
 
 .todolist {
@@ -259,7 +309,6 @@ input:-webkit-autofill {
     border: none;
     border-bottom: 1px solid rgba(0,0,0, 0.12);
     display: block;
-    font-size: 16px;
     margin: 0;
     padding: 4px 0;
     width: 100%;

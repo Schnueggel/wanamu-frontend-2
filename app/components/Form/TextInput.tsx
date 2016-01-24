@@ -1,6 +1,5 @@
 import * as React from 'react';
 import * as _ from 'lodash';
-import { Subject, Observable } from 'rx';
 import * as classNames from 'classnames';
 import ITextInputProps = wu.Form.ITextInputProps;
 
@@ -31,8 +30,6 @@ export default class TextInput extends React.Component<ITextInputProps, IState> 
     } as IRef;
 
     private defaultId: string;
-
-    public stateStream: Observable<IState>;
 
     static defaultProps: ITextInputProps = {
         errors   : [],

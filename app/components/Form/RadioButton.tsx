@@ -39,14 +39,14 @@ export default class RadioButton extends React.Component<wu.Form.IRadioButton, a
         //Generate error elements
         const errs:any = this.props.errors.map(this.createErrorElements);
 
-        return  (<label className="mdl-radio mdl-js-radio mdl-js-ripple-effect" htmlFor={this.props.id}>
-                <input type="radio" id={this.props.id} className="mdl-radio__button" name={this.props.name} value={this.props.value} checked={this.props.checked} onChange={this.handleChange.bind(this)} ref="field" />
-                <span className="mdl-radio__label">{this.props.label}</span>
+        return  (<label className="radio__container" htmlFor={this.props.id}>
+                <input type="radio" id={this.props.id} className="radio" name={this.props.name} value={this.props.value} checked={this.props.checked} onChange={this.handleChange.bind(this)} ref="field" />
+                <span className="label">{this.props.label}</span>
                     {errs}
             </label>);
     }
 
     createErrorElements(text, key) {
-        return <span className="mdl-textfield__error" key={key}>{text}</span>
+        return <span className="textfield__error" key={key}>{text}</span>
     }
 }

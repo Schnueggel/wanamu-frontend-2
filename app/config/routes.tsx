@@ -4,23 +4,14 @@ import Login from 'components/Login';
 import TodoList from 'components/TodoList';
 import Logout from 'components/Logout';
 import Register from 'components/Register';
-import {Route, IndexRoute} from 'react-router';
-
-/**
- * TODO remove this and material-design-lite
- */
-function upgradeDom() {
-    setTimeout(() => {
-        componentHandler.upgradeDom();
-    }, 400);
-}
+import { Route, IndexRoute } from 'react-router';
 
 export default (
-    <Route path="/" component={Page} onEnter={upgradeDom}>
+    <Route path="/" component={Page}>
         <IndexRoute component={Login} />
-        <Route path="login" component={Login} onEnter={upgradeDom}/>
-        <Route path="register" component={Register} onEnter={upgradeDom}/>
-        <Route path="todolist(/:id)" component={TodoList} onEnter={upgradeDom}/>
-        <Route path="logout" component={Logout} onEnter={upgradeDom}/>
+        <Route path="login" component={Login}/>
+        <Route path="register" component={Register}/>
+        <Route path="todolist(/:id)" component={TodoList}/>
+        <Route path="logout" component={Logout}/>
     </Route>
 );

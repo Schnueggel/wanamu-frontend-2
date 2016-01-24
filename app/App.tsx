@@ -1,4 +1,4 @@
-import {configLoad} from './actions/ConfigAction';
+import {configLoad} from './actions/ConfigActions';
 require('normalize.css');
 require('./styles/index.css');
 

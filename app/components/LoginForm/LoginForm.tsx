@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Subject, Observable } from 'rx';
-import TextInput from 'components/Form/TextInput';
+import TextInput from '../Form/TextInput';
+import { Button } from '../Elements/Button';
 import * as _ from 'lodash';
 
 export interface ILoginFormProps extends __React.Props<ILoginFormProps> {
@@ -15,11 +16,6 @@ export interface  IRefs {
     email: TextInput,
     password: TextInput,
     submit: __React.Component<any, any> & HTMLButtonElement
-}
-
-export interface ISubmitStreamData {
-    username: string;
-    password: string;
 }
 
 export default class LoginForm extends React.Component<ILoginFormProps, any> {
@@ -90,9 +86,9 @@ export default class LoginForm extends React.Component<ILoginFormProps, any> {
             <TextInput {...this.email} onChange={this.handleUsernameChange.bind(this)}/>
             <TextInput {...this.password} onChange={this.handlePasswordChange.bind(this)} />
             <div className="form-actionbar">
-                <button type="button" className="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" ref="submit" onClick={this.handleClick.bind(this)}
-                        disabled={!this.state.valid}>Login
-                </button>
+                <Button ref="submit" onClick={this.handleClick.bind(this)} disabled={!this.state.valid}>
+                    Login
+                </Button>
             </div>
         </form>
     }

@@ -1,9 +1,7 @@
 import * as React from 'react';
 
 export interface IButtonProps extends __React.Props<IButtonProps> {
-    icon?: string;
     onClick?: Function,
-    text?: string;
     className?: string,
     disabled?: boolean
 }
@@ -15,9 +13,7 @@ export class Button extends React.Component<IButtonProps, any> {
     };
 
     static defaultProps: IButtonProps = {
-        icon: '',
         className: '',
-        text: '',
         disabled: false
     };
 
@@ -32,9 +28,9 @@ export class Button extends React.Component<IButtonProps, any> {
     }
 
     render() {
-        return (<button className={`mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect ${this.props.className}`}
+        return (<button className={`button ${this.props.className}`} type="button"
                         onClick={this.handleClick.bind(this)} ref="button" disabled={this.props.disabled}>
-            {this.props.text}
+            {this.props.children}
         </button>);
     }
 }

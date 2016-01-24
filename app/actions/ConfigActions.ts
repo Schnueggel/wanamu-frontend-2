@@ -53,6 +53,6 @@ export function configLoad() {
             .then( config => {
                 dispatch(configLoaded(config));
             })
-            .catch(err => console.error(err))
+            .catch(err => console.error(err));
     }
 }

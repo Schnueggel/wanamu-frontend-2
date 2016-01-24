@@ -1,5 +1,5 @@
 import * as Actions from './index';
-import { configRequest, configLoad } from './ConfigAction';
+import { configRequest, configLoad } from './ConfigActions';
 import * as fetch from 'isomorphic-fetch';
 import { loginRequest } from './LoginActions';
 import { LocalStorage, defaultRequestOptions } from '../constants';

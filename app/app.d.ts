@@ -2,14 +2,6 @@
 /// <reference path="./models/models.d.ts" />
 /// <reference path="./services/services.d.ts" />
 
-// Material-Design-Lite
-declare interface ComponentHandler {
-    upgradeDom();
-    upgradeElement(element: Element, jsClass?:string)
-}
-
-declare const componentHandler:ComponentHandler;
-
 declare function require(url:string);
 
 declare module wu {
@@ -50,14 +42,22 @@ declare module wu {
         };
     }
 
-    export interface ILogoutProps extends wu.IControlProps<ILogoutProps> {
+    interface IRegisterProps extends wu.IControlProps<IRegisterProps> {
+        register: IRegisterState;
+        actions: {
+            routeActions: RouteActions,
+            register: (data: any) => void
+        };
+    }
+
+    interface ILogoutProps extends wu.IControlProps<ILogoutProps> {
         actions: {
             routeActions: RouteActions,
             logout: () => void
         };
     }
 
-    export interface ITodoListProps extends wu.IControlProps<ITodoListProps>  {
+    interface ITodoListProps extends wu.IControlProps<ITodoListProps>  {
         todolist: ITodoListState;
         actions: {
             routeActions: RouteActions;
@@ -70,13 +70,19 @@ declare module wu {
         };
     }
 
-    export interface IMenuProps extends IControlProps<IMenuProps> {
+    interface IMenuProps extends IControlProps<IMenuProps> {
         title: string;
         items: Array<wu.IMenuItemData>;
         className: string;
     }
 
     interface IUserState {
+        error: string;
+        user: any;
+        isLoading: boolean;
+    }
+
+    interface IRegisterState {
         error: string;
         user: any;
         isLoading: boolean;

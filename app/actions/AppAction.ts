@@ -1,5 +1,5 @@
 import * as Actions from './index';
-import { configRequest, configLoad } from './ConfigAction';
+import { configRequest, configLoad } from './ConfigActions';
 
 export function menuOpen() {
     return  {

@@ -4,6 +4,7 @@ import { routeReducer, UPDATE_LOCATION } from 'redux-simple-router';
 import { login } from './login';
 import { auth } from './auth';
 import { user } from './user';
+import { register } from './register';
 import { todolist } from './todolist';
 import { AppStates } from '../constants';
 
@@ -68,6 +69,7 @@ function app(state = initialState, action: any) {
 }
 
 const rootReducer = combineReducers({
+    register,
     user,
     todolist,
     app,
