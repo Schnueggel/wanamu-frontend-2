@@ -19,3 +19,17 @@ export function userLoaded(user) {
         user
     };
 }
+
+export function appError(error) {
+    return  {
+        type: Actions.ACTION_APP_ERROR,
+        error
+    };
+}
+
+export function appClearError(error) {
+    return  {
+        type: Actions.ACTION_APP_CLEAR_ERROR,
+        error
+    };
+}

@@ -42,13 +42,8 @@ export function loadDefaultUser() {
 }
 
 export function bootstrap() {
-    return (dispatch, getState) => {
+    return (dispatch) => {
         dispatch(restoreToken());
-        dispatch(configLoad()).then( (t) =>  { console.log(t);
-            if (getState().auth.token) {
-                dispatch(loginRequest());
-                dispatch(loadDefaultUser());
-            }
-        });
+        dispatch(configLoad());
     }
 }

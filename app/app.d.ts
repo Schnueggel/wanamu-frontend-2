@@ -14,6 +14,7 @@ declare function require(url:string);
 
 declare module wu {
 
+    import RouteActions = ReduxSimpleRouter.RouteActions;
     interface IMenuItemData {
         text: string;
         url: string;
@@ -39,11 +40,25 @@ declare module wu {
         app: IAppState;
         login: ILoginState;
         actions: {
+            routeActions: RouteActions,
             login: __React.MouseEventHandler
         };
 
         params: {
             id?: number
+        };
+    }
+
+    export interface ITodoListProps extends wu.IControlProps<ITodoListProps>  {
+        todolist: ITodoListState;
+        actions: {
+            routeActions: RouteActions;
+            todolist: {
+                todoListLoad: (id: string) => void
+            };
+        }
+        params: {
+            id?: string
         };
     }
 
@@ -56,10 +71,17 @@ declare module wu {
     interface IAppState {
         isLoading: boolean;
         user: any;
+        error: string;
+        config: any;
         appState: number;
         menuOpen: boolean
     }
 
+    interface ITodoListState {
+        error: string;
+        todolist: any;
+        isLoading: boolean;
+    }
     interface ILoginState {
         error: string;
     }

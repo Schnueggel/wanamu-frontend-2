@@ -3,6 +3,7 @@ import * as Actions from '../actions/index';
 import { routeReducer } from 'redux-simple-router';
 import { login } from './login';
 import { auth } from './auth';
+import { todolist } from './todolist';
 import { AppStates } from '../constants';
 
 const initialState = {
@@ -50,12 +51,20 @@ function app(state = initialState, action: any) {
         case Actions.ACTION_USER_LOADED:
             return Object.assign({}, state, {
                 userLoading: false,
-                error: null,
-                user: action.user
+                error      : null,
+                user       : action.user
             });
         case Actions.ACTION_LOGIN_REQUEST:
             return Object.assign({}, state, {
                 userLoading: true
+            });
+        case Actions.ACTION_APP_ERROR:
+            return Object.assign({}, state, {
+                error: action.error
+            });
+        case Actions.ACTION_APP_CLEAR_ERROR:
+            return Object.assign({}, state, {
+                error: null
             });
         default:
             return state;
@@ -63,6 +72,7 @@ function app(state = initialState, action: any) {
 }
 
 const rootReducer = combineReducers({
+    todolist,
     app,
     login,
     auth,

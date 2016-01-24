@@ -47,6 +47,12 @@ export class Page extends React.Component<wu.IPageProps, any> implements React.C
 
         const menuOpen = classNames({open: this.props.app.menuOpen});
 
+        let error;
+
+        if (this.props.app.error) {
+            error = <div class="error-message">{this.props.app.error}</div>;
+        }
+
         return (
             <div className="mdl-layout__container">
                 <div className="mdl-layout mdl-js-layout">
@@ -61,6 +67,7 @@ export class Page extends React.Component<wu.IPageProps, any> implements React.C
                     <Menu title="Wanamu" items={ this.props.app.user ? this.authMenuItems : this.noAuthMenuItems } className={menuOpen}/>
                     <div className={`menu-overlay ${menuOpen}`} onClick={this.props.menuToggle}></div>
                     <div className="mdl-layout__content">
+                        {error}
                         {this.props.children}
                     </div>
                 </div>

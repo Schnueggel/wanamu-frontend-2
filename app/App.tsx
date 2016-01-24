@@ -1,3 +1,4 @@
+import {configLoad} from './actions/ConfigAction';
 require('normalize.css');
 require('./styles/index.css');
 
@@ -5,10 +6,9 @@ import * as React from 'react';
 import * as ReactDom from 'react-dom';
 import { Router, browserHistory } from 'react-router';
 import routes from 'config/routes';
-import {bootstrap} from './actions/BootstrapAction';
 import { Provider } from 'react-redux';
-
 import store from './stores/appStore';
+import { loadDefaultUser, bootstrap } from './actions/BootstrapAction';
 
 ReactDom.render(
     <Provider store={store}>
@@ -19,4 +19,10 @@ ReactDom.render(
     document.getElementById('app')
 );
 
+const unsubscribe = store.subscribe(()=> {
+    if (store.getState().app.config) {
+        store.dispatch(loadDefaultUser());
+        unsubscribe();
+    }
+});
 store.dispatch(bootstrap());

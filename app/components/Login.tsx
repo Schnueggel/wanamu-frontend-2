@@ -32,7 +32,8 @@ export class Login extends React.Component<wu.ILoginProps, any> implements React
 
     checkForUser(user: any) {
         if (typeof _.get(user, '._id') === 'string') {
-            this.props.history.push(`/todolist/${user.defaultTodolistId}`);
+            console.log(this.props.actions.routeActions);
+            this.props.actions.routeActions.push(`/todolist/${user.defaultTodolistId}`);
         }
     }
 
@@ -47,7 +48,7 @@ export class Login extends React.Component<wu.ILoginProps, any> implements React
             {error}
             <h3 className="title">Login</h3>
             <div className="content">
-                <LoginForm ref="form" submit={this.props.actions.login}/>
+                <LoginForm ref="form" submit={this.props.actions.login as any}/>
             </div>
         </div>);
     }
@@ -63,7 +64,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return {
         actions: {
-            routeActions,
+            routeActions: bindActionCreators(routeActions, dispatch),
             login: bindActionCreators(login, dispatch)
         }
     }
