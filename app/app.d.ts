@@ -46,7 +46,8 @@ declare module wu {
         register: IRegisterState;
         actions: {
             routeActions: RouteActions,
-            register: (data: any) => void
+            register: (data: any) => void,
+            usernameCheck: (name: string) => void
         };
     }
 

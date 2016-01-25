@@ -5,7 +5,6 @@ export * from './LoginActions';
 export * from './LogoutActions';
 export * from './UserActions';
 export * from './ConfigActions';
-export * from './RegisterAction';
 export * from './TokenActions';
 export * from './AppAction';
 export * from './RegisterActions';

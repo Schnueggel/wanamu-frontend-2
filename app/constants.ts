@@ -13,6 +13,10 @@ export class VisibleTodos {
     static Open     = 'Open';
 }
 
+export enum UserNameCheck {
+    Valid, Invalid, Unkown
+}
+
 export function defaultRequestOptions(token: string = null, method: string = 'POST') : RequestInit {
     const options = {
         method,

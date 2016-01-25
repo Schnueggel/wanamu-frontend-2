@@ -5,7 +5,7 @@ import { RegisterForm, ISubmitData } from 'components/Register/RegisterForm';
 import { connect } from 'react-redux';
 import { routeActions } from 'redux-simple-router';
 import { bindActionCreators } from 'redux';
-import { register } from '../actions/RegisterActions';
+import { register, usernameCheck } from '../actions/RegisterActions';
 
 /**
  * @class Register
@@ -39,6 +39,8 @@ export class Register extends React.Component<wu.IRegisterProps, any> implements
 
         });
     }
+
+
     render() {
         let error;
 
@@ -51,7 +53,7 @@ export class Register extends React.Component<wu.IRegisterProps, any> implements
                 {error}
                 <h3>Registration</h3>
                 <div className="title">
-                    <RegisterForm handleSubmit={this.handleSubmit.bind(this)} salutations={salutations} salutation={Salutation.Mr} />
+                    <RegisterForm handleSubmit={this.handleSubmit.bind(this)} salutations={salutations} salutation={Salutation.Mr} ref="regForm" usernameCheck={this.props.actions.usernameCheck} />
                 </div>
             </div>
         );
@@ -62,16 +64,17 @@ export class Register extends React.Component<wu.IRegisterProps, any> implements
 function mapStateToProps(state) {
     return {
         register: state.register
-    }
+    };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
         actions: {
             routeActions: bindActionCreators(routeActions, dispatch),
-            register: bindActionCreators(register, dispatch)
+            register: bindActionCreators(register, dispatch),
+            usernameCheck: bindActionCreators(usernameCheck, dispatch)
         }
-    }
+    };
 }
 
 const connected = connect(mapStateToProps, mapDispatchToProps)(Register);

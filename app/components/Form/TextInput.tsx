@@ -37,10 +37,8 @@ export default class TextInput extends React.Component<ITextInputProps, IState> 
         type     : 'text',
         pattern  : /.*/,
         className: '',
-        onBlur   : () => {
-        },
-        onChange : () => {
-        }
+        onBlur   : () => {},
+        onChange : () => {}
     } as ITextInputProps;
 
     /**
@@ -68,6 +66,14 @@ export default class TextInput extends React.Component<ITextInputProps, IState> 
         evt.target.select();
     }
 
+    /**
+     *
+     * @param evt
+     */
+    handleBlur(evt) {
+        this.props.onBlur(evt.target.value);
+    }
+
     shouldComponentUpdate(nextProps: ITextInputProps, nextState: any) {
         return _.isEqual(nextState, this.state) === false || _.isEqual(nextProps, this.props) === false;
     }
@@ -86,7 +92,7 @@ export default class TextInput extends React.Component<ITextInputProps, IState> 
 
         return (<div className={`wu-textfield wu-js-textfield ${className}`} ref="textbox">
             <input type={this.props.type} ref="field" className="wu-textfield__input" value={this.state.value} id={id}
-                   onBlur={this.props.onBlur} onChange={this.handleChange.bind(this)} onFocus={this.handleFieldOnFocus.bind(this)} noValidate name={this.props.name}/>
+                   onBlur={this.handleBlur.bind(this)} onChange={this.handleChange.bind(this)} onFocus={this.handleFieldOnFocus.bind(this)} noValidate name={this.props.name}/>
             {label}
             {errs}
         </div>);

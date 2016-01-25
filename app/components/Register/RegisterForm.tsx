@@ -7,7 +7,8 @@ import { Button } from '../Elements/Button';
 export interface IRegisterFormProps extends __React.Props<IRegisterFormProps> {
     salutation: string;
     salutations: Array<{id:string, name:string}>;
-    handleSubmit: (data: ISubmitData) => void
+    handleSubmit: (data: ISubmitData) => void;
+    usernameCheck: (name) => void;
 }
 
 export interface ISubmitData {
@@ -102,6 +103,7 @@ export class RegisterForm extends React.Component<IRegisterFormProps, any> imple
         name   : 'username',
         pattern: /.+/,
         errors : ['Username is required'],
+        onBlur: this.handleUsernameBlur.bind(this),
         onChange: (...args) => this.handleChange(...args, 'username')
     };
 
@@ -134,6 +136,16 @@ export class RegisterForm extends React.Component<IRegisterFormProps, any> imple
 
     /**
      *
+     * @param value
+     */
+    handleUsernameBlur(value) {
+        if (this.props.usernameCheck) {
+            this.props.usernameCheck(value);
+        }
+    }
+
+    /**
+     *
      * @param state
      * @param field
      */
@@ -150,6 +162,9 @@ export class RegisterForm extends React.Component<IRegisterFormProps, any> imple
         });
     }
 
+    /**
+     * Trigger the callback if the state of the form is valid
+     */
     handleSubmit() {
         if (this.state.valid) {
             this.props.handleSubmit({
