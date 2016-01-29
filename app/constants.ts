@@ -17,6 +17,27 @@ export enum UserNameCheck {
     Valid, Invalid, Unkown
 }
 
+export const Salutations = {
+    Mr: 'Mr',
+    Mrs: 'Mrs',
+    Human: 'Human',
+    Neutrum: 'Neutrum'
+};
+export const Colors = {
+    color1: 1,
+    color2: 2,
+    color3: 3,
+    color4: 4,
+    color5: 5
+};
+
+export const salutionOptions = [
+    {id: Salutations.Mr, name: Salutations.Mr},
+    {id: Salutations.Mrs, name: Salutations.Mrs},
+    {id: Salutations.Human, name: Salutations.Human},
+    {id: Salutations.Neutrum, name: Salutations.Neutrum}
+];
+
 export function defaultRequestOptions(token: string = null, method: string = 'POST') : RequestInit {
     const options = {
         method,

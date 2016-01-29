@@ -1,6 +1,5 @@
 import * as React from 'react';
 import LoginForm from 'components/LoginForm/LoginForm';
-import { User } from 'models/data/User';
 import { connect } from 'react-redux';
 import { routeActions } from 'redux-simple-router';
 import { bindActionCreators } from 'redux';
