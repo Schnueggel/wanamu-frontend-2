@@ -6,7 +6,8 @@ const initalState = {
     isLoading : false,
     user      : null,
     formErrors: null,
-    userCheck : UserNameCheck.Unkown
+    userCheck : UserNameCheck.Unkown,
+    isUserCheckLoading: false
 };
 
 export function register(state = initalState, action: any) {
@@ -22,7 +23,9 @@ export function register(state = initalState, action: any) {
         case Actions.ACTION_REGISTER_FORM_ERROR:
             return Object.assign({}, state, {formErrors: null, isLoading: false});
         case Actions.ACTION_REGISTER_USERNAME_CHECK:
-            return Object.assign({}, state, {userCheck: action.state});
+            return Object.assign({}, state, {userCheck: action.state, isUserCheckLoading: false});
+        case Actions.ACTION_REGISTER_USERNAME_CHECK_REQUEST:
+            return Object.assign({}, state, {isUserCheckLoading: true});
         default:
             return state;
     }

@@ -4,7 +4,6 @@ import { defaultRequestOptions } from '../constants';
 import { appError } from './AppAction';
 import routeActions = ReduxSimpleRouter.routeActions;
 import { UserNameCheck } from '../constants';
-import { User } from '../models/data/User';
 
 export function registerRequest() {
     return {
@@ -33,6 +32,12 @@ export function registered(user) {
     };
 }
 
+export function usernameValidRequest() {
+    return {
+        type: Actions.ACTION_REGISTER_USERNAME_CHECK_REQUEST
+    };
+}
+
 export function usernameValid(state: number) {
     return {
         type: Actions.ACTION_REGISTER_ERROR,
@@ -43,7 +48,7 @@ export function usernameValid(state: number) {
 export function usernameCheck(name) {
     return (dispatch: Function, getState: Function) => {
 
-        dispatch(registerRequest());
+        dispatch(usernameValidRequest());
 
         const options = defaultRequestOptions(null, 'GET');
 

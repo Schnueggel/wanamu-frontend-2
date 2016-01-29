@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as Actions from 'actions/actions';
-import { salutations, Salutation } from 'models/data/models';
+import { Salutations, salutionOptions } from 'constants';
 import { RegisterForm, ISubmitData } from 'components/Register/RegisterForm';
 import { connect } from 'react-redux';
 import { routeActions } from 'redux-simple-router';
@@ -53,7 +53,7 @@ export class Register extends React.Component<wu.IRegisterProps, any> implements
                 {error}
                 <h3>Registration</h3>
                 <div className="title">
-                    <RegisterForm handleSubmit={this.handleSubmit.bind(this)} salutations={salutations} salutation={Salutation.Mr} ref="regForm" usernameCheck={this.props.actions.usernameCheck} />
+                    <RegisterForm handleSubmit={this.handleSubmit.bind(this)} salutations={salutionOptions} salutation={Salutations.Mr} ref="regForm" usernameCheck={this.props.actions.usernameCheck} />
                 </div>
             </div>
         );
