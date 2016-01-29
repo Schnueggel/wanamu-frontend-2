@@ -6,6 +6,7 @@ import { AppStates } from '../constants';
 import * as classNames from 'classnames';
 import { bindActionCreators } from 'redux';
 import { menuToggle } from '../actions/AppAction';
+import { Spinner } from './Elements/Spinner';
 
 /**
  * Laoyout for the Page
@@ -60,6 +61,7 @@ export class Page extends React.Component<wu.IPageProps, any> implements React.C
                             <i className="material-icons icon" onClick={this.props.menuToggle}>menu</i>
                             <h1 className="title">Wanamu</h1>
                             <div className="spacer"></div>
+                            <Spinner/>
                             <div class="spinner active" is="true" hide={!this.props.app.isLoading}></div>
                         </div>
                     </header>
