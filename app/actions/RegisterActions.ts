@@ -32,7 +32,7 @@ export function registered(user) {
     };
 }
 
-export function usernameValidRequest() {
+export function usernameCheckRequest() {
     return {
         type: Actions.ACTION_REGISTER_USERNAME_CHECK_REQUEST
     };
@@ -40,15 +40,21 @@ export function usernameValidRequest() {
 
 export function usernameValid(state: number) {
     return {
-        type: Actions.ACTION_REGISTER_ERROR,
+        type: Actions.ACTION_REGISTER_USERNAME_CHECK,
         state
+    };
+}
+export function usernameCheckError(error: string) {
+    return {
+        type: Actions.ACTION_REGISTER_USERNAME_CHECK_ERROR,
+        error
     };
 }
 
 export function usernameCheck(name) {
     return (dispatch: Function, getState: Function) => {
 
-        dispatch(usernameValidRequest());
+        dispatch(usernameCheckRequest());
 
         const options = defaultRequestOptions(null, 'GET');
 
@@ -72,7 +78,7 @@ export function usernameCheck(name) {
                 dispatch(usernameValid(state));
             })
             .catch(err => {
-                dispatch(registerError(err.message));
+                dispatch(usernameCheckError(err.message));
             });
     }
 }

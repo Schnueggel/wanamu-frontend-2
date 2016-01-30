@@ -9,6 +9,7 @@ export interface IRegisterFormProps extends __React.Props<IRegisterFormProps> {
     salutations: Array<{id:string, name:string}>;
     handleSubmit: (data: ISubmitData) => void;
     usernameCheck: (name) => void;
+    usernameState: number;
 }
 
 export interface ISubmitData {
@@ -104,7 +105,11 @@ export class RegisterForm extends React.Component<IRegisterFormProps, any> imple
         pattern: /.+/,
         errors : ['Username is required'],
         onBlur: this.handleUsernameBlur.bind(this),
-        onChange: (...args) => this.handleChange(...args, 'username')
+        onChange: this.handleUsernameChange.bind(this)
+    };
+
+    static defaultProps: any = {
+        usernameCheck   : () => {}
     };
 
     /**
@@ -134,12 +139,20 @@ export class RegisterForm extends React.Component<IRegisterFormProps, any> imple
         this.handleChange({value, valid}, 'salutation');
     }
 
+    handleUsernameChange({value, valid}) {
+
+        if (value.length > 2) {
+            this.props.usernameCheck(value);
+        }
+
+        this.handleChange({value, valid}, 'username');
+    }
     /**
      *
      * @param value
      */
     handleUsernameBlur(value) {
-        if (this.props.usernameCheck) {
+        if (value.length > 2) {
             this.props.usernameCheck(value);
         }
     }

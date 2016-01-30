@@ -1,12 +1,12 @@
 import * as Actions from '../actions/index';
 import { UserNameCheck } from '../constants';
 
-const initalState = {
-    error     : null,
-    isLoading : false,
-    user      : null,
-    formErrors: null,
-    userCheck : UserNameCheck.Unkown,
+const initalState: wu.IRegisterState = {
+    error             : null,
+    isLoading         : false,
+    user              : null,
+    formErrors        : null,
+    usernameState     : UserNameCheck.Unkown,
     isUserCheckLoading: false
 };
 

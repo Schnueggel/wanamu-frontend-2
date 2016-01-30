@@ -12,6 +12,7 @@ const initialState = {
     appState     : AppStates.Booting,
     error        : null,
     isLoading    : false,
+    loadingCounter: 0,
     isSigningIn     : false,
     configLoading: false,
     config       : null,
@@ -62,6 +63,18 @@ function app(state = initialState, action: any) {
         case Actions.ACTION_APP_CLEAR_ERROR:
             return Object.assign({}, state, {
                 error: null
+            });
+        case Actions.ACTION_REGISTER_USERNAME_CHECK_REQUEST:
+            return Object.assign({}, state, {
+                loadingCounter: state.loadingCounter += 1,
+                isLoading: true
+            });
+        case Actions.ACTION_REGISTER_USERNAME_CHECK:
+        case Actions.ACTION_REGISTER_USERNAME_CHECK_ERROR:
+            const count = Math.min(0,state.loadingCounter -= 1);
+            return Object.assign({}, state, {
+                loadingCounter: count,
+                isLoading: count > 0
             });
         default:
             return state;

@@ -40,7 +40,6 @@ export class Register extends React.Component<wu.IRegisterProps, any> implements
         });
     }
 
-
     render() {
         let error;
 
@@ -53,7 +52,8 @@ export class Register extends React.Component<wu.IRegisterProps, any> implements
                 {error}
                 <h3>Registration</h3>
                 <div className="title">
-                    <RegisterForm handleSubmit={this.handleSubmit.bind(this)} salutations={salutionOptions} salutation={Salutations.Mr} ref="regForm" usernameCheck={this.props.actions.usernameCheck} />
+                    <RegisterForm handleSubmit={this.handleSubmit.bind(this)} salutations={salutionOptions} salutation={Salutations.Mr} ref="regForm" usernameCheck={this.props.actions.usernameCheck}
+                                  usernameState={this.props.register.usernameState} />
                 </div>
             </div>
         );

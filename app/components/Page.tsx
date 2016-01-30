@@ -46,6 +46,7 @@ export class Page extends React.Component<wu.IPageProps, any> implements React.C
         }
 
         const menuOpen = classNames({open: this.props.app.menuOpen});
+        const classLoading = classNames({hidden: !this.props.app.isLoading });
 
         let error;
 
@@ -61,8 +62,7 @@ export class Page extends React.Component<wu.IPageProps, any> implements React.C
                             <i className="material-icons icon" onClick={this.props.menuToggle}>menu</i>
                             <h1 className="title">Wanamu</h1>
                             <div className="spacer"></div>
-                            <Spinner/>
-                            <div class="spinner active" is="true" hide={!this.props.app.isLoading}></div>
+                            <Spinner className={classLoading}/>
                         </div>
                     </header>
                     <Menu title="Wanamu" items={ this.props.user.user ? this.authMenuItems : this.noAuthMenuItems } className={menuOpen}/>
