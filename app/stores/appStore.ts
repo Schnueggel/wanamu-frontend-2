@@ -1,4 +1,4 @@
-import { createStore, applyMiddleware, compose } from 'redux';
+import { createStore, applyMiddleware } from 'redux';
 import { browserHistory } from 'react-router'
 import { syncHistory } from 'redux-simple-router';
 import rootReducer from '../reducers';

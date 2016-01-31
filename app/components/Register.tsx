@@ -1,5 +1,4 @@
 import * as React from 'react';
-import * as Actions from 'actions/actions';
 import { Salutations, salutionOptions } from 'constants';
 import { RegisterForm, ISubmitData } from 'components/Register/RegisterForm';
 import { connect } from 'react-redux';

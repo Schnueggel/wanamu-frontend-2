@@ -1,10 +1,9 @@
 import * as React from 'react';
-import * as _ from 'lodash';
 import * as TList from 'components/TodoList/TodoList';
 import { connect } from 'react-redux';
 import { routeActions } from 'redux-simple-router';
 import { bindActionCreators } from 'redux';
-import { Select, IState as SelectIState } from 'components/Form/Select';
+import { Select } from 'components/Form/Select';
 import { VisibleTodos } from '../constants';
 import * as todolistActions from '../actions/TodoListAction';
 import {Todo} from '../models/Todo';
