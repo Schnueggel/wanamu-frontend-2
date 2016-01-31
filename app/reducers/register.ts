@@ -1,7 +1,7 @@
 import * as Actions from '../actions/index';
 import { UserNameCheck } from '../constants';
 
-const initalState: wu.IRegisterState = {
+const initialState: wu.IRegisterState = {
     error             : null,
     isLoading         : false,
     user              : null,
@@ -10,7 +10,7 @@ const initalState: wu.IRegisterState = {
     isUserCheckLoading: false
 };
 
-export function register(state = initalState, action: any) {
+export function register(state = initialState, action: any) {
     const { type, error, user } = action;
 
     switch (type) {

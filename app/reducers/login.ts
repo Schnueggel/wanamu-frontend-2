@@ -1,10 +1,10 @@
 import {ACTION_LOGIN_ERROR, ACTION_LOGIN_REQUEST} from '../actions/index';
 
-const initalState = {
+const initialState = {
     error: null
 };
 
-export function login(state = initalState, action: any) {
+export function login(state = initialState, action: any) {
     const { type, error } = action;
 
     switch (type) {

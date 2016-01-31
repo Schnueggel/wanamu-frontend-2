@@ -1,12 +1,12 @@
 import {ACTION_USER_REQUEST, ACTION_USER_ERROR, ACTION_USER_LOADED, ACTION_USER_CLEAR} from '../actions/index';
 
-const initalState = {
+const initialState = {
     error: null,
     isLoading: false,
     user: null
 };
 
-export function user(state = initalState, action: any) {
+export function user(state = initialState, action: any) {
     const { type, error, user } = action;
 
     switch (type) {
@@ -17,7 +17,7 @@ export function user(state = initalState, action: any) {
         case ACTION_USER_ERROR:
             return Object.assign({}, state, {error, isLoading: false});
         case ACTION_USER_CLEAR:
-            return Object.assign({}, initalState);
+            return Object.assign({}, initialState);
         default:
             return state;
     }

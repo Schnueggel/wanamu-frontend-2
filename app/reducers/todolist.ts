@@ -1,12 +1,12 @@
 import { ACTION_TODOLIST_ERROR, ACTION_TODOLIST_LOADED, ACTION_TODOLIST_REQUEST } from '../actions/index';
 
-const initalState = {
+const initialState = {
     error: null,
     isLoading: false,
     todolist: null
 };
 
-export function todolist(state = initalState, action: any) {
+export function todolist(state = initialState, action: any) {
     const { type, error } = action;
 
     switch (type) {
