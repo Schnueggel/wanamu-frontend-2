@@ -11,7 +11,6 @@
     "./typings/tsd.d.ts",
     "./app/app.d.ts",
     "./node_modules/rx/ts/rx.all.d.ts",
-    "./node_modules/axios/axios.d.ts",
     "./node_modules/typescript/lib/lib.es6.d.ts",
     "./node_modules/immutable/dist/immutable.d.ts"
   ]
