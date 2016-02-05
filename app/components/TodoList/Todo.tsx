@@ -84,7 +84,7 @@ export default class Todo extends React.Component<ITodoProps, ITodoState> {
             editTitle: false
         });
         if (evt.target.value !== this.todo.title) {
-            this.triggerTodoChanged(this.todo.set('title', evt.target.value));
+            this.triggerTodoChanged(this.todo.title = evt.target.value);
         }
     }
 
@@ -115,22 +115,22 @@ export default class Todo extends React.Component<ITodoProps, ITodoState> {
     }
 
     handleDescriptionBlur(evt) {
-        this.triggerTodoChanged(this.todo.set('description', evt.target.value));
+        this.triggerTodoChanged(this.todo.description = evt.target.value);
     }
 
     handleDone(evt) {
-        this.triggerTodoChanged(this.todo.set('finished', true));
+        this.triggerTodoChanged(this.todo.finished = true);
     }
 
     handleUndo() {
-        this.triggerTodoChanged(this.todo.set('finished', false));
+        this.triggerTodoChanged(this.todo.finished = false);
     }
 
     pickColor(color) {
         if (color === this.todo.color) {
             return;
         }
-        this.triggerTodoChanged(this.todo.set('color', color));
+        this.triggerTodoChanged(this.todo.color = color);
         this.setState({
             color,
             colorPick: false

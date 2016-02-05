@@ -5,7 +5,7 @@ declare function require(url:string);
 
 declare module wu {
 
-    import RouteActions = ReduxSimpleRouter.RouteActions;
+    import RouteActions = ReactRouterRedux.RouteActions;
     interface IMenuItemData {
         text: string;
         url: string;
@@ -87,6 +87,7 @@ declare module wu {
         user: any;
         isLoading: boolean;
         usernameState: number;
+        formErrors: {[index:string]:string}
     }
 
     interface IAppState {
@@ -95,7 +96,8 @@ declare module wu {
         error: string;
         config: any;
         appState: number;
-        menuOpen: boolean
+        menuOpen: boolean;
+        isUserCheckLoading: boolean;
     }
 
     interface ITodoListState {

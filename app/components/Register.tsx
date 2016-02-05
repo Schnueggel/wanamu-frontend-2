@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Salutations, salutionOptions } from 'constants';
 import { RegisterForm, ISubmitData } from 'components/Register/RegisterForm';
 import { connect } from 'react-redux';
-import { routeActions } from 'redux-simple-router';
+import { routeActions } from 'react-router-redux';
 import { bindActionCreators } from 'redux';
 import { register, usernameCheck } from '../actions/RegisterActions';
 

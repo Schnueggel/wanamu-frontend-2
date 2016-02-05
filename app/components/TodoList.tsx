@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as TList from 'components/TodoList/TodoList';
 import { connect } from 'react-redux';
-import { routeActions } from 'redux-simple-router';
+import { routeActions } from 'react-router-redux';
 import { bindActionCreators } from 'redux';
 import { Select } from 'components/Form/Select';
 import { VisibleTodos } from '../constants';

@@ -2,7 +2,6 @@ import * as fetch from 'isomorphic-fetch';
 import * as Actions from './index';
 import { defaultRequestOptions } from '../constants';
 import { appError } from './AppAction';
-import { routeActions } from 'react-router-redux';
 import * as _ from 'lodash';
 
 /**
@@ -60,7 +59,6 @@ export function todoListLoad(id:string) {
                     throw new Error('No data found');
                 } else if (response.status === 401) {
                     dispatch(appError('You need to login'));
-                    dispatch(routeActions.push('/login'));
                     return null;
                 } else if (response.status === 500) {
                     throw new Error('Server error');

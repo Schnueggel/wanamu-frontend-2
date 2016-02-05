@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
 import * as Actions from '../actions/index';
-import { routeReducer, UPDATE_LOCATION } from 'redux-simple-router';
+import { routeReducer, UPDATE_LOCATION } from 'react-router-redux';
 import { login } from './login';
 import { auth } from './auth';
 import { user } from './user';

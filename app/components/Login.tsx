@@ -1,7 +1,7 @@
 import * as React from 'react';
 import LoginForm from 'components/LoginForm/LoginForm';
 import { connect } from 'react-redux';
-import { routeActions } from 'redux-simple-router';
+import { routeActions } from 'react-router-redux';
 import { bindActionCreators } from 'redux';
 import { login } from '../actions/LoginActions';
 import * as _ from 'lodash';

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Menu from 'components/Menu/Menu';
 import { connect } from 'react-redux';
-import { routeActions } from 'redux-simple-router';
+import { routeActions } from 'react-router-redux';
 import { AppStates } from '../constants';
 import * as classNames from 'classnames';
 import { bindActionCreators } from 'redux';
@@ -51,7 +51,7 @@ export class Page extends React.Component<wu.IPageProps, any> implements React.C
         let error;
 
         if (this.props.app.error) {
-            error = <div class="error-message">{this.props.app.error}</div>;
+            error = <div className="error-message">{this.props.app.error}</div>;
         }
 
         return (
