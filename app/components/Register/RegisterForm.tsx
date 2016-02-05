@@ -54,7 +54,7 @@ export class RegisterForm extends React.Component<IRegisterFormProps, any> imple
         name   : 'email',
         pattern: /[^ @]*@[^ @]*/,
         errors : ['Valid Email required'],
-        onChange: (...args) => this.handleChange(...args, 'email')
+        onChange: (state) => this.handleChange(state, 'email')
     };
 
     password: any = {
@@ -74,7 +74,7 @@ export class RegisterForm extends React.Component<IRegisterFormProps, any> imple
         name   : 'password-confirm',
         pattern: /.+/,
         errors : ['Confirm your password'],
-        onChange: (...args) => this.handleChange(...args, 'passwordConfirm')
+        onChange: (state) => this.handleChange(state, 'passwordConfirm')
     };
 
     lastname: any = {
@@ -84,7 +84,7 @@ export class RegisterForm extends React.Component<IRegisterFormProps, any> imple
         name   : 'lastname',
         pattern: /.+/,
         errors : ['Lastname is required'],
-        onChange: (...args) => this.handleChange(...args, 'lastname')
+        onChange: (state) => this.handleChange(state, 'lastname')
     };
 
     firstname: any = {
@@ -94,7 +94,7 @@ export class RegisterForm extends React.Component<IRegisterFormProps, any> imple
         name   : 'firstname',
         pattern: /.+/,
         errors : ['Firstname is required'],
-        onChange: (...args) => this.handleChange(...args, 'firstname')
+        onChange: (state) => this.handleChange(state, 'firstname')
     };
 
     username: any = {
@@ -123,7 +123,8 @@ export class RegisterForm extends React.Component<IRegisterFormProps, any> imple
 
     /**
      *
-     * @param evt
+     * @param value
+     * @param valid
      */
     validatePassword({value, valid}) {
         this.passwordConfirm.pattern = new RegExp(`^${value}$`);
@@ -162,7 +163,7 @@ export class RegisterForm extends React.Component<IRegisterFormProps, any> imple
      * @param state
      * @param field
      */
-    handleChange(state, field){
+    handleChange(state: any, field: string){
         const valid = ['username', 'lastname', 'firstname', 'email', 'password', 'passwordConfirm'].every( v => {
             if (v === field) {
                 return state.valid;

@@ -5,7 +5,7 @@ import rootReducer from '../reducers';
 import * as thunkMiddleware from 'redux-thunk';
 import * as createLogger from 'redux-logger';
 
-const logger = createLogger();
+const logger = createLogger() as any;
 const reduxRouterMiddleware = syncHistory(browserHistory);
 
 const createStoreWithMiddleware = applyMiddleware(reduxRouterMiddleware, thunkMiddleware as any, logger)(createStore);

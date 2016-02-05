@@ -10,10 +10,10 @@ import * as _ from 'lodash';
  * @param todolist
  * @returns {{type: string, config: any}}
  */
-export function todoListLoaded(todolist: Object) {
+export function todoListLoaded(todos: Object) {
     return {
         type: Actions.ACTION_TODOLIST_LOADED,
-        todolist
+        todos
     };
 }
 

@@ -4,7 +4,7 @@ import Todo from './Todo';
 import ITodo = wu.model.data.ITodo;
 
 export interface ITodoListProps extends __React.Props<ITodoListProps> {
-    todolist: wu.model.data.ITodoList;
+    todos: wu.model.data.ITodo[];
     showTodos?: VisibleTodos,
     onTodoChange?(todo: wu.model.data.ITodo);
     onTodoAdd?();
@@ -22,8 +22,6 @@ export class VisibleTodos {
  */
 export class TodoList extends React.Component<ITodoListProps, any> {
 
-    todolist: wu.model.data.ITodoList;
-
     refs: any = {
         email   : HTMLInputElement,
         password: HTMLInputElement,
@@ -33,7 +31,7 @@ export class TodoList extends React.Component<ITodoListProps, any> {
 
     static defaultProps: ITodoListProps = {
         showTodos   : VisibleTodos.Open,
-        todolist    : null,
+        todos    : null,
         onTodoChange: () => {},
         onTodoAdd   : () => {}
     } as ITodoListProps;
@@ -51,7 +49,7 @@ export class TodoList extends React.Component<ITodoListProps, any> {
      * @param nextProps
      */
     shouldComponentUpdate(nextProps: ITodoListProps, nextState: any) {
-        return nextProps.todolist !== this.props.todolist || nextProps.showTodos !== this.props.showTodos || _.isEqual(this.state, nextState);
+        return nextProps.todos !== this.props.todos || nextProps.showTodos !== this.props.showTodos || _.isEqual(this.state, nextState);
     }
 
     render() {
@@ -75,14 +73,14 @@ export class TodoList extends React.Component<ITodoListProps, any> {
     }
 
     createTodos() {
-        if (Array.isArray(this.props.todolist) === false) {
+        if (Array.isArray(this.props.todos) === false) {
             return null;
         }
 
-        return this.props.todolist.filter((t: ITodo) => this.isTodoVisible(t)).map(this.createTodo.bind(this));
+        return this.props.todos.filter((t: ITodo) => this.isTodoVisible(t)).map(this.createTodo.bind(this));
     }
 
     createTodo(todo: ITodo) {
-        return <Todo todo={todo} key={todo._id} onTodoChange={this.props.onTodoChange.bind(this)}/>
+        return <Todo todo={todo} key={todo._id} onTodoChange={this.props.onTodoChange}/>
     }
 }

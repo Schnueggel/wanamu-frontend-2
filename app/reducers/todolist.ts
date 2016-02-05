@@ -4,7 +4,7 @@ import { Map, Set } from 'immutable';
 const initialState = {
     error: null,
     isLoading: false,
-    todos: null,
+    todos: Map(),
     isTodoSyncing: false,
     syncingTodos: Set()
 };

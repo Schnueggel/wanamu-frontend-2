@@ -5,51 +5,62 @@ import { appError } from './AppAction';
 import * as _ from 'lodash';
 
 /**
- * Todolist Loaded Action creator
- * @param todolist
- * @returns {{type: string, config: any}}
- */
-export function todoListLoaded(todolist: Object) {
-    return {
-        type: Actions.ACTION_TODOLIST_LOADED,
-        todolist
-    };
-}
-
-/**
- * TodoList Error action creator
- * @param error
- * @returns {{type: string, error: any}}
- */
-export function todoListError(error: string) {
-    return {
-        type: Actions.ACTION_TODOLIST_ERROR,
-        error
-    };
-}
-
-/**
- * Config Request action
  * @returns {{type: string}}
  */
-export function todoListRequest() {
+export function todoUpdate(todo) {
     return {
-        type: Actions.ACTION_TODOLIST_REQUEST
-    }
+        type: Actions.ACTION_TODO_UPDATE,
+        todo
+    };
 }
 
 /**
- * Loads the todolist from the backend
+ * @returns {{type: string}}
+ */
+export function todoError(error, todo) {
+    return {
+        type: Actions.ACTION_TODO_ERROR,
+        error,
+        todo
+    };
+}
+
+export function todoUpdateRequest(todo) {
+    return {
+        type: Actions.ACTION_TODO_UPDATE_REQUEST,
+        todo
+    };
+}
+
+export function todoUpdateRequestSuccess(todo) {
+    return {
+        type: Actions.ACTION_TODO_UPDATE_REQUEST_SUCCESS,
+        todo
+    };
+}
+
+export function todoUpdateRequestError(error: string, todo) {
+    return {
+        type: Actions.ACTION_TODO_UPDATE_REQUEST_ERROR,
+        error,
+        todo
+    };
+}
+
+/**
+ * Updates a todo
  *
  * @returns {function(any): Promise<TResult>|Promise<U>}
  */
-export function todoListLoad(id:string) {
-    return (dispatch, getState) => {
+export function todoDoUpdate(todo: wu.model.data.ITodo) {
+    return (dispatch: Redux.Dispatch, getState: () => any) => {
 
-        dispatch(todoListRequest());
-        const options = defaultRequestOptions(getState().auth.token, 'GET');
+        dispatch(todoUpdateRequest(todo));
+        const options = defaultRequestOptions(getState().auth.token, 'PUT');
 
-        return fetch(`${getState().app.config.apiBaseUrl}/todolist/${id}`,options)
+        options.body = JSON.stringify(todo);
+
+        return fetch(`${getState().app.config.apiBaseUrl}/todo/${todo._id}`, options)
             .then( response => {
                 if ([304, 200].indexOf(response.status) > -1) {
                     return response.json();
@@ -67,21 +78,22 @@ export function todoListLoad(id:string) {
                 } else if (response.status === 0) {
                     throw new Error('Please check your network connection');
                 } else {
-                    throw new Error('Loading todolist data with an unkown state');
+                    throw new Error('Updating todo failed');
                 }
             })
             .then( data => {
-                return _.get(data, '.data');
+                return _.get(data, 'data[0]');
             })
-            .then( todolist => {
-                if (todolist) {
-                    dispatch(todoListLoaded(todolist));
+            .then( todo => {
+                if (_.has(todo, '_id')) {
+                    dispatch(todoUpdateRequestSuccess(todo));
+                    dispatch(todoUpdate(todo));
                 } else {
-                    dispatch(todoListError('No data found'));
+                    dispatch(todoUpdateRequestError('No data found', todo));
                 }
             })
             .catch(err => {
-                dispatch(todoListError(err.message));
+                dispatch(todoUpdateRequestError(err.message, todo));
             });
     }
 }

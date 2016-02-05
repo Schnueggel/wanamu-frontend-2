@@ -61,6 +61,9 @@ declare module wu {
         todolist: ITodoListState;
         actions: {
             routeActions: RouteActions;
+            todo: {
+                todoDoUpdate: (todo: model.data.ITodo) => void
+            },
             todolist: {
                 todoListLoad: (id: string) => void
             };
@@ -87,6 +90,7 @@ declare module wu {
         user: any;
         isLoading: boolean;
         usernameState: number;
+        isUserCheckLoading: boolean;
         formErrors: {[index:string]:string}
     }
 
@@ -102,7 +106,7 @@ declare module wu {
 
     interface ITodoListState {
         error: string;
-        todolist: any;
+        todos: Immutable.Map<string,model.data.ITodo>;
         isLoading: boolean;
     }
     interface ILoginState {

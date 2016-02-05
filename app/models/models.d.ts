@@ -43,7 +43,7 @@ declare module wu {
         }
 
         interface ITodoStateModel extends IBaseStateModel<ITodoStateModel> {
-            todolist: wu.model.data.ITodoList;
+            todos: wu.model.data.ITodo[];
             isTodoUpdating:boolean;
             todoUpdateCount:number;
             todoListNotFound:boolean;
@@ -117,8 +117,6 @@ declare module wu {
             name : string;
             Todos : Immutable.Map<any,ITodo>;
         }
-
-        type ITodoList = ITodoListClass & Immutable.Record.TypedMap<ITodoListClass>;
 
         interface IProfileClass {
             id?: number;

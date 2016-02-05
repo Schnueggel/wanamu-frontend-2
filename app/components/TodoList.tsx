@@ -6,7 +6,9 @@ import { bindActionCreators } from 'redux';
 import { Select } from 'components/Form/Select';
 import { VisibleTodos } from '../constants';
 import * as todolistActions from '../actions/TodoListAction';
+import * as todoActions from '../actions/TodoActions';
 import {Todo} from '../models/Todo';
+import { Map } from 'immutable';
 
 /**
  *
@@ -26,6 +28,10 @@ export class TodoList extends React.Component<wu.ITodoListProps, any> implements
         todosVisible: Select
     };
 
+    static defaultProps:any = {
+        todos: Map()
+    };
+
     options: Array<{key: string, value:any}> = [
         {key: VisibleTodos.All, value: 'All'},
         {key: VisibleTodos.Open, value: 'Open'},
@@ -41,14 +47,12 @@ export class TodoList extends React.Component<wu.ITodoListProps, any> implements
     }
 
     componentWillMount() {
-        if (!this.props.todolist.todolist && this.props.todolist.isLoading === false) {
+        if (this.props.todolist.isLoading === false) {
             this.props.actions.todolist.todoListLoad(this.props.params.id);
         }
     }
 
-    handleTodoChange(todo: wu.model.data.ITodo) {
-
-    }
+    handleTodoChange(todo: wu.model.data.ITodo) {}
 
     handleCreateTodo() {
         //TODO implement
@@ -56,7 +60,7 @@ export class TodoList extends React.Component<wu.ITodoListProps, any> implements
     }
 
     render() {
-        const todolist = this.props.todolist.todolist || {} as any;
+        const todos = this.props.todolist.todos.toArray();
 
         let error = null, todolistEl, loading;
 
@@ -68,10 +72,10 @@ export class TodoList extends React.Component<wu.ITodoListProps, any> implements
             loading = <div className="loading">Loading</div>
         }
 
-        if (todolist) {
+        if (todos) {
             todolistEl = (
-                <TList.TodoList todolist={todolist}
-                                onTodoChange={this.handleTodoChange.bind(this)}
+                <TList.TodoList todos={todos}
+                                onTodoChange={this.props.actions.todo.todoDoUpdate}
                                 onTodoAdd={this.handleCreateTodo.bind(this)}
                                 ref="todolist"
                                 showTodos={this.state.todoVisibilityState}/>
@@ -101,7 +105,8 @@ function mapDispatchToProps(dispatch) {
     return {
         actions: {
             routeActions: bindActionCreators(routeActions, dispatch),
-            todolist: bindActionCreators(todolistActions, dispatch)
+            todolist: bindActionCreators(todolistActions, dispatch),
+            todo: bindActionCreators(todoActions, dispatch)
         }
     }
 }
