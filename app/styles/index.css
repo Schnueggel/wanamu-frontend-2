@@ -2,12 +2,12 @@ body, html {
     font-size: 16px;
 }
 
-input, textarea, select {
-    outline: none;
+.hidden {
+    display: none!important;
 }
 
-[hide="true"] {
-    display: none;
+input, textarea, select {
+    outline: none;
 }
 
 input:-webkit-autofill {

@@ -1,4 +1,5 @@
 import * as React from 'react';
+import * as classNames from 'classnames';
 
 export default class TextArea extends React.Component<wu.Form.ITextAreaProps, any> {
 
@@ -16,7 +17,6 @@ export default class TextArea extends React.Component<wu.Form.ITextAreaProps, an
         value: '',
         rows: 3,
         className: '',
-        hide: false,
         onBlur: () => {},
         onChange: () => {}
     } as wu.Form.ITextAreaProps;
@@ -46,8 +46,13 @@ export default class TextArea extends React.Component<wu.Form.ITextAreaProps, an
         if (this.props.label) {
             label = <label className="mdl-textfield__label" htmlFor={this.props.id}>{this.props.label}</label>
         }
+        const textContainerClass = classNames({
+            'mdl-textfield': true,
+            'mdl-js-textfield': true,
+            [this.props.className]: true
+        });
 
-        return (<div className="mdl-textfield mdl-js-textfield" is="true" ref="text" hide={this.props.hide}>
+        return (<div className={textContainerClass} ref="text">
             <textarea className="mdl-textfield__input" rows={this.props.rows} ref="field" id={this.props.id}  value={this.state.value}
                       onBlur={this.props.onBlur} onChange={this.handleChange.bind(this)}>
             </textarea>

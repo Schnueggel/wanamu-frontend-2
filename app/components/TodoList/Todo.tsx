@@ -3,7 +3,7 @@ import * as _ from 'lodash';
 import TextInput from 'components/Form/TextInput';
 import IconButton from 'components/Elements/IconButton';
 import TextArea from 'components/Form/TextArea';
-
+import * as classNames from 'classnames';
 import ITodo = wu.model.data.ITodo;
 
 export interface ITodoProps extends __React.Props<ITodoProps> {
@@ -157,13 +157,21 @@ export default class Todo extends React.Component<ITodoProps, ITodoState> {
               undoHideClass = this.todo.finished ? '' : 'hidden',
             colorPickHidden = this.state.colorPick ? '' : 'hidden';
 
+        const descriptionTextClass = classNames({
+            hidden: this.state.editDescription
+        });
+
+        const descriptionFieldClass = classNames({
+            hidden: this.state.editDescription === false
+        });
+
         return  (<div className={`todo mdl-card mdl-shadow--2dp`}>
             <div className={`mdl-card__title mdl-card--expand ${color}`}>
                 <TextInput value={this.todo.title} onBlur={this.handleTextOnBlur.bind(this)} label="Todo text"/>
             </div>
             <div className={`mdl-card__supporting-text ${descriptionHideClass}`}>
-                { this.state.editDescription ? null :<div onClick={this.handleEditDescription.bind(this)} hide={this.state.editDescription} >{this.todo.description}</div> }
-                <TextArea value={this.todo.description} label="Description" rows={3} onBlur={this.handleDescriptionBlur.bind(this)} ref="description" hide={!this.state.editDescription} />
+                <div className={descriptionTextClass} onClick={this.handleEditDescription.bind(this)}>{this.todo.description}</div>
+                <TextArea className={descriptionFieldClass} value={this.todo.description} label="Description" rows={3} onBlur={this.handleDescriptionBlur.bind(this)} ref="description"/>
             </div>
             <div className="mdl-card__menu">
                 <IconButton icon="undo" onClick={this.handleUndo.bind(this)} className={undoHideClass}/>
