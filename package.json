@@ -16,29 +16,30 @@
     "react-dom": "^0.14.6",
     "react-redux": "^4.0.6",
     "react-router": "^2.0.0-rc5",
+    "react-router-redux": "^3.0.0",
     "redux": "^3.0.5",
     "redux-logger": "^2.4.0",
-    "redux-simple-router": "^2.0.4",
     "redux-thunk": "^1.0.3",
     "rx": "^4.0.7"
   },
   "devDependencies": {
     "autoprefixer": "^6.3.1",
     "css-loader": "^0.23.1",
-    "cssnext": "^1.8.4",
     "material-design-lite": "git+https://github.com/google/material-design-lite.git#v1.0.6",
     "postcss-cssnext": "^2.4.0",
     "postcss-loader": "^0.8.0",
     "postcss-nesting": "^2.1.1",
     "style-loader": "^0.13.0",
     "ts-loader": "^0.8.0",
-    "typescript": "^1.7.5"
+    "typescript": "^1.7.5",
+    "webpack": "^1.12.13",
+    "webpack-dev-server": "^1.14.1"
   },
   "scripts": {
     "test": "test",
     "build": "webpack",
-    "dev": "webpack-dev-server --history-api-fallback --content-base public --devtool source-map --hot --progess --colors --inline",
-    "deploy": "webpack -p"
+    "dev": "./node_modules/.bin/webpack-dev-server --history-api-fallback --content-base public --devtool source-map --hot --progess --colors --inline",
+    "deploy": "./node_modules/.bin/webpack -p"
   },
   "repository": {
     "type": "git",
@@ -47,7 +48,8 @@
   "keywords": [
     "Todo",
     "React",
-    "Webpack"
+    "Webpack",
+    "Redux"
   ],
   "author": "Christian Steinmann <christian.steinmann77@gmail.com>",
   "license": "ISC",
