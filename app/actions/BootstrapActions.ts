@@ -17,7 +17,7 @@ export function loadDefaultUser() {
         const options = defaultRequestOptions(getState().auth.token, 'GET');
 
         return fetch(`${getState().app.config.apiBaseUrl}/user`, options)
-            .then( response => {
+            .then( (response: Response) => {
                 if (response.status === 200) {
                     return response.json();
                 } else {

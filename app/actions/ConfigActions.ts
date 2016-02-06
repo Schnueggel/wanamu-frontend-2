@@ -43,7 +43,7 @@ export function configLoad() {
     return (dispatch) => {
         dispatch(configRequest());
         return fetch('/config.json')
-            .then( response => {
+            .then((response:Response) => {
                 if ([304, 200].indexOf(response.status) > -1) {
                     return response.json();
                 } else {

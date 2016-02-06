@@ -7,7 +7,7 @@ import * as _ from 'lodash';
 
 /**
  * Todolist Loaded Action creator
- * @param todolist
+ * @param todos
  * @returns {{type: string, config: any}}
  */
 export function todoListLoaded(todos: Object) {
@@ -51,7 +51,7 @@ export function todoListLoad(id:string) {
         const options = defaultRequestOptions(getState().auth.token, 'GET');
 
         return fetch(`${getState().app.config.apiBaseUrl}/todolist/${id}`,options)
-            .then( response => {
+            .then((response: Response) => {
                 if ([304, 200].indexOf(response.status) > -1) {
                     return response.json();
                 } else if ([422, 400].indexOf(response.status) > -1) {

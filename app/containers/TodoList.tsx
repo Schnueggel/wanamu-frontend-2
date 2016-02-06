@@ -16,8 +16,6 @@ import { Map } from 'immutable';
  */
 export class TodoList extends React.Component<wu.ITodoListProps, any> implements React.ComponentLifecycle<wu.ITodoListProps, any> {
 
-    private id: number;
-
     state: any = {
         todoVisiblityState: VisibleTodos.All
     };
@@ -51,8 +49,6 @@ export class TodoList extends React.Component<wu.ITodoListProps, any> implements
             this.props.actions.todolist.todoListLoad(this.props.params.id);
         }
     }
-
-    handleTodoChange(todo: wu.model.data.ITodo) {}
 
     handleCreateTodo() {
         //TODO implement

@@ -25,6 +25,7 @@ input:-webkit-autofill {
     --color8: rgb(99, 99, 99);
     --color9: rgb(161, 161, 161);
     --color1Inv: rgb(255, 255, 255);
+    --colorText1: rgba(0,0,0,0.87);
     --shadow1: 0 1px 3px 0 rgba(0,0,0,.2),0 1px 1px 0 rgba(0,0,0,.14),0 2px 1px -1px rgba(0,0,0,.12);
 }
 
@@ -134,7 +135,7 @@ input:-webkit-autofill {
     box-shadow: var(--shadow1);
     background: 0 0;
     border-radius: 2px;
-    color: #000;
+    color: var(--colorText1);
     position: relative;
     height: 36px;
     min-width: 64px;
@@ -198,7 +199,7 @@ input:-webkit-autofill {
     background: var(--color9);
 }
 
-.button:hover {
+.button:hover, .todo__menu .button:hover {
     color: var(--color1Inv);
     background: var(--color1);
 }
@@ -307,10 +308,7 @@ input:-webkit-autofill {
 }
 
 .todo__menu .button {
-    margin-left: 0.3rem;
-}
-.todo__menu .button:first-child {
-    margin-left: 0;
+    background-color: var(--color6);
 }
 
 .todo__actions {
