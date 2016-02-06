@@ -20,25 +20,19 @@ module.exports = {
     plugins: [],
     module: {
         noParse: [
-            /[/\\]react[/\\]/,
-            /node_modules[/\\]redux/,
-            /[/\\]rx[/\\]/,
-            /[/\\]webpack[/\\]/,
-            /[/\\]webpack-dev-server[/\\]/,
-            /[/\\]react-router[/\\]/,
-            /[/\\]react-redux[/\\]/
+
         ],
         preLoaders: [
             {
                 test: /\.tsx?$/,
-                loader: "tslint-loader"
+                loader: 'tslint-loader'
             }
         ],
         loaders: [
             {
                 test: /\.tsx?$/,
                 loader: 'ts-loader',
-                exclude: /(node_modules|bower_components)/
+                exclude: /node_modules/
             },
             {
                 test:   /\.css$/,

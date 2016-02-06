@@ -1,9 +1,9 @@
 import * as  React from 'react';
-import Page from 'components/Page';
-import Login from 'components/Login';
-import TodoList from 'components/TodoList';
-import Logout from 'components/Logout';
-import Register from 'components/Register';
+import Page from '../containers/Page';
+import Login from '../containers/Login';
+import TodoList from '../containers/TodoList';
+import Logout from '../containers/Logout';
+import Register from '../containers/Register';
 import { Route, IndexRoute } from 'react-router';
 
 export default (

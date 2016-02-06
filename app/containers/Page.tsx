@@ -6,7 +6,7 @@ import { AppStates } from '../constants';
 import * as classNames from 'classnames';
 import { bindActionCreators } from 'redux';
 import { menuToggle } from '../actions/AppAction';
-import { Spinner } from './Elements/Spinner';
+import { Spinner } from './../components/Elements/Spinner';
 
 /**
  * Laoyout for the Page
