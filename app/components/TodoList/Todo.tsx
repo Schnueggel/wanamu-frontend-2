@@ -22,7 +22,7 @@ export interface ITodoState {
  * @class Todo
  * @namespace wu.components.TodoList
  */
-export default class Todo extends React.Component<ITodoProps, ITodoState> {
+export default class Todo extends React.Component<ITodoProps, ITodoState> implements React.ComponentLifecycle {
 
     state: ITodoState = {
         editTitle: false,
@@ -118,6 +118,9 @@ export default class Todo extends React.Component<ITodoProps, ITodoState> {
     handleDescriptionBlur(evt) {
         this.todo.description = evt.target.value;
         this.triggerTodoChanged(this.todo);
+        this.setState({
+            editDescription: false
+        });
     }
 
     handleDone(evt) {
@@ -160,27 +163,25 @@ export default class Todo extends React.Component<ITodoProps, ITodoState> {
         const descriptionTextClass = classNames({
             hidden: this.state.editDescription
         });
-
         const descriptionFieldClass = classNames({
             hidden: this.state.editDescription === false
         });
 
-        return  (<div className={`todo mdl-card mdl-shadow--2dp`}>
-            <div className={`mdl-card__title mdl-card--expand ${color}`}>
+        return  (<div className={`todo`}>
+            <div className={`todo__title ${color}`}>
                 <TextInput value={this.todo.title} onBlur={this.handleTextOnBlur.bind(this)} label="Todo text"/>
             </div>
-            <div className={`mdl-card__supporting-text ${descriptionHideClass}`}>
+            <div className={`todo__supporting-text ${descriptionHideClass}`}>
                 <div className={descriptionTextClass} onClick={this.handleEditDescription.bind(this)}>{this.todo.description}</div>
-                <TextArea className={descriptionFieldClass} value={this.todo.description} label="Description" rows={3} onBlur={this.handleDescriptionBlur.bind(this)} ref="description"/>
+                <TextArea className={descriptionFieldClass} value={this.todo.description} placeholder="Description" rows={3} onBlur={this.handleDescriptionBlur.bind(this)} ref="description"/>
             </div>
-            <div className="mdl-card__menu">
+            <div className="todo__menu">
                 <IconButton icon="undo" onClick={this.handleUndo.bind(this)} className={undoHideClass}/>
                 <IconButton icon="done" onClick={this.handleDone.bind(this)} className={doneHideClass}/>
-                <span className="mdl-layout-spacer"/>
-                <IconButton icon="subject" onClick={this.handleEditDescription.bind(this)} />
+                <span className="spacer"/>
                 <IconButton icon="color_lens" onClick={this.handleColorPick.bind(this)} />
             </div>
-            <div className={`colorpicker mdl-card__actions mdl-card--border ${colorPickHidden}`}>
+            <div className={`colorpicker todo__actions ${colorPickHidden}`}>
                 {this.createColorPickButtons()}
             </div>
         </div>);

@@ -55,7 +55,7 @@ export class TodoList extends React.Component<ITodoListProps, any> {
     render() {
         return (<div className="todolist">
             {this.createTodos()}
-            <div className={`todo todo-add mdl-card mdl-shadow--2dp`} onClick={this.props.onTodoAdd}>
+            <div className={`todo todo-add`} onClick={this.props.onTodoAdd}>
                 <div className="todo__content">+</div>
             </div>
         </div>);

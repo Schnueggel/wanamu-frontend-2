@@ -16,6 +16,7 @@ export default class TextArea extends React.Component<wu.Form.ITextAreaProps, an
         errors: [],
         value: '',
         rows: 3,
+        placeholder: '',
         className: '',
         onBlur: () => {},
         onChange: () => {}
@@ -44,24 +45,24 @@ export default class TextArea extends React.Component<wu.Form.ITextAreaProps, an
         const errs:any = this.props.errors.map(this.createErrorElements);
 
         if (this.props.label) {
-            label = <label className="mdl-textfield__label" htmlFor={this.props.id}>{this.props.label}</label>
+            label = <label className="wu-textfield__label" htmlFor={this.props.id}>{this.props.label}</label>
         }
         const textContainerClass = classNames({
-            'mdl-textfield': true,
-            'mdl-js-textfield': true,
+            'wu-textfield': true,
+            'wu-js-textfield': true,
             [this.props.className]: true
         });
 
         return (<div className={textContainerClass} ref="text">
-            <textarea className="mdl-textfield__input" rows={this.props.rows} ref="field" id={this.props.id}  value={this.state.value}
-                      onBlur={this.props.onBlur} onChange={this.handleChange.bind(this)}>
-            </textarea>
             {label}
+            <textarea className="wu-textfield__input" rows={this.props.rows} ref="field" id={this.props.id} value={this.state.value}
+                      onBlur={this.props.onBlur} onChange={this.handleChange.bind(this)} placeholder={this.props.placeholder}>
+            </textarea>
             {errs}
         </div>);
     }
 
     createErrorElements(text, key) {
-        return <span className="mdl-textfield__error" key={key}>{text}</span>
+        return <span className="wu-textfield__error" key={key}>{text}</span>
     }
 }
