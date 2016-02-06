@@ -22,7 +22,7 @@ export interface ITodoState {
  * @class Todo
  * @namespace wu.components.TodoList
  */
-export default class Todo extends React.Component<ITodoProps, ITodoState> implements React.ComponentLifecycle {
+export default class Todo extends React.Component<ITodoProps, ITodoState> implements React.ComponentLifecycle<ITodoProps, ITodoState> {
 
     state: ITodoState = {
         editTitle: false,
@@ -45,13 +45,9 @@ export default class Todo extends React.Component<ITodoProps, ITodoState> implem
 
     todo: ITodo;
 
-    static propTypes: any = {
-        todo: React.PropTypes.object.isRequired
-    };
-
     static defaultProps: ITodoProps = {
         todo: null,
-        onTodoChange(todo: ITodo):void {},
+        onTodoChange: (todo: ITodo) => {},
     } as ITodoProps;
 
     /**
@@ -74,6 +70,7 @@ export default class Todo extends React.Component<ITodoProps, ITodoState> implem
     /**
      * React lifecycle
      * @param nextProps
+     * @param nextState
      */
     shouldComponentUpdate(nextProps: ITodoProps, nextState: ITodoState) {
         return nextProps.todo !== this.todo || _.isEqual(this.state, nextState) === false;

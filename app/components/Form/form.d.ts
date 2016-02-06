@@ -33,6 +33,7 @@ declare module wu {
             label?: string;
             id?: string;
             name?: string;
+            placeholder?: string;
             hide?: boolean;
             errors?: Array<string>;
             onChange?: (data: {valid: boolean, value: string}) => void;

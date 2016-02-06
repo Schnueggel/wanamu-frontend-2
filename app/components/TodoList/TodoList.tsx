@@ -20,7 +20,7 @@ export class VisibleTodos {
  * @class TodoList
  * @namespace wu.components.TodoList
  */
-export class TodoList extends React.Component<ITodoListProps, any> {
+export class TodoList extends React.Component<ITodoListProps, any> implements React.ComponentLifecycle<ITodoListProps, any> {
 
     refs: any = {
         email   : HTMLInputElement,
@@ -47,6 +47,7 @@ export class TodoList extends React.Component<ITodoListProps, any> {
     /**
      * React lifecycle
      * @param nextProps
+     * @param nextState
      */
     shouldComponentUpdate(nextProps: ITodoListProps, nextState: any) {
         return nextProps.todos !== this.props.todos || nextProps.showTodos !== this.props.showTodos || _.isEqual(this.state, nextState);
