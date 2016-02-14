@@ -30,7 +30,7 @@ export default class IconButton extends React.Component<IIconButtonProps, any> {
     }
 
     render() {
-        return (<button className={`mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect ${this.props.className}`}
+        return (<button className={`button icon ${this.props.className}`}
                         onClick={this.handleClick.bind(this)} ref="button" disabled={this.props.disabled}>
             <i className="material-icons">{this.props.icon}</i>
         </button>);

@@ -25,6 +25,7 @@ input:-webkit-autofill {
     --color8: rgb(99, 99, 99);
     --color9: rgb(161, 161, 161);
     --color1Inv: rgb(255, 255, 255);
+    --colorText1: rgba(0,0,0,0.87);
     --shadow1: 0 1px 3px 0 rgba(0,0,0,.2),0 1px 1px 0 rgba(0,0,0,.14),0 2px 1px -1px rgba(0,0,0,.12);
 }
 
@@ -67,7 +68,7 @@ input:-webkit-autofill {
     position: absolute;
     top: 0;
     left: 0;
-    background: white;
+    background: var(--color6);
     z-index: 10;
     height: 100%;
 }
@@ -132,6 +133,65 @@ input:-webkit-autofill {
     box-sizing: border-box;
     background: var(--color6);
     box-shadow: var(--shadow1);
+    background: 0 0;
+    border-radius: 2px;
+    color: var(--colorText1);
+    position: relative;
+    height: 36px;
+    min-width: 64px;
+    display: inline-block;
+    font-family: "Roboto","Helvetica","Arial",sans-serif;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0;
+    overflow: hidden;
+    will-change: box-shadow,transform;
+    transition: box-shadow .2s cubic-bezier(.4,0,1,1),background-color .2s cubic-bezier(.4,0,.2,1),color .2s cubic-bezier(.4,0,.2,1);
+    outline: none;
+    cursor: pointer;
+    text-decoration: none;
+    text-align: center;
+    line-height: 36px;
+    vertical-align: middle
+}
+
+.material-icons {
+    font-family: 'Material Icons';
+    font-weight: normal;
+    font-style: normal;
+    font-size: 24px;
+    line-height: 1;
+    letter-spacing: normal;
+    text-transform: none;
+    display: inline-block;
+    white-space: nowrap;
+    word-wrap: normal;
+    direction: ltr;
+    -webkit-font-feature-settings: 'liga';
+    -webkit-font-smoothing: antialiased;
+}
+
+.button.icon {
+    border-radius: 50%;
+    font-size: 24px;
+    height: 32px;
+    margin-left: 0;
+    margin-right: 0;
+    min-width: 32px;
+    width: 32px;
+    padding: 0;
+    overflow: hidden;
+    color: inherit;
+    line-height: normal;
+}
+
+.button.icon .material-icons {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-12px,-12px);
+    line-height: 24px;
+    width: 24px;
 }
 
 .button[disabled], .button[disabled]:hover {
@@ -139,7 +199,7 @@ input:-webkit-autofill {
     background: var(--color9);
 }
 
-.button:hover {
+.button:hover, .todo__menu .button:hover {
     color: var(--color1Inv);
     background: var(--color1);
 }
@@ -198,6 +258,68 @@ input:-webkit-autofill {
 *******************************************************/
 .todo {
     margin: 1rem;
+    box-shadow: var(--shadow1);
+    display: flex;
+    flex-direction: column;
+    font-size: 16px;
+    font-weight: 400;
+    min-height: 200px;
+    overflow: hidden;
+    width: 330px;
+    z-index: 1;
+    position: relative;
+    background: #fff;
+    border-radius: 2px;
+    box-sizing: border-box;
+}
+
+.todo__title {
+    align-items: center;
+    color: #000;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    justify-content: stretch;
+    line-height: normal;
+    padding:1.2rem 1rem;
+    perspective-origin: 165px 56px;
+    transform-origin: 165px 56px;
+    box-sizing: border-box;
+    flex-grow: 1;
+
+}
+
+.todo__supporting-text {
+    background-color: var(--color6);
+    color: var(--color8);
+    font-size: 13px;
+    line-height: 18px;
+    overflow: hidden;
+    width: 90%;
+    padding: 0.3rem 0.1rem;
+}
+
+.todo__menu {
+    position: absolute;
+    right: 16px;
+    top: 5px;
+    display: flex;
+    width: 95%;
+    width: calc(100% - 32px);
+}
+
+.todo__menu .button {
+    background-color: var(--color6);
+}
+
+.todo__actions {
+    border-top: 1px solid rgba(0,0,0,.1);
+    font-size: 16px;
+    line-height: normal;
+    width: 100%;
+    background-color: transparent;
+    padding: 8px;
+    box-sizing: border-box;
 }
 
 .todo .color1 {
@@ -231,17 +353,6 @@ input:-webkit-autofill {
 
 .todo textarea {
     border: none;
-}
-
-.todo .mdl-card__supporting-text {
-    padding-top: 0.3rem;
-    padding-bottom: 0.3rem;
-}
-
-.todo .mdl-card__menu {
-    display: flex;
-    width: 95%;
-    width: calc(100% - 32px);
 }
 
 .todo-add {

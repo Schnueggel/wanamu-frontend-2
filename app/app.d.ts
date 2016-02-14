@@ -121,7 +121,9 @@ declare module 'isomorphic-fetch' {
         interface Window {
             fetch(url: string|Request, init?: RequestInit): Promise<Response>;
         }
+
     }
+
     export = fetch;
 }
 

@@ -28,7 +28,7 @@ export function login(username, password) {
         options.body = JSON.stringify({username, password});
 
         return fetch(`${getState().app.config.apiBaseUrl}/auth/login`,options)
-            .then(response => {
+            .then((response: Response) => {
                 if (response.status === 200) {
                     return response.json();
                 } else if ([403, 422, 404].indexOf(response.status) > -1) {
@@ -41,7 +41,7 @@ export function login(username, password) {
                     throw new Error('Login failed with an unkown state');
                 }
             })
-            .then(data => {
+            .then((data: any) => {
                 if (typeof data.token !== 'string' || typeof _.get(data, '.data[0]._id') !== 'string') {
                     throw new Error('Invalid server response');
                 }
