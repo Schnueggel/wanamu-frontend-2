@@ -55,8 +55,8 @@ export class Page extends React.Component<wu.IPageProps, any> implements React.C
         }
 
         return (
-            <div className="mdl-layout__container">
-                <div className="mdl-layout mdl-js-layout">
+            <div className="layout__container">
+                <div className="layout">
                     <header className="header">
                         <div className="header-row">
                             <i className="material-icons icon" onClick={this.props.menuToggle}>menu</i>
@@ -67,7 +67,7 @@ export class Page extends React.Component<wu.IPageProps, any> implements React.C
                     </header>
                     <Menu title="Wanamu" items={ this.props.user.user ? this.authMenuItems : this.noAuthMenuItems } className={menuOpen}/>
                     <div className={`menu-overlay ${menuOpen}`} onClick={this.props.menuToggle}></div>
-                    <div className="mdl-layout__content">
+                    <div className="layout__content">
                         {error}
                         {this.props.children}
                     </div>
