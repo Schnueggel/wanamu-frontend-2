@@ -190,6 +190,7 @@ input:-webkit-autofill {
 
 .todolist {
     display: flex;
+    flex-wrap: wrap;
 }
 
 /******************************************************

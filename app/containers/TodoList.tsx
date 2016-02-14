@@ -42,21 +42,21 @@ export class TodoList extends React.Component<wu.ITodoListProps, any> implements
         super(props);
     }
 
-    componentWillUpdate() {
-
-    }
-
     componentWillMount() {
         if (this.props.todolist.isLoading === false) {
             this.props.actions.todolist.todoListLoad(this.props.params.id);
         }
     }
 
-    handleTodoChange(todo: wu.model.data.ITodo) {}
+    handleTodoChange(todo: wu.model.data.ITodo) {
+        this.props.actions.todo.todoDoUpdate(todo);
+    }
 
     handleCreateTodo() {
         //TODO implement
-        let todo = new Todo();
+        let todo: wu.model.data.ITodo = new Todo();
+        todo.todolistId = this.props.params.id;
+        this.props.actions.todo.todoDoCreate(todo);
     }
 
     render() {
@@ -75,7 +75,7 @@ export class TodoList extends React.Component<wu.ITodoListProps, any> implements
         if (todos) {
             todolistEl = (
                 <TList.TodoList todos={todos}
-                                onTodoChange={this.props.actions.todo.todoDoUpdate}
+                                onTodoChange={this.handleTodoChange.bind(this)}
                                 onTodoAdd={this.handleCreateTodo.bind(this)}
                                 ref="todolist"
                                 showTodos={this.state.todoVisibilityState}/>

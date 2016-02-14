@@ -52,6 +52,10 @@ export class TodoList extends React.Component<ITodoListProps, any> {
         return nextProps.todos !== this.props.todos || nextProps.showTodos !== this.props.showTodos || _.isEqual(this.state, nextState);
     }
 
+    /**
+     *
+     * @returns {any}
+     */
     render() {
         return (<div className="todolist">
             {this.createTodos()}

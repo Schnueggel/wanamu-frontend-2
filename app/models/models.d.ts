@@ -79,9 +79,9 @@ declare module wu {
 
         type IUser = IUserClass & Immutable.Record.TypedMap<IUserClass>;
 
-        interface ITodoClass {
-            _id?: number;
-            todolistId: number,
+        interface ITodo {
+            _id?: string;
+            todolistId: string,
             title: string;
             description: string;
             sorting?: number;
@@ -95,8 +95,6 @@ declare module wu {
             shared?: string[];
             accepted?: boolean;
         }
-
-        type ITodo = ITodoClass;
 
         interface IFriend extends IBaseModel<IFriend> {
             id: number;

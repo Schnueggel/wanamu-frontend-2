@@ -62,7 +62,9 @@ declare module wu {
         actions: {
             routeActions: RouteActions;
             todo: {
-                todoDoUpdate: (todo: model.data.ITodo) => void
+                todoDoUpdate: (todo: model.data.ITodo) => void,
+                todoDoCreate: (todo: model.data.ITodo) => void,
+                todoCreate: (todo: model.data.ITodo) => void
             },
             todolist: {
                 todoListLoad: (id: string) => void

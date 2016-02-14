@@ -1,7 +1,7 @@
 
-export class Todo {
+export class Todo implements wu.model.data.ITodo {
     _id: string;
-    todoListId: string;
+    todolistId: string;
     title: string;
     description: string;
     order: number;
