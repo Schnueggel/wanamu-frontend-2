@@ -12,6 +12,8 @@ export default class TextArea extends React.Component<wu.Form.ITextAreaProps, an
         field: HTMLInputElement
     };
 
+    id: string;
+
     static defaultProps: wu.Form.ITextAreaProps = {
         errors: [],
         value: '',
@@ -25,8 +27,10 @@ export default class TextArea extends React.Component<wu.Form.ITextAreaProps, an
     constructor(props:wu.Form.ITextAreaProps){
         super(props);
 
-        if (!props.id){
-            props.id = `generated-${new Date().getTime()}-${Math.floor(Math.random()*100000000)}`;
+        if (!props.id) {
+            this.id = `generated-${new Date().getTime()}-${Math.floor(Math.random()*100000000)}`;
+        } else {
+            this.id = props.id;
         }
         this.state.value = props.value;
     }
@@ -55,7 +59,7 @@ export default class TextArea extends React.Component<wu.Form.ITextAreaProps, an
 
         return (<div className={textContainerClass} ref="text">
             {label}
-            <textarea className="wu-textfield__input" rows={this.props.rows} ref="field" id={this.props.id} value={this.state.value}
+            <textarea className="wu-textfield__input" rows={this.props.rows} ref="field" id={this.id} value={this.state.value}
                       onBlur={this.props.onBlur} onChange={this.handleChange.bind(this)} placeholder={this.props.placeholder}>
             </textarea>
             {errs}

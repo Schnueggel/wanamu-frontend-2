@@ -73,7 +73,7 @@ export function todoListLoad(id:string) {
                 }
             })
             .then( data => {
-                return _.get(data, '.data');
+                return _.get(data, 'data');
             })
             .then( todolist => {
                 if (todolist) {
