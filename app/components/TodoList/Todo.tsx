@@ -9,6 +9,7 @@ import ITodo = wu.model.data.ITodo;
 export interface ITodoProps extends __React.Props<ITodoProps> {
     todo: ITodo;
     onTodoChange?(todo: ITodo): void;
+    onTodoDelete?(todo: ITodo): void;
 }
 
 export interface ITodoState {
@@ -48,6 +49,7 @@ export default class Todo extends React.Component<ITodoProps, ITodoState> implem
     static defaultProps: ITodoProps = {
         todo: null,
         onTodoChange: (todo: ITodo) => {},
+        onTodoDelete: (todo: ITodo) => {}
     } as ITodoProps;
 
     /**
@@ -121,13 +123,12 @@ export default class Todo extends React.Component<ITodoProps, ITodoState> implem
     }
 
     handleDone(evt) {
-        this.todo.finished = true;
+        this.todo.finished = this.todo.finished === false;
         this.triggerTodoChanged(this.todo);
     }
 
-    handleUndo() {
-        this.todo.finished = false;
-        this.triggerTodoChanged(this.todo);
+    handleDelete() {
+        this.props.onTodoDelete(this.todo);
     }
 
     pickColor(color) {
@@ -153,8 +154,6 @@ export default class Todo extends React.Component<ITodoProps, ITodoState> implem
     render() {
         const color = this.todo.color ? this.todo.color : Todo.colors.color1,
             descriptionHideClass = this.state.editDescription || this.todo.description ? '' : 'hidden',
-              doneHideClass = this.todo.finished ? 'hidden' : '',
-              undoHideClass = this.todo.finished ? '' : 'hidden',
             colorPickHidden = this.state.colorPick ? '' : 'hidden';
 
         const descriptionTextClass = classNames({
@@ -163,6 +162,8 @@ export default class Todo extends React.Component<ITodoProps, ITodoState> implem
         const descriptionFieldClass = classNames({
             hidden: this.state.editDescription === false
         });
+
+        const doneIcon = this.todo.finished ? 'undo' : 'done';
 
         return  (<div className={`todo`}>
             <div className={`todo__title ${color}`}>
@@ -173,8 +174,8 @@ export default class Todo extends React.Component<ITodoProps, ITodoState> implem
                 <TextArea className={descriptionFieldClass} value={this.todo.description} placeholder="Description" rows={3} onBlur={this.handleDescriptionBlur.bind(this)} ref="description"/>
             </div>
             <div className="todo__menu">
-                <IconButton icon="undo" onClick={this.handleUndo.bind(this)} className={undoHideClass}/>
-                <IconButton icon="done" onClick={this.handleDone.bind(this)} className={doneHideClass}/>
+                <IconButton icon={doneIcon} onClick={this.handleDone.bind(this)}/>
+                <IconButton icon="delete" onClick={this.handleDelete.bind(this)} />
                 <span className="spacer"/>
                 <IconButton icon="color_lens" onClick={this.handleColorPick.bind(this)} />
             </div>

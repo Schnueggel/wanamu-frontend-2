@@ -225,3 +225,69 @@ export function todoDoCreate(todo: wu.model.data.ITodo) {
             });
     }
 }
+
+export function todoDelete(todo) {
+    return {
+        type: Actions.ACTION_TODO_DELETE,
+        todo
+    };
+}
+
+export function todoDeleteRequest(todo) {
+    return {
+        type: Actions.ACTION_TODO_DELETE_REQUEST,
+        todo
+    };
+}
+
+export function todoDeleteRequestSuccess(todo) {
+    return {
+        type: Actions.ACTION_TODO_DELETE_SUCCESS,
+        todo
+    };
+}
+
+export function todoDeleteRequestError(error: string, todo) {
+    return {
+        type: Actions.ACTION_TODO_DELETE_REQUEST_ERROR,
+        error,
+        todo
+    };
+}
+
+export function todoDoDelete(todo: wu.model.data.ITodo) {
+    return (dispatch: Redux.Dispatch, getState: () => any) => {
+        dispatch(todoDeleteRequest(todo));
+        const options = defaultRequestOptions(getState().auth.token, 'DELETE');
+
+        options.body = JSON.stringify(todo);
+
+        return fetch(`${getState().app.config.apiBaseUrl}/todo/${todo._id}`, options)
+            .then( response => {
+                if ([304, 200].indexOf(response.status) > -1) {
+                    return response.json();
+                } else if ([422, 400].indexOf(response.status) > -1) {
+                    throw new Error('Invalid Request');
+                } else if (response.status === 404) {
+                    throw new Error('No data found');
+                } else if (response.status === 401) {
+                    dispatch(appError('You need to login'));
+                    return null;
+                } else if (response.status === 500) {
+                    throw new Error('Server error');
+                } else if (response.status === 403) {
+                    throw new Error('Not enough rights to see this data');
+                } else if (response.status === 0) {
+                    throw new Error('Please check your network connection');
+                } else {
+                    throw new Error('Deleting todo failed');
+                }
+            })
+            .then( () => {
+                dispatch(todoDeleteRequestSuccess(todo));
+            })
+            .catch(err => {
+                dispatch(todoDeleteRequestError(err.message, todo));
+            });
+    }
+}

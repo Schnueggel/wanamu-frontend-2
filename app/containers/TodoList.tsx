@@ -17,7 +17,7 @@ import { Map } from 'immutable';
 export class TodoList extends React.Component<wu.ITodoListProps, any> implements React.ComponentLifecycle<wu.ITodoListProps, any> {
 
     state: any = {
-        todoVisiblityState: VisibleTodos.All
+        todoVisibilityState: VisibleTodos.All
     };
 
     refs: {
@@ -50,11 +50,14 @@ export class TodoList extends React.Component<wu.ITodoListProps, any> implements
         this.props.actions.todo.todoDoUpdate(todo);
     }
 
-    handleCreateTodo() {
-        //TODO implement
+    handleTodoCreate() {
         let todo: wu.model.data.ITodo = new Todo();
         todo.todolistId = this.props.params.id;
         this.props.actions.todo.todoDoCreate(todo);
+    }
+
+    handleTodoDelete(todo: wu.model.data.ITodo){
+        this.props.actions.todo.todoDoDelete(todo);
     }
 
     render() {
@@ -74,7 +77,8 @@ export class TodoList extends React.Component<wu.ITodoListProps, any> implements
             todolistEl = (
                 <TList.TodoList todos={todos}
                                 onTodoChange={this.handleTodoChange.bind(this)}
-                                onTodoAdd={this.handleCreateTodo.bind(this)}
+                                onTodoAdd={this.handleTodoCreate.bind(this)}
+                                onTodoDelete={this.handleTodoDelete.bind(this)}
                                 ref="todolist"
                                 showTodos={this.state.todoVisibilityState}/>
             );

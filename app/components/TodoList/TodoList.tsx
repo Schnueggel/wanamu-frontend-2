@@ -7,6 +7,7 @@ export interface ITodoListProps extends __React.Props<ITodoListProps> {
     todos: wu.model.data.ITodo[];
     showTodos?: VisibleTodos,
     onTodoChange?(todo: wu.model.data.ITodo);
+    onTodoDelete?(todo: wu.model.data.ITodo);
     onTodoAdd?();
 }
 
@@ -33,7 +34,8 @@ export class TodoList extends React.Component<ITodoListProps, any> implements Re
         showTodos   : VisibleTodos.Open,
         todos    : null,
         onTodoChange: () => {},
-        onTodoAdd   : () => {}
+        onTodoAdd   : () => {},
+        onTodoDelete: () => {}
     } as ITodoListProps;
 
     /**
@@ -86,6 +88,6 @@ export class TodoList extends React.Component<ITodoListProps, any> implements Re
     }
 
     createTodo(todo: ITodo) {
-        return <Todo todo={todo} key={todo._id} onTodoChange={this.props.onTodoChange}/>
+        return <Todo todo={todo} key={todo._id} onTodoChange={this.props.onTodoChange} onTodoDelete={this.props.onTodoDelete}/>
     }
 }
