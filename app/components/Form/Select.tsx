@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as _ from 'lodash';
-import { Subject, Observable } from 'rx';
+import * as classNames from 'classnames';
 
 import ISelectProps = wu.Form.ISelectProps;
 import IOption = wu.Form.IOption;
@@ -15,8 +15,8 @@ export interface IState {
 }
 
 /**
- * @class TextInput
- * @namespace wu.components.Form
+ * @class Select
+ * @memberOf wu.components.Form
  */
 export class Select extends React.Component<ISelectProps, IState> {
 
@@ -31,20 +31,14 @@ export class Select extends React.Component<ISelectProps, IState> {
 
     private defaultId: string;
 
-    public stateStream: Observable<IState>;
-
-    private startStream: Subject<IState>;
-
     static defaultProps: ISelectProps = {
         errors   : [],
         value    : '',
         pattern  : /.*/,
         options  : [],
         className: '',
-        onBlur   : () => {
-        },
-        onChange : () => {
-        }
+        onBlur   : () => {},
+        onChange : () => {}
     } as ISelectProps;
 
     /**
@@ -55,24 +49,16 @@ export class Select extends React.Component<ISelectProps, IState> {
         super(props);
         this.defaultId   = `generated-${new Date().getTime()}-${Math.floor(Math.random() * 100000000)}`;
         this.state.value = props.value;
-
-        this.startStream = new Subject<any>();
-        this.stateStream = this.startStream.map((evt: any) => {
-                const val      = evt.target.options[evt.target.selectedIndex].value;
-                const newState = {
-                    valid: this.props.pattern.test(val),
-                    value: val
-                };
-                this.setState(newState);
-                return newState;
-            })
-            .publish()
-            .refCount();
     }
 
     handleChange(evt) {
-        this.startStream.onNext(evt);
-        this.props.onChange(evt);
+        const state = {
+            valid: true,
+            value: evt.target.value
+        };
+
+        this.setState(state);
+        this.props.onChange(state);
     }
 
     shouldComponentUpdate(nextProps: ISelectProps, nextState: any) {
@@ -81,19 +67,15 @@ export class Select extends React.Component<ISelectProps, IState> {
 
     render() {
         const id      = this.props.id ? this.props.id : this.defaultId,
-              errs    = this.props.errors.map(this.createErrorElements),
-              options = this.props.options.map(this.createOptions.bind(this)),
+              errs    = this.props.errors.map(createErrorElements),
+              options = this.props.options.map(createOptions),
               label   = this.props.label ? <label className="wu-textfield__label" htmlFor={id}/> : null;
 
-        let className = this.props.className;
-
-        if (this.state.value) {
-            className += ' is-dirty';
-        }
-
-        if (this.state.valid === false) {
-            className += ' is-invalid';
-        }
+        const className = classNames({
+            [this.props.className]: true,
+            'is-dirty'            : this.state.value ? true : false,
+            'is-invalid'          : this.state.valid === false
+        });
 
         return (<div className={`wu-select wu-textfield wu-js-textfield ${className}`} ref="textbox">
             <select ref="field" className="wu-textfield__input" value={this.state.value} id={id}
@@ -104,12 +86,12 @@ export class Select extends React.Component<ISelectProps, IState> {
             {errs}
         </div>);
     }
+}
 
-    createErrorElements(text, key) {
-        return <span className="wu-textfield__error" key={key}>{text}</span>
-    }
+function createOptions({key, value}) {
+    return <option key={key} value={key}>{value}</option>;
+}
 
-    createOptions({key, value}) {
-        return <option key={key} value={key}>{value}</option>;
-    }
+function createErrorElements(text, key) {
+    return <span className="wu-textfield__error" key={key}>{text}</span>
 }

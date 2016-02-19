@@ -87,3 +87,10 @@ export function todoListLoad(id:string) {
             });
     }
 }
+
+export function todoListVisibility(visibility: string) {
+    return {
+        type: Actions.ACTION_TODOLIST_VISIBILITY,
+        visibility
+    };
+}
