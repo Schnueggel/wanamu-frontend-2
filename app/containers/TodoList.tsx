@@ -27,7 +27,7 @@ export class TodoList extends React.Component<wu.ITodoListProps, any> implements
     };
 
     static defaultProps:any = {
-        todos: Map()
+        todos: Map(),
     };
 
     options: Array<{key: string, value:any}> = [
@@ -60,8 +60,25 @@ export class TodoList extends React.Component<wu.ITodoListProps, any> implements
         this.props.actions.todo.todoDoDelete(todo);
     }
 
+    handleTodoFinish(todo: wu.model.data.ITodo) {
+        this.props.actions.todo.todoDoFinish(todo);
+    }
+
+    handleVisibilityFilter({value}) {
+        this.props.actions.todolist.todoListVisibility(value);
+    }
+
     render() {
-        const todos = this.props.todolist.todos.toArray();
+        const visible = this.props.todolist.visibility;
+
+        const todos = this.props.todolist.todos.toArray().filter(todo => {
+            if ((visible === VisibleTodos.Open || visible === VisibleTodos.All) && todo.finished === false) {
+                return true;
+            } else if ((visible === VisibleTodos.Finished || visible === VisibleTodos.All) && todo.finished === true) {
+                return true
+            }
+            return false;
+        });
 
         let error = null, todolistEl, loading;
 
@@ -79,6 +96,7 @@ export class TodoList extends React.Component<wu.ITodoListProps, any> implements
                                 onTodoChange={this.handleTodoChange.bind(this)}
                                 onTodoAdd={this.handleTodoCreate.bind(this)}
                                 onTodoDelete={this.handleTodoDelete.bind(this)}
+                                onTodoFinish={this.handleTodoFinish.bind(this)}
                                 ref="todolist"
                                 showTodos={this.state.todoVisibilityState}/>
             );
@@ -87,7 +105,7 @@ export class TodoList extends React.Component<wu.ITodoListProps, any> implements
         return (
             <div>
                 <div className="wu-actionbar">
-                    <Select options={this.options} label="Select Todo" ref="todosVisible" value={VisibleTodos.Open}/>
+                    <Select options={this.options} label="Select Todo" ref="todosVisible" value={this.props.todolist.visibility} onChange={this.handleVisibilityFilter.bind(this)}/>
                 </div>
                 {error}
                 {loading}

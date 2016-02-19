@@ -59,17 +59,11 @@ declare module wu {
 
     interface ITodoListProps extends wu.IControlProps<ITodoListProps>  {
         todolist: ITodoListState;
+        visibility: string;
         actions: {
             routeActions: RouteActions;
-            todo: {
-                todoDoUpdate: (todo: model.data.ITodo) => void,
-                todoDoCreate: (todo: model.data.ITodo) => void,
-                todoCreate: (todo: model.data.ITodo) => void,
-                todoDoDelete: (todo: model.data.ITodo) => void
-            },
-            todolist: {
-                todoListLoad: (id: string) => void
-            };
+            todo: ITodoActions
+            todolist:ITodoListActions
         }
         params: {
             id?: string
@@ -82,10 +76,20 @@ declare module wu {
         className: string;
     }
 
+    interface IState {
+        todolist: ITodoListState;
+        auth: IAuthState;
+        app: IAppState;
+    }
+
     interface IUserState {
         error: string;
         user: any;
         isLoading: boolean;
+    }
+
+    interface IAuthState {
+        token: string;
     }
 
     interface IRegisterState {
@@ -108,12 +112,29 @@ declare module wu {
     }
 
     interface ITodoListState {
+        visibility: string;
         error: string;
-        todos: Immutable.Map<string,model.data.ITodo>;
         isLoading: boolean;
+        todos: Immutable.Map<string, model.data.ITodo>;
+        isTodoSyncing: boolean;
+        syncingTodos: Immutable.Set<model.data.ITodo>;
     }
+
     interface ILoginState {
         error: string;
+    }
+
+    interface ITodoActions {
+        todoDoUpdate(todo: model.data.ITodo):void;
+        todoDoCreate(todo: model.data.ITodo):void;
+        todoCreate(todo: model.data.ITodo):void;
+        todoDoDelete(todo: model.data.ITodo):void;
+        todoDoFinish(todo: model.data.ITodo):void;
+    }
+
+    interface ITodoListActions {
+        todoListVisibility(visibility: string):void;
+        todoListLoad(id: string):void
     }
 }
 

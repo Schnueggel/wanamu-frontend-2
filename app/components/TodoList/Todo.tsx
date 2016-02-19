@@ -10,6 +10,7 @@ export interface ITodoProps extends __React.Props<ITodoProps> {
     todo: ITodo;
     onTodoChange?(todo: ITodo): void;
     onTodoDelete?(todo: ITodo): void;
+    onTodoFinish?(todo: ITodo): void;
 }
 
 export interface ITodoState {
@@ -49,7 +50,8 @@ export default class Todo extends React.Component<ITodoProps, ITodoState> implem
     static defaultProps: ITodoProps = {
         todo: null,
         onTodoChange: (todo: ITodo) => {},
-        onTodoDelete: (todo: ITodo) => {}
+        onTodoDelete: (todo: ITodo) => {},
+        onTodoFinish: (todo: ITodo) => {}
     } as ITodoProps;
 
     /**
@@ -124,7 +126,11 @@ export default class Todo extends React.Component<ITodoProps, ITodoState> implem
 
     handleDone(evt) {
         this.todo.finished = this.todo.finished === false;
-        this.triggerTodoChanged(this.todo);
+        if (this.todo.finished) {
+            this.props.onTodoFinish(this.todo);
+        } else {
+            this.triggerTodoChanged(this.todo);
+        }
     }
 
     handleDelete() {

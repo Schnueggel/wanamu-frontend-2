@@ -82,7 +82,7 @@ export default class TextInput extends React.Component<ITextInputProps, IState> 
         const id   = this.props.id ? this.props.id : this.defaultId,
               errs = this.props.errors.map(this.createErrorElements);
 
-        let className = classNames({
+        const className = classNames({
             [this.props.className]: true,
             'is-dirty'            : this.state.value ? true : false,
             'is-invalid'          : this.state.valid === false
