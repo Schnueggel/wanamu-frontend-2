@@ -12,7 +12,7 @@ export function tokenStore(token) {
 
     return dispatch => {
         dispatch(tokenLoaded(token));
-    }
+    };
 }
 
 /**
@@ -44,5 +44,5 @@ export function tokenRestore() {
         if (token) {
             dispatch(tokenLoaded(token));
         }
-    }
+    };
 }

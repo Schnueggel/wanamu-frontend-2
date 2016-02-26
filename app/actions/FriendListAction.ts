@@ -6,14 +6,14 @@ import { routeActions } from 'react-router-redux';
 import * as _ from 'lodash';
 
 /**
- * Todolist Loaded Action creator
- * @param todos
+ * FriendList Loaded Action creator
+ * @param friends
  * @returns {{type: string, config: any}}
  */
-export function todoListLoaded(todos: Object) {
+export function friendListLoaded(friends: Object) {
     return {
-        type: Actions.ACTION_TODOLIST_LOADED,
-        todos
+        type: Actions.ACTION_FRIENDLIST_LOADED,
+        friends
     };
 }
 
@@ -22,9 +22,9 @@ export function todoListLoaded(todos: Object) {
  * @param error
  * @returns {{type: string, error: any}}
  */
-export function todoListError(error: string) {
+export function friendListError(error: string) {
     return {
-        type: Actions.ACTION_TODOLIST_ERROR,
+        type: Actions.ACTION_FRIENDLIST_ERROR,
         error
     };
 }
@@ -33,24 +33,24 @@ export function todoListError(error: string) {
  * Config Request action
  * @returns {{type: string}}
  */
-export function todoListRequest() {
+export function friendListRequest() {
     return {
-        type: Actions.ACTION_TODOLIST_REQUEST
+        type: Actions.ACTION_FRIENDLIST_REQUEST
     };
 }
 
 /**
- * Loads the todolist from the backend
+ * Loads the friendlist from the backend
  *
  * @returns {function(any): Promise<TResult>|Promise<U>}
  */
-export function todoListLoad(id:string) {
+export function doLoadFriendList(id:string) {
     return (dispatch, getState) => {
 
-        dispatch(todoListRequest());
+        dispatch(friendListRequest());
         const options = defaultRequestOptions(getState().auth.token, 'GET');
 
-        return fetch(`${getState().app.config.apiBaseUrl}/todolist/${id}`,options)
+        return fetch(`${getState().app.config.apiBaseUrl}/friends`,options)
             .then((response: Response) => {
                 if ([304, 200].indexOf(response.status) > -1) {
                     return response.json();
@@ -69,28 +69,21 @@ export function todoListLoad(id:string) {
                 } else if (response.status === 0) {
                     throw new Error('Please check your network connection');
                 } else {
-                    throw new Error('Loading todolist data with an unkown state');
+                    throw new Error('Loading friendlist data with an unkown state');
                 }
             })
             .then( data => {
                 return _.get(data, 'data');
             })
-            .then( todolist => {
-                if (todolist) {
-                    dispatch(todoListLoaded(todolist));
+            .then( friendslist => {
+                if (friendslist) {
+                    dispatch(friendListLoaded(friendslist));
                 } else {
-                    dispatch(todoListError('No data found'));
+                    dispatch(friendListError('No data found'));
                 }
             })
             .catch(err => {
-                dispatch(todoListError(err.message));
+                dispatch(friendListError(err.message));
             });
-    };
-}
-
-export function todoListVisibility(visibility: string) {
-    return {
-        type: Actions.ACTION_TODOLIST_VISIBILITY,
-        visibility
-    };
+    }
 }

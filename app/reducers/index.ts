@@ -4,25 +4,27 @@ import { routeReducer, UPDATE_LOCATION } from 'react-router-redux';
 import { login } from './login';
 import { auth } from './auth';
 import { menu } from './menu';
+import { friends } from './friends';
 import { user } from './user';
 import { register } from './register';
 import { todolist } from './todolist';
 import { AppStates } from '../constants';
 
 const initialState = {
-    appState     : AppStates.Booting,
-    error        : null,
-    isLoading    : false,
+    appState      : AppStates.Booting,
+    error         : null,
+    isLoading     : false,
     loadingCounter: 0,
-    isSigningIn     : false,
-    configLoading: false,
-    config       : null,
-    configError  : null,
-    menuOpen     : false
+    isSigningIn   : false,
+    configLoading : false,
+    config        : null,
+    configError   : null,
+    menuOpen      : false
 };
 
 function app(state = initialState, action: any) {
     const { type, error } = action;
+
     switch (type) {
         case Actions.ACTION_BOOTING:
             return Object.assign({}, state, {appState: AppStates.Booting});
@@ -89,6 +91,7 @@ const rootReducer = combineReducers({
     app,
     login,
     auth,
+    friends,
     menu,
     routing: routeReducer
 });

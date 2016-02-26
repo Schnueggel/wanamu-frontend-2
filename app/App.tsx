@@ -19,7 +19,7 @@ ReactDom.render(
     document.getElementById('app')
 );
 
-const unsubscribe = store.subscribe(()=> {
+const unsubscribe = store.subscribe(() => {
     if (store.getState().app.config) {
         store.dispatch(loadDefaultUser());
         unsubscribe();

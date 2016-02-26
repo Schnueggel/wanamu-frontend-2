@@ -25,6 +25,7 @@ declare module wu {
         app: IAppState;
         user: IUserState;
         login: ILoginState;
+        menu: IMenuState;
         menuToggle: __React.MouseEventHandler;
     }
 
@@ -82,10 +83,15 @@ declare module wu {
         app: IAppState;
         user: IUserState;
         menu: IMenuState;
+        friends: IFriendsState;
+    }
+
+    interface IFriendsState {
+        friends: Array<any>
     }
 
     interface IMenuState {
-        menuItems: wu.IMenuItemData
+        menuItems: wu.IMenuItemData[]
     }
 
     interface IUserState {

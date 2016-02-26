@@ -10,5 +10,5 @@ export function logout() {
     return dispatch => {
         dispatch(tokenClear());
         dispatch(userClear());
-    }
+    };
 }
