@@ -48,11 +48,14 @@ input:-webkit-autofill {
 }
 
 .layout__content {
-    display: inline-block;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
     overflow-y: auto;
     overflow-x: hidden;
-    flex-grow: 1;
     z-index: 1;
+    padding-top: 1rem;
+    flex-grow: 1;
 }
 
 /**
@@ -232,11 +235,8 @@ input:-webkit-autofill {
 
 .login.card,.register.card  {
     margin: 0 auto;
-    position: absolute;
-    top: 50%;
-    left: 50%;
+    flex: 0 1 auto;
     width: 660px;
-    transform: translate(-50%, -50%);
     text-align: center;
 }
 
@@ -272,6 +272,10 @@ input:-webkit-autofill {
     text-align: center;
     line-height: 1;
     margin: 1rem 0 0 0;
+}
+
+.todolist__container {
+    align-self: flex-start;
 }
 
 .todolist {
@@ -442,7 +446,6 @@ https://github.com/tobiasahlin/SpinKit/blob/master/css/spinkit.css
     100% {
         -webkit-transform: perspective(120px) rotateX(-180deg) rotateY(-179.9deg);
         transform: perspective(120px) rotateX(-180deg) rotateY(-179.9deg); } }
-
 
 
 /*

@@ -27,7 +27,7 @@ export function login(username, password) {
 
         options.body = JSON.stringify({username, password});
 
-        return fetch(`${getState().app.config.apiBaseUrl}/auth/login`,options)
+        return fetch(`${getState().app.config.apiBaseUrl}/auth/login`, options)
             .then((response: Response) => {
                 if (response.status === 200) {
                     return response.json();

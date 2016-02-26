@@ -103,7 +103,7 @@ export class TodoList extends React.Component<wu.ITodoListProps, any> implements
         }
 
         return (
-            <div>
+            <div className="todolist__container">
                 <div className="wu-actionbar">
                     <Select options={this.options} label="Select Todo" ref="todosVisible" value={this.props.todolist.visibility} onChange={this.handleVisibilityFilter.bind(this)}/>
                 </div>
