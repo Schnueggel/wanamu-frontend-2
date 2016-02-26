@@ -100,6 +100,7 @@ input:-webkit-autofill {
     background: var(--color6);
     z-index: 10;
     height: 100%;
+    padding: 0 0 0 1rem;
 }
 
 .menu.open {
@@ -109,7 +110,7 @@ input:-webkit-autofill {
 .menu .title {
     font-size: 3rem;
     padding:2rem 0.5rem;
-    text-align: center;
+    text-align: left;
 }
 
 .menu .navigation {
