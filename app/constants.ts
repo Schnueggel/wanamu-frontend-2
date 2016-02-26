@@ -38,6 +38,28 @@ export const salutionOptions = [
     {id: Salutations.Neutrum, name: Salutations.Neutrum}
 ];
 
+export const Menus = {
+    /**
+     * Menu items for authed user
+     * @type {{text: string, url: string}[]}
+     */
+    authMenuItems:[
+        {text: 'Home', url: '/'},
+        {text: 'TodoList', url: '/todolist'},
+        {text: 'Friends', url: ' /friends'},
+        {text: 'Logout', url: '/logout'}
+    ],
+    /**
+     * Menu Items for non authed users
+     * @type {{text: string, url: string}[]}
+     */
+    noAuthMenuItems:[
+        {text: 'Home', url: '/'},
+        {text: 'Login', url: '/login'},
+        {text: 'Register', url: '/register'}
+    ]
+};
+
 export function defaultRequestOptions(token: string = null, method: string = 'POST') : RequestInit {
     const options = {
         method,

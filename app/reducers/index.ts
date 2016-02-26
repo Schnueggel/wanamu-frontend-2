@@ -3,6 +3,7 @@ import * as Actions from '../actions/index';
 import { routeReducer, UPDATE_LOCATION } from 'react-router-redux';
 import { login } from './login';
 import { auth } from './auth';
+import { menu } from './menu';
 import { user } from './user';
 import { register } from './register';
 import { todolist } from './todolist';
@@ -88,6 +89,7 @@ const rootReducer = combineReducers({
     app,
     login,
     auth,
+    menu,
     routing: routeReducer
 });
 

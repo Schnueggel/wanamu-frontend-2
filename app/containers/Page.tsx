@@ -21,6 +21,7 @@ export class Page extends React.Component<wu.IPageProps, any> implements React.C
     authMenuItems: wu.IMenuItemData[] = [
         {text: 'Home', url: '/'},
         {text: 'TodoList', url: '/todolist'},
+        {text: 'Friends', url: ' /friends'},
         {text: 'Logout', url: '/logout'}
     ];
 
@@ -45,8 +46,8 @@ export class Page extends React.Component<wu.IPageProps, any> implements React.C
             return <div>this.props.app.error</div>
         }
 
-        const menuOpen = classNames({open: this.props.app.menuOpen});
-        const classLoading = classNames({hidden: !this.props.app.isLoading });
+        const menuOpen = classNames({open: this.props.app.menuOpen}),
+            classLoading = classNames({hidden: !this.props.app.isLoading });
 
         let error;
 
@@ -65,7 +66,7 @@ export class Page extends React.Component<wu.IPageProps, any> implements React.C
                             <Spinner className={classLoading}/>
                         </div>
                     </header>
-                    <Menu title="Wanamu" items={ this.props.user.user ? this.authMenuItems : this.noAuthMenuItems } className={menuOpen}/>
+                    <Menu title="Wanamu" items={ this.props.menu.menuItems } className={menuOpen}/>
                     <div className={`menu-overlay ${menuOpen}`} onClick={this.props.menuToggle}></div>
                     <div className="layout__content">
                         {error}
@@ -77,10 +78,11 @@ export class Page extends React.Component<wu.IPageProps, any> implements React.C
     }
 }
 
-function mapStateToProps(state) {
+function mapStateToProps(state: wu.IState) {
     return {
         app: state.app,
-        user: state.user
+        user: state.user,
+        menu: state.menu
     };
 }
 

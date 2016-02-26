@@ -80,6 +80,12 @@ declare module wu {
         todolist: ITodoListState;
         auth: IAuthState;
         app: IAppState;
+        user: IUserState;
+        menu: IMenuState;
+    }
+
+    interface IMenuState {
+        menuItems: wu.IMenuItemData
     }
 
     interface IUserState {
