@@ -10,7 +10,7 @@ import { register } from './register';
 import { todolist } from './todolist';
 import { AppStates } from '../constants';
 
-const initialState = {
+const initialState: wu.IAppState = {
     appState      : AppStates.Booting,
     error         : null,
     isLoading     : false,
@@ -19,7 +19,8 @@ const initialState = {
     configLoading : false,
     config        : null,
     configError   : null,
-    menuOpen      : false
+    menuOpen      : false,
+    failedLocation: null
 };
 
 function app(state = initialState, action: any) {
@@ -41,6 +42,8 @@ function app(state = initialState, action: any) {
                 appState   : AppStates.Ready,
                 error      : null
             });
+        case Actions.ACTION_APP_STORE_LAST_LOCATION:
+            return Object.assign({}, state, {failedLocation: action.location});
         case Actions.ACTION_CONFIG_ERROR:
             return Object.assign({}, state, {
                 configError: error,

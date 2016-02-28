@@ -20,7 +20,7 @@ export class Friends extends React.Component<any, any> implements React.Componen
     }
 
     componentWillMount() {
-        this.props.doLoadFriendList();
+        this.props.actions.doLoadFriendList();
     }
 
     componentWillReceiveProps(nextProps: any) {}

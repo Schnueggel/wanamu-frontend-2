@@ -6,6 +6,7 @@ declare function require(url:string);
 declare module wu {
 
     import RouteActions = ReactRouterRedux.RouteActions;
+
     interface IMenuItemData {
         text: string;
         url: string;
@@ -114,13 +115,16 @@ declare module wu {
     }
 
     interface IAppState {
-        isLoading: boolean;
-        user: any;
-        error: string;
-        config: any;
         appState: number;
+        error: string;
+        isLoading: boolean;
+        loadingCounter: number;
+        config: any;
+        failedLocation: string;
+        isSigningIn: boolean;
+        configLoading: boolean;
+        configError: string;
         menuOpen: boolean;
-        isUserCheckLoading: boolean;
     }
 
     interface ITodoListState {
@@ -155,7 +159,6 @@ declare module 'isomorphic-fetch' {
         interface Window {
             fetch(url: string|Request, init?: RequestInit): Promise<Response>;
         }
-
     }
 
     export = fetch;

@@ -4,7 +4,7 @@ import * as fetch from 'isomorphic-fetch';
 import { loginRequest } from './LoginActions';
 import { LocalStorage, defaultRequestOptions } from '../constants';
 import * as _  from 'lodash';
-import { tokenLoaded, tokenRestore } from './TokenActions';
+import { tokenLoaded, tokenRestore, tokenClear } from './TokenActions';
 import { userLoaded } from './UserActions';
 
 /**
@@ -21,6 +21,7 @@ export function loadDefaultUser() {
                 if (response.status === 200) {
                     return response.json();
                 } else {
+                    dispatch(tokenClear());
                     throw new Error('Could not load current user');
                 }
             })

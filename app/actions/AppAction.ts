@@ -26,3 +26,11 @@ export function appClearError(error) {
         error
     };
 }
+
+export function appStoreLastRequest(location, params={}) {
+    return {
+        type: Actions.ACTION_APP_STORE_LAST_LOCATION,
+        location,
+        params
+    };
+}
