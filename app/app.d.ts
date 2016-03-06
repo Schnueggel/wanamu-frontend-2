@@ -34,7 +34,7 @@ declare module wu {
         user: IUserState;
         login: ILoginState;
         actions: {
-            routeActions: RouteActions,
+            routerActions: RouteActions,
             login: __React.MouseEventHandler
         };
 
@@ -43,10 +43,14 @@ declare module wu {
         };
     }
 
+    interface IFriendProps extends IControlProps<IFriendProps> {
+        friends: any[];
+    }
+
     interface IRegisterProps extends wu.IControlProps<IRegisterProps> {
         register: IRegisterState;
         actions: {
-            routeActions: RouteActions,
+            routerActions: RouteActions,
             register: (data: any) => void,
             usernameCheck: (name: string) => void
         };
@@ -54,7 +58,7 @@ declare module wu {
 
     interface ILogoutProps extends wu.IControlProps<ILogoutProps> {
         actions: {
-            routeActions: RouteActions,
+            routerActions: RouteActions,
             logout: () => void
         };
     }
@@ -63,7 +67,7 @@ declare module wu {
         todolist: ITodoListState;
         visibility: string;
         actions: {
-            routeActions: RouteActions;
+            routerActions: RouteActions;
             todo: ITodoActions
             todolist:ITodoListActions
         }
@@ -97,7 +101,7 @@ declare module wu {
 
     interface IUserState {
         error: string;
-        user: any;
+        user: model.data.IUser;
         isLoading: boolean;
     }
 
@@ -125,6 +129,7 @@ declare module wu {
         configLoading: boolean;
         configError: string;
         menuOpen: boolean;
+        userTested: boolean;
     }
 
     interface ITodoListState {

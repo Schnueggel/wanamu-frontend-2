@@ -2,7 +2,7 @@ import * as fetch from 'isomorphic-fetch';
 import * as Actions from './index';
 import { defaultRequestOptions } from '../constants';
 import { appError } from './AppAction';
-import { routeActions } from 'react-router-redux';
+import { routerActions } from 'react-router-redux';
 import * as _ from 'lodash';
 
 /**
@@ -50,7 +50,7 @@ export function doLoadFriendList(id:string) {
         dispatch(friendListRequest());
         const options = defaultRequestOptions(getState().auth.token, 'GET');
 
-        return fetch(`${getState().app.config.apiBaseUrl}/friends`,options)
+        return fetch(`${getState().app.config.apiBaseUrl}/friend`,options)
             .then((response: Response) => {
                 if ([304, 200].indexOf(response.status) > -1) {
                     return response.json();
@@ -60,7 +60,7 @@ export function doLoadFriendList(id:string) {
                     throw new Error('No data found');
                 } else if (response.status === 401) {
                     dispatch(appError('You need to login'));
-                    dispatch(routeActions.push('/login'));
+                    dispatch(routerActions.push('/login'));
                     return null;
                 } else if (response.status === 500) {
                     throw new Error('Server error');
@@ -85,5 +85,5 @@ export function doLoadFriendList(id:string) {
             .catch(err => {
                 dispatch(friendListError(err.message));
             });
-    }
+    };
 }

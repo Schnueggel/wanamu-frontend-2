@@ -18,7 +18,7 @@ export function loginError(error: string) {
     };
 }
 
-export function login(username, password) {
+export function doLogin(username, password) {
     return (dispatch, getState) => {
         dispatch(loginRequest());
         dispatch(userRequest());

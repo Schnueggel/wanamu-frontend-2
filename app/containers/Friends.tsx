@@ -1,9 +1,10 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { routeActions } from 'react-router-redux';
+import { routerActions } from 'react-router-redux';
 import { bindActionCreators } from 'redux';
 import { doLoadFriendList } from '../actions/FriendListAction';
 import * as _ from 'lodash';
+import { FriendList } from '../components/Friends/FriendList';
 
 export interface IRefs {
     [key: string]: React.Component<any, any>;
@@ -26,7 +27,7 @@ export class Friends extends React.Component<any, any> implements React.Componen
     componentWillReceiveProps(nextProps: any) {}
 
     render() {
-        return null;
+        return <FriendList friends={this.props.friends.friends} />;
     }
 }
 
@@ -39,7 +40,7 @@ function mapStateToProps(state: wu.IState) {
 function mapDispatchToProps(dispatch) {
     return {
         actions: {
-            routeActions: bindActionCreators(routeActions, dispatch),
+            routerActions: bindActionCreators(routerActions, dispatch),
             doLoadFriendList: bindActionCreators(doLoadFriendList, dispatch)
         }
     };

@@ -46,7 +46,7 @@ export const Menus = {
     authMenuItems:[
         {text: 'Home', url: '/'},
         {text: 'TodoList', url: '/todolist'},
-        {text: 'Friends', url: ' /friends'},
+        {text: 'Friends', url: '/friends'},
         {text: 'Logout', url: '/logout'}
     ],
     /**

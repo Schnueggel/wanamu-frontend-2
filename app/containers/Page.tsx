@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Menu from 'components/Menu/Menu';
 import { connect } from 'react-redux';
-import { routeActions } from 'react-router-redux';
+import { routerActions } from 'react-router-redux';
 import { AppStates } from '../constants';
 import * as classNames from 'classnames';
 import { bindActionCreators } from 'redux';
@@ -40,12 +40,6 @@ export class Page extends React.Component<wu.IPageProps, any> implements React.C
     }
 
     render() {
-        if (this.props.app.appState === AppStates.Booting) {
-            return <div>Loading...</div>
-        } else if(this.props.app.appState === AppStates.Error) {
-            return <div>this.props.app.error</div>
-        }
-
         const menuOpen = classNames({open: this.props.app.menuOpen}),
             classLoading = classNames({hidden: !this.props.app.isLoading });
 
@@ -88,7 +82,7 @@ function mapStateToProps(state: wu.IState) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        routeActions,
+        routerActions,
         menuToggle: bindActionCreators(menuToggle, dispatch)
     };
 }

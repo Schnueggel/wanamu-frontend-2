@@ -97,9 +97,13 @@ declare module wu {
         }
 
         interface IFriend extends IBaseModel<IFriend> {
-            id: number;
-            Profile : IProfile;
-            Friends : IFriendsData;
+            _id: number;
+            firstname?: string;
+            lastname?: string;
+            salutation?: string;
+            username : string;
+            pending: boolean;
+            invitation: boolean;
         }
 
         interface IColor {
