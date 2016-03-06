@@ -9,7 +9,7 @@ export * from './AppAction';
 export * from './RegisterActions';
 export * from './TodoActions';
 
-import { routeActions } from 'react-router-redux';
+import { routerActions } from 'react-router-redux';
 
 /**
  *
@@ -22,7 +22,7 @@ export function responseStatusCheck(response: Response, dispatch) {
     } else if (response.status === 404) {
         throw new Error('No data found');
     } else if (response.status === 401) {
-        dispatch(routeActions.push('/login'));
+        dispatch(routerActions.push('/login'));
         throw new Error('You need to login');
     } else if (response.status === 500) {
         throw new Error('Server error');

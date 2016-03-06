@@ -1,7 +1,7 @@
 import * as Actions from './index';
 
 export function userLoaded(user) {
-    return  {
+    return {
         type: Actions.ACTION_USER_LOADED,
         user
     };

@@ -8,6 +8,22 @@ import { tokenLoaded, tokenRestore, tokenClear } from './TokenActions';
 import { userLoaded } from './UserActions';
 
 /**
+ *
+ * @returns {{type: string}}
+ */
+export function userTested() {
+    return {
+        type: Actions.ACTION_USER_TESTED
+    };
+}
+
+export function bootstrapReady() {
+    return {
+        type: Actions.ACTION_BOOTING_FINISHED
+    };
+}
+
+/**
  * Tries to load the default user if there is a token
  * @returns {function(any, any): *}
  */
@@ -21,7 +37,6 @@ export function loadDefaultUser() {
                 if (response.status === 200) {
                     return response.json();
                 } else {
-                    dispatch(tokenClear());
                     throw new Error('Could not load current user');
                 }
             })
@@ -29,12 +44,18 @@ export function loadDefaultUser() {
             .then( user => {
                 if (typeof _.get(user, '._id') === 'string') {
                     dispatch(userLoaded(user));
+                    dispatch(userTested());
                 } else {
                     throw new Error('Invalid response for current user request');
                 }
             })
-            .catch( err => console.log(err))
-    }
+            .catch( err => {
+                dispatch(tokenClear());
+                dispatch(userLoaded(null));
+                console.log(err);
+                dispatch(userTested());
+            })
+    };
 }
 
 /**
@@ -45,5 +66,5 @@ export function bootstrap() {
     return (dispatch) => {
         dispatch(tokenRestore());
         dispatch(configLoad());
-    }
+    };
 }
