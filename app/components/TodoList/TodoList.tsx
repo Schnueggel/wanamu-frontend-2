@@ -24,11 +24,6 @@ export class VisibleTodos {
  */
 export class TodoList extends React.Component<ITodoListProps, any> implements React.ComponentLifecycle<ITodoListProps, any> {
 
-    refs: any = {
-        email   : HTMLInputElement,
-        password: HTMLInputElement,
-    };
-
     state: any = {};
 
     static defaultProps: ITodoListProps = {
