@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as TList from 'components/TodoList/TodoList';
 import { connect } from 'react-redux';
-import { routeActions } from 'react-router-redux';
+import { routerActions } from 'react-router-redux';
 import { bindActionCreators } from 'redux';
 import { Select } from 'components/Form/Select';
 import { VisibleTodos } from '../constants';
@@ -124,7 +124,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return {
         actions: {
-            routeActions: bindActionCreators(routeActions, dispatch),
+            routerActions: bindActionCreators(routerActions, dispatch),
             todolist: bindActionCreators(todolistActions, dispatch),
             todo: bindActionCreators(todoActions, dispatch)
         }

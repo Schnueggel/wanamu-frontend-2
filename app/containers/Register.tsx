@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Salutations, salutionOptions } from 'constants';
 import { RegisterForm, ISubmitData } from 'components/Register/RegisterForm';
 import { connect } from 'react-redux';
-import { routeActions } from 'react-router-redux';
+import { routerActions } from 'react-router-redux';
 import { bindActionCreators } from 'redux';
 import { register, usernameCheck } from '../actions/RegisterActions';
 
@@ -23,7 +23,7 @@ export class Register extends React.Component<wu.IRegisterProps, any> implements
 
     componentWillReceiveProps(nextProps: wu.IRegisterProps) {
         if (nextProps.register.user) {
-            this.props.actions.routeActions.push(`/login`);
+            this.props.actions.routerActions.push(`/login`);
         }
     }
 
@@ -69,7 +69,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return {
         actions: {
-            routeActions: bindActionCreators(routeActions, dispatch),
+            routerActions: bindActionCreators(routerActions, dispatch),
             register: bindActionCreators(register, dispatch),
             usernameCheck: bindActionCreators(usernameCheck, dispatch)
         }

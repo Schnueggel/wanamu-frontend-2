@@ -1,9 +1,9 @@
 import * as React from 'react';
 import LoginForm from 'components/LoginForm/LoginForm';
 import { connect } from 'react-redux';
-import { routeActions } from 'react-router-redux';
+import { routerActions } from 'react-router-redux';
 import { bindActionCreators } from 'redux';
-import { login } from '../actions/LoginActions';
+import { doLogin } from '../actions/LoginActions';
 import * as _ from 'lodash';
 
 export interface IRefs {
@@ -31,7 +31,7 @@ export class Login extends React.Component<wu.ILoginProps, any> implements React
 
     checkForUser(user: any) {
         if (typeof _.get(user, '._id') === 'string') {
-            this.props.actions.routeActions.push(`/todolist/${user.defaultTodolistId}`);
+            this.props.actions.routerActions.push(`/todolist/${user.defaultTodolistId}`);
         }
     }
 
@@ -62,8 +62,8 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return {
         actions: {
-            routeActions: bindActionCreators(routeActions, dispatch),
-            login: bindActionCreators(login, dispatch)
+            routerActions: bindActionCreators(routerActions, dispatch),
+            login: bindActionCreators(doLogin, dispatch)
         }
     }
 }
