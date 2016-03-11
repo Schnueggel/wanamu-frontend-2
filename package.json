@@ -43,6 +43,7 @@
   "scripts": {
     "test": "test",
     "build": "webpack",
+    "build-watch": "webpack --colors --watch",
     "dev": "./node_modules/.bin/webpack-dev-server --history-api-fallback --content-base public --devtool source-map --hot --progess --colors --inline",
     "deploy": "./node_modules/.bin/webpack -p"
   },

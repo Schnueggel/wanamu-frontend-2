@@ -382,6 +382,46 @@ input:-webkit-autofill {
 }
 
 /*
+ Friends
+*/
+.friendlist {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+}
+
+.friendlist .friend {
+    flex: 0 1 300px;
+    padding: 0.5rem;
+    box-shadow: var(--shadow1);
+    margin: 0.5rem;
+}
+
+.friendlist .friend--add {
+    flex: 0 0 40px;
+    display: flex;
+    cursor: pointer;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.friendlist .friend--add:hover {
+    background: var(--color1);
+    color: var(--color1Inv);
+}
+
+.friendlist .friend .friend__content {
+    display: flex;
+    flex-direction: row;
+}
+
+.friendlist .friend .friend__content .friend__name {
+    align-self: center;
+}
+
+/*
  Select
 */
 .wu-select.wu-textfield {

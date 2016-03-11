@@ -1,5 +1,6 @@
 import * as React from 'react';
 import * as _ from 'lodash';
+import IconButton from '../Elements/IconButton';
 
 export interface IFriendListItemProps extends __React.Props<IFriendListItemProps> {
     friend: wu.model.data.IFriend;
@@ -36,17 +37,21 @@ export class FriendListItem extends React.Component<IFriendListItemProps, any> i
         return nextProps.friend !== this.props.friend;
     }
 
+    handleDelete() {}
+
     /**
      *
      * @returns {any}
      */
     render() {
-        return (<div className="friend">
+        return (
             <div className={`friend`}>
                 <div className="friend__content">
-                    <div>{this.props.friend.firstname} {this.props.friend.lastname}</div>
+                    <div className="friend__name">{this.props.friend.firstname + ' ' + this.props.friend.lastname}</div>
+                    <span className="spacer"></span>
+                    <IconButton className="action" icon="delete"/>
                 </div>
             </div>
-        </div>);
+        );
     }
 }

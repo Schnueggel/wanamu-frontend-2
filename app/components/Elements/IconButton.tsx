@@ -16,7 +16,8 @@ export default class IconButton extends React.Component<IIconButtonProps, any> {
     static defaultProps: IIconButtonProps = {
         icon     : '',
         className: '',
-        disabled : false
+        disabled : false,
+        onClick: () => {}
     };
 
     constructor(props: IIconButtonProps) {
@@ -24,9 +25,7 @@ export default class IconButton extends React.Component<IIconButtonProps, any> {
     }
 
     handleClick(evt) {
-        if (this.props.onClick) {
-            this.props.onClick(evt);
-        }
+        this.props.onClick(evt);
     }
 
     render() {

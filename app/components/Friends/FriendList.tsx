@@ -1,6 +1,7 @@
 import * as React from 'react';
 import * as _ from 'lodash';
 import { FriendListItem } from './FriendListItem';
+import Icon from '../Elements/Icon';
 
 export interface IFriendListProps extends __React.Props<IFriendListProps> {
     friends: wu.model.data.IFriend[];
@@ -39,6 +40,9 @@ export class FriendList extends React.Component<IFriendListProps, any> implement
         return nextProps.friends !== this.props.friends;
     }
 
+    handleAdd() {
+        this.props.onFriendAdd();
+    }
     /**
      *
      * @returns {any}
@@ -46,8 +50,8 @@ export class FriendList extends React.Component<IFriendListProps, any> implement
     render() {
         return (<div className="friendlist">
             {this.createFriends()}
-            <div className={`friend friend-add`} onClick={this.props.onFriendAdd}>
-                <div className="friend__content">+</div>
+            <div className={`friend friend--add`} onClick={this.handleAdd.bind(this)}>
+                <Icon name="add" />
             </div>
         </div>);
     }

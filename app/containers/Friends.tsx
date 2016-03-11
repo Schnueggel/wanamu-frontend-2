@@ -5,7 +5,7 @@ import { bindActionCreators } from 'redux';
 import { doLoadFriendList } from '../actions/FriendListAction';
 import * as _ from 'lodash';
 import { FriendList } from '../components/Friends/FriendList';
-
+import { Button } from '../components/Elements/Button';
 export interface IRefs {
     [key: string]: React.Component<any, any>;
 }
@@ -27,7 +27,12 @@ export class Friends extends React.Component<any, any> implements React.Componen
     componentWillReceiveProps(nextProps: any) {}
 
     render() {
-        return <FriendList friends={this.props.friends.friends} />;
+        return (
+            <div className="friends">
+            <Button>Add Friend</Button>
+            <FriendList friends={this.props.friends.friends} />
+        </div>
+        );
     }
 }
 

@@ -2,6 +2,7 @@ import * as React from 'react';
 
 interface IconProps {
     name: string;
+    className?:string;
 }
 
 export default class Icon extends React.Component<IconProps, any> {
@@ -16,7 +17,7 @@ export default class Icon extends React.Component<IconProps, any> {
 
     render() {
         return (
-            <i className="material-icons">{this.props.name}</i>
+            <i className={`material-icons ${this.props.className}`}>{this.props.name}</i>
         );
     }
 }
