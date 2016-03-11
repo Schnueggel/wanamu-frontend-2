@@ -29,6 +29,8 @@ input:-webkit-autofill {
     --color1Inv: rgb(255, 255, 255);
     --colorText1: rgba(0,0,0,0.87);
     --shadow1: 0 1px 3px 0 rgba(0,0,0,.2),0 1px 1px 0 rgba(0,0,0,.14),0 2px 1px -1px rgba(0,0,0,.12);
+    --defaultPadding: 0.2rem 0.5rem;
+    --defaultMargin: 0.5rem;
 }
 
 .layout__container {
@@ -272,7 +274,7 @@ input:-webkit-autofill {
 ****************** Todo
 *******************************************************/
 .todo {
-    margin: 1rem;
+    margin: var(--defaultMargin);
     box-shadow: var(--shadow1);
     display: flex;
     flex-direction: column;
@@ -384,6 +386,12 @@ input:-webkit-autofill {
 /*
  Friends
 */
+
+.friends {
+    width: 100%;
+    padding: var(--defaultPadding);
+}
+
 .friendlist {
     display: flex;
     flex-direction: row;
@@ -395,7 +403,7 @@ input:-webkit-autofill {
     flex: 0 1 300px;
     padding: 0.5rem;
     box-shadow: var(--shadow1);
-    margin: 0.5rem;
+    margin: var(--defaultMargin);
 }
 
 .friendlist .friend--add {
@@ -435,8 +443,20 @@ input:-webkit-autofill {
 /*
  Actionbar
 */
-.wu-actionbar {
-    padding: 0.2rem 1rem;
+.actionbar {
+    padding: var(--defaultPadding);
+}
+
+.actionbar *:first-child {
+    margin-left:0;
+}
+
+.actionbar > * {
+    margin: 0.5rem;
+}
+
+.actionbar .button {
+    font-size: 1.2rem;
 }
 
 /*

@@ -68,16 +68,20 @@ declare module wu {
             apiBaseUrl: string;
         }
 
-        interface IUserClass {
-            id?: number;
-            password?: string;
-            email: string;
-            Setting?: ISetting;
-            Profile : IProfile;
-            DefaultTodoListId?: number;
+        interface IUser {
+            _id?: string;
+            firstname: string,
+            lastname:string,
+            salutation: string,
+            username: string,
+            email: string,
+            isAdmin: boolean,
+            password: string,
+            avatar: string,
+            ignorelist: Array<string>,
+            friends: Array<string>,
+            defaultTodolistId: string
         }
-
-        type IUser = IUserClass & Immutable.Record.TypedMap<IUserClass>;
 
         interface ITodo {
             _id?: string;

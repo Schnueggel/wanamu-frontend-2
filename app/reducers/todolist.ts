@@ -8,6 +8,7 @@ const initialState: wu.ITodoListState = {
     visibility: VisibleTodos.Open,
     error: null,
     isLoading: false,
+    id: null,
     todos: Map() as Immutable.Map<string, ITodo>,
     isTodoSyncing: false,
     syncingTodos: Set() as Immutable.Set<ITodo>
@@ -22,7 +23,7 @@ export function todolist(state = initialState, action: any) {
         case Actions.ACTION_TODOLIST_REQUEST:
             return Object.assign({}, state, {isLoading: true, error: null});
         case Actions.ACTION_TODOLIST_LOADED:
-            return Object.assign({}, state, {todos: Map(action.todos.map(todo => [todo._id, todo])), isLoading: false});
+            return Object.assign({}, state, {todos: Map(action.todos.map(todo => [todo._id, todo])), isLoading: false, id: action.id});
         case Actions.ACTION_TODOLIST_ERROR:
             return Object.assign({}, state, {error, isLoading: false});
         case Actions.ACTION_TODO_CREATE_REQUEST:

@@ -41,8 +41,18 @@ export class TodoList extends React.Component<wu.ITodoListProps, any> implements
     }
 
     componentWillMount() {
-        if (this.props.todolist.isLoading === false) {
-            this.props.actions.todolist.todoListLoad(this.props.params.id);
+        this.checkTodolist(this.props);
+    }
+
+    componentWillUpdate(nextProps: wu.ITodoListProps, nextState: any, nextContext: any): void {
+        this.checkTodolist(nextProps);
+    }
+
+    checkTodolist(props) {
+        if (props.params.id === undefined){
+            props.actions.routerActions.push(`/todolist/${props.user.user.defaultTodolistId}`);
+        } else if (props.todolist.isLoading === false && typeof props.todolist.id !== 'string') {
+            props.actions.todolist.todoListLoad(props.params.id);
         }
     }
 
@@ -52,7 +62,7 @@ export class TodoList extends React.Component<wu.ITodoListProps, any> implements
 
     handleTodoCreate() {
         let todo: wu.model.data.ITodo = new Todo();
-        todo.todolistId = this.props.params.id;
+        todo.todolistId = this.props.user.user.defaultTodolistId;
         this.props.actions.todo.todoDoCreate(todo);
     }
 
@@ -104,7 +114,7 @@ export class TodoList extends React.Component<wu.ITodoListProps, any> implements
 
         return (
             <div className="todolist__container">
-                <div className="wu-actionbar">
+                <div className="actionbar">
                     <Select options={this.options} label="Select Todo" ref="todosVisible" value={this.props.todolist.visibility} onChange={this.handleVisibilityFilter.bind(this)}/>
                 </div>
                 {error}
@@ -115,10 +125,11 @@ export class TodoList extends React.Component<wu.ITodoListProps, any> implements
     }
 }
 
-function mapStateToProps(state) {
+function mapStateToProps(state: wu.IState) {
     return {
-        todolist: state.todolist
-    }
+        todolist: state.todolist,
+        user: state.user
+    };
 }
 
 function mapDispatchToProps(dispatch) {
@@ -128,7 +139,7 @@ function mapDispatchToProps(dispatch) {
             todolist: bindActionCreators(todolistActions, dispatch),
             todo: bindActionCreators(todoActions, dispatch)
         }
-    }
+    };
 }
 
 const connected = connect(mapStateToProps, mapDispatchToProps)(TodoList);

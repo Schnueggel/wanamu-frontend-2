@@ -10,10 +10,11 @@ import * as _ from 'lodash';
  * @param todos
  * @returns {{type: string, config: any}}
  */
-export function todoListLoaded(todos: Object) {
+export function todoListLoaded(todos: Object, id: string) {
     return {
         type: Actions.ACTION_TODOLIST_LOADED,
-        todos
+        todos,
+        id
     };
 }
 
@@ -77,7 +78,7 @@ export function todoListLoad(id:string) {
             })
             .then( todolist => {
                 if (todolist) {
-                    dispatch(todoListLoaded(todolist));
+                    dispatch(todoListLoaded(todolist, id));
                 } else {
                     dispatch(todoListError('No data found'));
                 }

@@ -60,7 +60,7 @@ export class Page extends React.Component<wu.IPageProps, any> implements React.C
                             <Spinner className={classLoading}/>
                         </div>
                     </header>
-                    <Menu title="Wanamu" items={ this.props.menu.menuItems } className={menuOpen}/>
+                    <Menu title="Wanamu" items={this.props.menu.menuItems} className={menuOpen}/>
                     <div className={`menu-overlay ${menuOpen}`} onClick={this.props.menuToggle}></div>
                     <div className="layout__content">
                         {error}

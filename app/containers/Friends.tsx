@@ -29,7 +29,7 @@ export class Friends extends React.Component<any, any> implements React.Componen
     render() {
         return (
             <div className="friends">
-            <Button>Add Friend</Button>
+            <div className="actionbar"><Button>Add Friend</Button></div>
             <FriendList friends={this.props.friends.friends} />
         </div>
         );

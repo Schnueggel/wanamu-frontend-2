@@ -65,6 +65,7 @@ declare module wu {
 
     interface ITodoListProps extends wu.IControlProps<ITodoListProps>  {
         todolist: ITodoListState;
+        user: IUserState;
         visibility: string;
         actions: {
             routerActions: RouteActions;
@@ -134,6 +135,7 @@ declare module wu {
 
     interface ITodoListState {
         visibility: string;
+        id: string;
         error: string;
         isLoading: boolean;
         todos: Immutable.Map<string, model.data.ITodo>;
