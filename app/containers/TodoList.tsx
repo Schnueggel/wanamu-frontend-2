@@ -44,12 +44,12 @@ export class TodoList extends React.Component<wu.ITodoListProps, any> implements
         this.checkTodolist(this.props);
     }
 
-    componentWillUpdate(nextProps: wu.ITodoListProps, nextState: any, nextContext: any): void {
+    componentWillUpdate(nextProps: wu.ITodoListProps, nextState: any, nextContext: any) {
         this.checkTodolist(nextProps);
     }
 
     checkTodolist(props) {
-        if (props.params.id === undefined){
+        if (props.params.id === undefined) {
             props.actions.routerActions.push(`/todolist/${props.user.user.defaultTodolistId}`);
         } else if (props.todolist.isLoading === false && typeof props.todolist.id !== 'string') {
             props.actions.todolist.todoListLoad(props.params.id);
@@ -66,7 +66,7 @@ export class TodoList extends React.Component<wu.ITodoListProps, any> implements
         this.props.actions.todo.todoDoCreate(todo);
     }
 
-    handleTodoDelete(todo: wu.model.data.ITodo){
+    handleTodoDelete(todo: wu.model.data.ITodo) {
         this.props.actions.todo.todoDoDelete(todo);
     }
 
