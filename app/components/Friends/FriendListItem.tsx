@@ -17,7 +17,7 @@ export class FriendListItem extends React.Component<IFriendListItemProps, any> i
 
     static defaultProps: IFriendListItemProps = {
         friend: null,
-        onFriendDelete: () => {}
+        onFriendDelete: (friend: wu.model.data.IFriend) => {}
     } as IFriendListItemProps;
 
     /**
@@ -37,7 +37,9 @@ export class FriendListItem extends React.Component<IFriendListItemProps, any> i
         return nextProps.friend !== this.props.friend;
     }
 
-    handleDelete() {}
+    handleDelete() {
+        this.props.onFriendDelete(this.props.friend);
+    }
 
     /**
      *
@@ -49,7 +51,7 @@ export class FriendListItem extends React.Component<IFriendListItemProps, any> i
                 <div className="friend__content">
                     <div className="friend__name">{this.props.friend.firstname + ' ' + this.props.friend.lastname}</div>
                     <span className="spacer"></span>
-                    <IconButton className="action" icon="delete"/>
+                    <IconButton className="action" icon="delete" onClick={this.handleDelete.bind(this)} />
                 </div>
             </div>
         );

@@ -20,7 +20,7 @@ export class FriendList extends React.Component<IFriendListProps, any> implement
     static defaultProps: IFriendListProps = {
         friends    : null,
         onFriendAdd   : () => {},
-        onFriendDelete: () => {}
+        onFriendDelete: (friend: wu.model.data.IFriend) => {}
     } as IFriendListProps;
 
     /**

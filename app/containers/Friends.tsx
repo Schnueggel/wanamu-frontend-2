@@ -2,10 +2,11 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { routerActions } from 'react-router-redux';
 import { bindActionCreators } from 'redux';
-import { doLoadFriendList } from '../actions/FriendListAction';
+import { doLoadFriendList, doDeleteFriend } from '../actions/FriendListAction';
 import * as _ from 'lodash';
 import { FriendList } from '../components/Friends/FriendList';
 import { Button } from '../components/Elements/Button';
+
 export interface IRefs {
     [key: string]: React.Component<any, any>;
 }
@@ -16,6 +17,7 @@ export interface IRefs {
 export class Friends extends React.Component<any, any> implements React.ComponentLifecycle<any, any> {
 
     refs:IRefs;
+
     constructor(props:any) {
         super(props);
     }
@@ -29,9 +31,11 @@ export class Friends extends React.Component<any, any> implements React.Componen
     render() {
         return (
             <div className="friends">
-            <div className="actionbar"><Button>Add Friend</Button></div>
-            <FriendList friends={this.props.friends.friends} />
-        </div>
+                <div className="actionbar">
+                    <Button>Add Friend</Button>
+                </div>
+                <FriendList friends={this.props.friends.friends} onFriendDelete={this.props.actions.doDeleteFriend} />
+            </div>
         );
     }
 }
@@ -46,7 +50,8 @@ function mapDispatchToProps(dispatch) {
     return {
         actions: {
             routerActions: bindActionCreators(routerActions, dispatch),
-            doLoadFriendList: bindActionCreators(doLoadFriendList, dispatch)
+            doLoadFriendList: bindActionCreators(doLoadFriendList, dispatch),
+            doDeleteFriend: bindActionCreators(doDeleteFriend, dispatch)
         }
     };
 }

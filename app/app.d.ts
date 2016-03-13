@@ -45,6 +45,9 @@ declare module wu {
 
     interface IFriendProps extends IControlProps<IFriendProps> {
         friends: any[];
+        actions: {
+
+        };
     }
 
     interface IRegisterProps extends wu.IControlProps<IRegisterProps> {
