@@ -18,9 +18,7 @@ module.exports = {
     },
     plugins: [],
     module: {
-        noParse: [
-
-        ],
+        noParse: [],
         preLoaders: [
             {
                 test: /\.tsx?$/,

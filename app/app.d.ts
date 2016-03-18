@@ -174,6 +174,10 @@ declare module 'isomorphic-fetch' {
     export = fetch;
 }
 
+declare module 'redux-thunk' {
+    export default () => Function
+}
+
 declare module Immutable {
     export module Record {
         type IRecord<T> = T & TypedMap<T>;

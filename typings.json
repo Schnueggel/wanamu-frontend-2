@@ -13,7 +13,6 @@
     "react-router-redux": "github:DefinitelyTyped/DefinitelyTyped/react-router-redux/react-router-redux.d.ts#9a81f3dc342a3734c2e0f75110d0d91f627c9ed4",
     "redux": "github:DefinitelyTyped/DefinitelyTyped/redux/redux.d.ts#7fffbd3e040a93c244777e3be04cd6223ac69301",
     "redux-logger": "github:DefinitelyTyped/DefinitelyTyped/redux-logger/redux-logger.d.ts#7fffbd3e040a93c244777e3be04cd6223ac69301",
-    "redux-thunk": "github:DefinitelyTyped/DefinitelyTyped/redux-thunk/redux-thunk.d.ts#75249b97104d00c1ca2451ac29369009a5f2b101",
     "whatwg-fetch": "github:DefinitelyTyped/DefinitelyTyped/whatwg-fetch/whatwg-fetch.d.ts#7fffbd3e040a93c244777e3be04cd6223ac69301"
   }
 }
