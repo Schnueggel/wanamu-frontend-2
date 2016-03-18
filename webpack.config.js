@@ -1,7 +1,6 @@
 'use strict';
 
-const autoprefixer = require('autoprefixer'),
-    postcssNesting = require('postcss-nesting'),
+const postcssNesting = require('postcss-nesting'),
     cssnext = require('postcss-cssnext');
 
 module.exports = {
@@ -41,7 +40,7 @@ module.exports = {
         ]
     },
     postcss: function () {
-        return [postcssNesting, cssnext, autoprefixer];
+        return [postcssNesting, cssnext];
     },
     tslint: {
         configuration: {
