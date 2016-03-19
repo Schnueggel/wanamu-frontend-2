@@ -2,8 +2,7 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { routerActions } from 'react-router-redux';
 import { bindActionCreators } from 'redux';
-import { doLoadFriendList, doDeleteFriend } from '../actions/FriendListAction';
-import * as _ from 'lodash';
+import { doLoadFriendList, doDeleteFriend, showAddFriendsPopup } from '../actions/FriendListAction';
 import { FriendList } from '../components/Friends/FriendList';
 import { Button } from '../components/Elements/Button';
 
@@ -15,6 +14,10 @@ export interface IRefs {
  * Container Component Login
  */
 export class Friends extends React.Component<any, any> implements React.ComponentLifecycle<any, any> {
+
+    state: any = {
+        showFriendPopup: false
+    };
 
     refs:IRefs;
 
@@ -32,9 +35,9 @@ export class Friends extends React.Component<any, any> implements React.Componen
         return (
             <div className="friends">
                 <div className="actionbar">
-                    <Button>Add Friend</Button>
+                    <Button onClick={this.props.actions.showAddFriendsPopup}>Add Friend</Button>
                 </div>
-                <FriendList friends={this.props.friends.friends} onFriendDelete={this.props.actions.doDeleteFriend} />
+                <FriendList friends={this.props.friends.friends} onFriendDelete={this.props.actions.doDeleteFriend} onFriendAdd={this.props.actions.showAddFriendsPopup}/>
             </div>
         );
     }
@@ -51,7 +54,8 @@ function mapDispatchToProps(dispatch) {
         actions: {
             routerActions: bindActionCreators(routerActions, dispatch),
             doLoadFriendList: bindActionCreators(doLoadFriendList, dispatch),
-            doDeleteFriend: bindActionCreators(doDeleteFriend, dispatch)
+            doDeleteFriend: bindActionCreators(doDeleteFriend, dispatch),
+            showAddFriendsPopup: bindActionCreators(showAddFriendsPopup, dispatch)
         }
     };
 }

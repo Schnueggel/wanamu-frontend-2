@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as _ from 'lodash';
-import IconButton from '../Elements/IconButton';
+import {IconButton} from '../Elements/IconButton';
 
 export interface IFriendListItemProps extends __React.Props<IFriendListItemProps> {
     friend: wu.model.data.IFriend;

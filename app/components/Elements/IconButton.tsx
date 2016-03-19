@@ -1,4 +1,5 @@
 import * as React from 'react';
+import * as classNames from 'classnames';
 
 export interface IIconButtonProps extends __React.Props<IIconButtonProps> {
     icon: string;
@@ -7,7 +8,7 @@ export interface IIconButtonProps extends __React.Props<IIconButtonProps> {
     disabled?: boolean
 }
 
-export default class IconButton extends React.Component<IIconButtonProps, any> {
+export class IconButton extends React.Component<IIconButtonProps, any> {
 
     refs: any = {
         button: HTMLButtonElement
@@ -29,7 +30,7 @@ export default class IconButton extends React.Component<IIconButtonProps, any> {
     }
 
     render() {
-        return (<button className={`button icon ${this.props.className}`}
+        return (<button className={classNames('button icon', this.props.className)}
                         onClick={this.handleClick.bind(this)} ref="button" disabled={this.props.disabled}>
             <i className="material-icons">{this.props.icon}</i>
         </button>);

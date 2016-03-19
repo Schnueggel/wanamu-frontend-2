@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as _ from 'lodash';
-import TextInput from 'components/Form/TextInput';
-import IconButton from 'components/Elements/IconButton';
+import {TextInput} from 'components/Form/TextInput';
+import {IconButton} from 'components/Elements/IconButton';
 import TextArea from 'components/Form/TextArea';
 import * as classNames from 'classnames';
 import ITodo = wu.model.data.ITodo;

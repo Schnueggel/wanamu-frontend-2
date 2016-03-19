@@ -17,7 +17,7 @@ interface IState {
  * @class TextInput
  * @namespace wu.components.Form
  */
-export default class TextInput extends React.Component<ITextInputProps, IState> implements React.ComponentLifecycle<ITextInputProps, IState> {
+export class TextInput extends React.Component<ITextInputProps, IState> implements React.ComponentLifecycle<ITextInputProps, IState> {
 
     state: any = {
         value: '',

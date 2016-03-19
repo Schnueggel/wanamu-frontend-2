@@ -2,11 +2,11 @@ import * as React from 'react';
 import Menu from 'components/Menu/Menu';
 import { connect } from 'react-redux';
 import { routerActions } from 'react-router-redux';
-import { AppStates } from '../constants';
 import * as classNames from 'classnames';
 import { bindActionCreators } from 'redux';
 import { menuToggle } from '../actions/AppAction';
 import { Spinner } from './../components/Elements/Spinner';
+import AddFriendPopup from './../components/Friends/AddFriendPopup';
 
 /**
  * Laoyout for the Page
@@ -54,19 +54,20 @@ export class Page extends React.Component<wu.IPageProps, any> implements React.C
                 <div className="layout">
                     <header className="header">
                         <div className="header-row">
-                            <i className="material-icons icon" onClick={this.props.menuToggle}>menu</i>
+                            <i className="material-icons icon" onClick={this.props.actions.menuToggle}>menu</i>
                             <h1 className="title">Wanamu</h1>
                             <div className="spacer"></div>
                             <Spinner className={classLoading}/>
                         </div>
                     </header>
                     <Menu title="Wanamu" items={this.props.menu.menuItems} className={menuOpen}/>
-                    <div className={`menu-overlay ${menuOpen}`} onClick={this.props.menuToggle}></div>
+                    <div className={`menu-overlay ${menuOpen}`} onClick={this.props.actions.menuToggle}></div>
                     <div className="layout__content">
                         {error}
                         {this.props.children}
                     </div>
                 </div>
+                <AddFriendPopup />
             </div>
         );
     }
@@ -82,8 +83,10 @@ function mapStateToProps(state: wu.IState) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        routerActions,
-        menuToggle: bindActionCreators(menuToggle, dispatch)
+        actions: {
+            routerActions,
+            menuToggle: bindActionCreators(menuToggle, dispatch)
+        }
     };
 }
 

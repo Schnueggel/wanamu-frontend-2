@@ -27,7 +27,13 @@ declare module wu {
         user: IUserState;
         login: ILoginState;
         menu: IMenuState;
-        menuToggle: __React.MouseEventHandler;
+        friends: IFriendsState;
+        actions: {
+            menuToggle: __React.MouseEventHandler;
+            routerActions: RouteActions,
+            hideAddFriendPopup: Function,
+            login: __React.MouseEventHandler
+        };
     }
 
     interface ILoginProps extends IControlProps<ILoginProps> {
@@ -96,7 +102,12 @@ declare module wu {
     }
 
     interface IFriendsState {
-        friends: Array<any>
+        friends: Array<any>;
+        error: string;
+        deleteError: string;
+        isLoading: boolean;
+        isFriendPopupVisible: boolean;
+        friendsDeleting: Immutable.Set<string>
     }
 
     interface IMenuState {

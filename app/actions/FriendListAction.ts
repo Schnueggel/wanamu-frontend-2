@@ -59,14 +59,52 @@ export function friendDeleteRequest(friend: wu.model.data.IFriend) {
     return {
         type: Actions.ACTION_FRIEND_DELETE_REQUEST,
         friend
-    }
+    };
 }
 
-export function friendDeleteError(friend: wu.model.data.IFriend, error) {
+/**
+ *
+ * @param friend
+ */
+export function friendAddRequest(friend: wu.model.data.IFriend) {
+    return {
+        type: Actions.ACTION_FRIEND_ADD_REQUEST,
+        friend
+    };
+}
+
+export function friendAddError(friend: wu.model.data.IFriend, error) {
     return {
         type: Actions.ACTION_FRIEND_DELETE_ERROR,
         friend,
         error
+    };
+}
+
+export function friendAdded(friend: wu.model.data.IFriend) {
+    return {
+        type: Actions.ACTION_FRIEND_DELETE_ERROR,
+        friend
+    };
+}
+
+export function friendDeleteError(id: string, error) {
+    return {
+        type: Actions.ACTION_FRIEND_DELETE_ERROR,
+        id,
+        error
+    };
+}
+
+export function showAddFriendsPopup () {
+    return {
+        type: Actions.ACTION_SHOW_POPUP
+    };
+}
+
+export function hideAddFriendPopup () {
+    return {
+        type: Actions.ACTION_HIDE_POPUP
     };
 }
 
@@ -108,6 +146,48 @@ export function doDeleteFriend(friend: wu.model.data.IFriend) {
             })
             .catch(err => {
                 dispatch(friendListError(err.message));
+            });
+    };
+}
+
+/**
+ *
+ */
+export function doAddFriend(friend: wu.model.data.IFriend) {
+    return (dispatch, getState: ()=> wu.IState) => {
+
+        dispatch(friendAddRequest(friend));
+
+        const options = defaultRequestOptions(getState().auth.token, 'POST');
+
+        return fetch(`${getState().app.config.apiBaseUrl}/friend/${friend._id}`,options)
+            .then((response: Response) => {
+                if ([304, 200].indexOf(response.status) > -1) {
+                    return response.json();
+                } else if ([422, 400].indexOf(response.status) > -1) {
+                    throw new Error('Invalid Request');
+                } else if (response.status === 404) {
+                    throw new Error('No data found');
+                } else if ([418, 401].indexOf(response.status) > -1) {
+                    dispatch(appError('You need to login'));
+                    dispatch(routerActions.push('/login'));
+                    return null;
+                } else if (response.status === 500) {
+                    throw new Error('Server error');
+                } else if (response.status === 403) {
+                    throw new Error('Not enough rights to see this data');
+                } else if (response.status === 0) {
+                    throw new Error('Please check your network connection');
+                } else {
+                    throw new Error('Deleting friend not possible');
+                }
+            })
+            .then(() => {
+                dispatch(friendAdded(friend));
+                dispatch(doLoadFriendList(getState().user.user.defaultTodolistId));
+            })
+            .catch(err => {
+                dispatch(friendAddError(friend, err.message));
             });
     };
 }
@@ -157,7 +237,7 @@ export function doLoadFriendList(id:string) {
                 }
             })
             .catch(err => {
-                dispatch(friendListError(err.message));
+                dispatch(friendDeleteError(id, err.message));
             });
     };
 }

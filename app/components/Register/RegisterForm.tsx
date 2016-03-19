@@ -1,5 +1,5 @@
 import * as React from 'react';
-import TextInput from '../Form/TextInput';
+import {TextInput} from '../Form/TextInput';
 import RadioButton from '../Form/RadioButton';
 import * as _ from 'lodash';
 import { Button } from '../Elements/Button';
