@@ -14,17 +14,11 @@ import {AppStates} from './constants';
 
 const history = syncHistoryWithStore(browserHistory, store);
 
+let defaultUserLoading = false;
 //Bootstrap Application by waiting for all necessary states
 const unsubscribe = store.subscribe(() => {
-    if (store.getState().app.appState === AppStates.Booting) {
-        if (store.getState().app.config) {
-            store.dispatch(loadDefaultUser());
-
-            if (store.getState().app.userTested) {
-                store.dispatch(bootstrapReady());
-            }
-        }
-    } else if (store.getState().app.appState === AppStates.Error) {
+    if (store.getState().app.appState === AppStates.Error) {
+        unsubscribe();
         ReactDom.render(
             <div className="bootstrap-error">
                 <div className="message"> Failed to Bootstrap Application! Refresh the Page to retry.</div>
@@ -34,7 +28,7 @@ const unsubscribe = store.subscribe(() => {
             </div>,
             document.getElementById('app')
         );
-    } else {
+    } else if (store.getState().app.appState === AppStates.Ready) {
         unsubscribe();
         ReactDom.render(
             <Provider store={store}>

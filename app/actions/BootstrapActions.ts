@@ -5,7 +5,7 @@ import { loginRequest } from './LoginActions';
 import { LocalStorage, defaultRequestOptions } from '../constants';
 import * as _  from 'lodash';
 import { tokenLoaded, tokenRestore, tokenClear } from './TokenActions';
-import { userLoaded } from './UserActions';
+import { userLoaded, userRequest } from './UserActions';
 
 /**
  *
@@ -31,6 +31,8 @@ export function loadDefaultUser() {
     return (dispatch, getState) => {
 
         const options = defaultRequestOptions(getState().auth.token, 'GET');
+
+        dispatch(userRequest());
 
         return fetch(`${getState().app.config.apiBaseUrl}/user`, options)
             .then( (response: Response) => {
@@ -65,6 +67,10 @@ export function loadDefaultUser() {
 export function bootstrap() {
     return (dispatch) => {
         dispatch(tokenRestore());
-        dispatch(configLoad());
+        dispatch(configLoad()).then(() => {
+            dispatch(loadDefaultUser()).then(()=> {
+                dispatch(bootstrapReady());
+            });
+        });
     };
 }

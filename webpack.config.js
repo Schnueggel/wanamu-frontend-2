@@ -40,6 +40,14 @@ module.exports = {
     postcss: function () {
         return [postcssNesting, cssnext];
     },
+    devServer: {
+        proxy: {
+            '/node_modules*' : {
+                secure: false,
+                target: 'http://localhost:3000'
+            }
+        }
+    },
     tslint: {
         configuration: {
             rules: {
