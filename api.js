@@ -10,13 +10,11 @@ const app = express();
 
 app.use(helmet());
 
-nconf.defaults(require('./public/config.json'));
-
 nconf.env({
-    separator: '__',
-    match: /WU_.+/
+    match: /^WU_.+/
 });
 
+nconf.file('./public/config.json');
 
 app.get('/config.json', (req, res, next) => {
     res.json(nconf.get());
