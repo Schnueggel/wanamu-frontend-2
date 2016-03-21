@@ -18,8 +18,8 @@ nconf.env({
 });
 
 
-app.get('/.config.json', (req, res, next) => {
-    res.send()
+app.get('/config.json', (req, res, next) => {
+    res.json(nconf.get());
 });
 
 app.use('/node_modules', express.static(__dirname + '/node_modules', {fallthrough: false}));
