@@ -65,7 +65,7 @@ declare module wu {
         }
 
         interface IConfig {
-            apiBaseUrl: string;
+            WU_API_BASE_URL: string;
         }
 
         interface IUser {

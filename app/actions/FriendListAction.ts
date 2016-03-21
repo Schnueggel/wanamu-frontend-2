@@ -118,7 +118,7 @@ export function doDeleteFriend(friend: wu.model.data.IFriend) {
 
         const options = defaultRequestOptions(getState().auth.token, 'DELETE');
 
-        return fetch(`${getState().app.config.apiBaseUrl}/friend/${friend._id}`,options)
+        return fetch(`${getState().app.config.WU_API_BASE_URL}/friend/${friend._id}`,options)
             .then((response: Response) => {
                 if ([304, 200].indexOf(response.status) > -1) {
                     return response.json();
@@ -160,7 +160,7 @@ export function doAddFriend(friend: wu.model.data.IFriend) {
 
         const options = defaultRequestOptions(getState().auth.token, 'POST');
 
-        return fetch(`${getState().app.config.apiBaseUrl}/friend/${friend._id}`,options)
+        return fetch(`${getState().app.config.WU_API_BASE_URL}/friend/${friend._id}`,options)
             .then((response: Response) => {
                 if ([304, 200].indexOf(response.status) > -1) {
                     return response.json();
@@ -204,7 +204,7 @@ export function doLoadFriendList(id:string) {
 
         const options = defaultRequestOptions(getState().auth.token, 'GET');
 
-        return fetch(`${getState().app.config.apiBaseUrl}/friend`,options)
+        return fetch(`${getState().app.config.WU_API_BASE_URL}/friend`,options)
             .then((response: Response) => {
                 if ([304, 200].indexOf(response.status) > -1) {
                     return response.json();

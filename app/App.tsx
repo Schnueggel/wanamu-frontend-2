@@ -12,7 +12,7 @@ import { bootstrap } from './actions/BootstrapActions';
 import { AppStates } from './constants';
 
 export function init() {
-    //Bootstrap Application by waiting for all necessary states
+    //Bootstrap Application by waiting for all necessary information
     const unsubscribe = store.subscribe(() => {
         if (store.getState().app.appState === AppStates.Error) {
             unsubscribe();

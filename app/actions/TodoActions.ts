@@ -60,7 +60,7 @@ export function todoDoUpdate(todo: wu.model.data.ITodo) {
 
         options.body = JSON.stringify(todo);
 
-        return fetch(`${getState().app.config.apiBaseUrl}/todo/${todo._id}`, options)
+        return fetch(`${getState().app.config.WU_API_BASE_URL}/todo/${todo._id}`, options)
             .then((response: Response) => responseStatusCheck(response, dispatch))
             .then((response: Response) => {
                 if ([304, 200].indexOf(response.status) > -1) {
@@ -124,7 +124,7 @@ export function todoDoCreate(todo: wu.model.data.ITodo) {
 
         options.body = JSON.stringify(todo);
 
-        return fetch(`${getState().app.config.apiBaseUrl}/todo/${todo.todolistId}`, options)
+        return fetch(`${getState().app.config.WU_API_BASE_URL}/todo/${todo.todolistId}`, options)
             .then( response => {
                 if ([304, 200].indexOf(response.status) > -1) {
                     return response.json();
@@ -206,7 +206,7 @@ export function todoDoDelete(todo: wu.model.data.ITodo) {
 
         options.body = JSON.stringify(todo);
 
-        return fetch(`${getState().app.config.apiBaseUrl}/todo/${todo._id}`, options)
+        return fetch(`${getState().app.config.WU_API_BASE_URL}/todo/${todo._id}`, options)
             .then( response => {
                 if ([304, 200].indexOf(response.status) > -1) {
                     return response.json();
@@ -280,7 +280,7 @@ export function todoDoFinish(todo: wu.model.data.ITodo) {
 
         options.body = JSON.stringify(todo);
 
-        return fetch(`${getState().app.config.apiBaseUrl}/todo/${todo._id}/finish`, options)
+        return fetch(`${getState().app.config.WU_API_BASE_URL}/todo/${todo._id}/finish`, options)
             .then( response => {
                 if ([304, 200].indexOf(response.status) > -1) {
                     return response.json();

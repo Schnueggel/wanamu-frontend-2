@@ -4,10 +4,23 @@
 
 const express = require('express');
 const helmet = require('helmet');
+const nconf = require('nconf');
 
 const app = express();
 
 app.use(helmet());
+
+nconf.defaults(require('./public/config.json'));
+
+nconf.env({
+    separator: '__',
+    match: /WU_.+/
+});
+
+
+app.get('/.config.json', (req, res, next) => {
+    res.send()
+});
 
 app.use('/node_modules', express.static(__dirname + '/node_modules', {fallthrough: false}));
 

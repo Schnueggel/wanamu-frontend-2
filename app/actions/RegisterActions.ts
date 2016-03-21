@@ -57,7 +57,7 @@ export function usernameCheck(name) {
 
         const options = defaultRequestOptions(null, 'GET');
 
-        return fetch(`${getState().app.config.apiBaseUrl}/user/username/${name}`, options)
+        return fetch(`${getState().app.config.WU_API_BASE_URL}/user/username/${name}`, options)
             .then((response: Response) => {
                 if (response.status === 200 || response.status === 304) {
                     return response.json();
@@ -91,7 +91,7 @@ export function register(data: any) {
 
         options.body = JSON.stringify(data);
 
-        return fetch(`${getState().app.config.apiBaseUrl}/register`, options)
+        return fetch(`${getState().app.config.WU_API_BASE_URL}/register`, options)
             .then((response: Response) => {
                 if (response.status === 200) {
                     return response.json();

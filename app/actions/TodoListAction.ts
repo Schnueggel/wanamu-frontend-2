@@ -51,7 +51,7 @@ export function todoListLoad(id:string) {
         dispatch(todoListRequest());
         const options = defaultRequestOptions(getState().auth.token, 'GET');
 
-        return fetch(`${getState().app.config.apiBaseUrl}/todolist/${id}`,options)
+        return fetch(`${getState().app.config.WU_API_BASE_URL}/todolist/${id}`,options)
             .then((response: Response) => {
                 if ([304, 200].indexOf(response.status) > -1) {
                     return response.json();

@@ -34,7 +34,7 @@ export function loadDefaultUser() {
 
         dispatch(userRequest());
 
-        return fetch(`${getState().app.config.apiBaseUrl}/user`, options)
+        return fetch(`${getState().app.config.WU_API_BASE_URL}/user`, options)
             .then( (response: Response) => {
                 if (response.status === 200) {
                     return response.json();
