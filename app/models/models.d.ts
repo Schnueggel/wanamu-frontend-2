@@ -1,68 +1,6 @@
 declare module wu {
 
-    module model.states {
-        interface IBaseStateModel<T> {
-            changeStateStream: Rx.Observable<T>;
-            notify(): void;
-        }
-
-        interface ILoginStateModel extends IBaseStateModel<ILoginStateModel> {
-            errorMessage: string;
-            email : string;
-            emailErrors : Array<string>;
-            passwordErrors : Array<string>;
-            user: wu.model.data.IUser;
-            logoutFailed:Error;
-            isLoggingOut:boolean;
-        }
-
-        interface IRegisterStateModel extends IBaseStateModel<IRegisterStateModel> {
-            registrationSuccess: boolean;
-            registrationFailed:Error;
-            isRegistering:boolean;
-        }
-
-        interface IAppStateModel extends IBaseStateModel<IAppStateModel> {
-
-            authMenuItems: wu.IMenuItemData[];
-            noAuthMenuItems: wu.IMenuItemData[];
-
-            login: ILoginStateModel;
-            todos: ITodoStateModel;
-            register: IRegisterStateModel;
-
-            isAuthedPath(path: string)
-
-            menuItems:wu.IMenuItemData[];
-            appReady: boolean;
-            config: wu.model.data.IConfig;
-            configError: Error;
-            isBootstrapping: boolean;
-            isConfigLoading: boolean;
-            bootstrappingError: Error;
-        }
-
-        interface ITodoStateModel extends IBaseStateModel<ITodoStateModel> {
-            todos: wu.model.data.ITodo[];
-            isTodoUpdating:boolean;
-            todoUpdateCount:number;
-            todoListNotFound:boolean;
-            isTodoListLoading:boolean;
-        }
-    }
-
-    interface  IDirty {
-        dirty : boolean;
-    }
-
     module model.data {
-
-        interface IBaseModel<T> extends IDirty {
-            [index: string] : any;
-            toJSON : Function;
-            fromJSON : (data:any) => void;
-            changeDataStream: Rx.Subject<T>
-        }
 
         interface IConfig {
             WU_API_BASE_URL: string;
@@ -100,7 +38,7 @@ declare module wu {
             accepted?: boolean;
         }
 
-        interface IFriend extends IBaseModel<IFriend> {
+        interface IFriend {
             _id: number;
             firstname?: string;
             lastname?: string;
@@ -118,12 +56,6 @@ declare module wu {
             color5 : string;
         }
 
-        interface ITodoListClass {
-            id?: number;
-            name : string;
-            Todos : Immutable.Map<any,ITodo>;
-        }
-
         interface IProfileClass {
             id?: number;
             firstname: string;
@@ -131,14 +63,7 @@ declare module wu {
             salutation: string;
             face?: string;
         }
-        type IProfile = IProfileClass & Immutable.Record.TypedMap<IProfileClass>;
-
-        interface ISettingClass extends IColor {
-            id : number;
-        }
-
-        type ISetting = ISettingClass & Immutable.Record.TypedMap<ISettingClass>;
-
+        
         interface ITodoListData {
             id : number;
             name : string;

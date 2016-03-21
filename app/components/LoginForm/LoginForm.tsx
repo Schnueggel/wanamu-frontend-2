@@ -1,8 +1,6 @@
 import * as React from 'react';
-import { Subject, Observable } from 'rx';
 import {TextInput} from '../Form/TextInput';
 import { Button } from '../Elements/Button';
-import * as _ from 'lodash';
 
 export interface ILoginFormProps extends __React.Props<ILoginFormProps> {
     email?: string;

@@ -1,4 +1,4 @@
-require('normalize.css');
+require('normalize.css/normalize.css');
 require('./styles/index.css');
 
 import * as React from 'react';

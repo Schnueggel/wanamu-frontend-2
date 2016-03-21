@@ -188,31 +188,3 @@ declare module 'isomorphic-fetch' {
 declare module 'redux-thunk' {
     export default () => Function
 }
-
-declare module Immutable {
-    export module Record {
-        type IRecord<T> = T & TypedMap<T>;
-
-        interface TypedMap<T> extends Map<string, any> {
-            set(key: string, value: any): IRecord<T>;
-            /**
-             * Returns a new Map having set `value` at this `keyPath`. If any keys in
-             * `keyPath` do not exist, a new immutable Map will be created at that key.
-             */
-            setIn(keyPath: Array<any>, value: any): IRecord<T>;
-            setIn(KeyPath: Iterable<any, any>, value: any): IRecord<T>;
-        }
-
-        interface Factory<T> {
-            new (): IRecord<T>;
-            new (values: T): IRecord<T>;
-
-            (): IRecord<T>;
-            (values: T): IRecord<T>;
-        }
-    }
-
-    export function Record<T>(
-        defaultValues: T, name?: string
-    ): Record.Factory<T>;
-}
