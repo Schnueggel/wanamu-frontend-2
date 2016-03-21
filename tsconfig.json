@@ -5,7 +5,8 @@
     "jsx": "React",
     "noLib": true,
     "experimentalDecorators": true,
-    "sourceMap": true
+    "sourceMap": true,
+    "noEmitOnError": true
   },
   "files": [
     "./typings/main.d.ts",

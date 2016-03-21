@@ -3,6 +3,11 @@ build:
   steps:
     - npm-install
     - script:
+        name: Install typings
+        code: |
+          npm i -g typings
+          typings install --ambient
+    - script:
         name: npm run build
         code: npm run build
     - script:
