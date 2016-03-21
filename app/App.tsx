@@ -42,10 +42,9 @@ export function init() {
     });
 }
 
-export function bootstrap() {
+export function doBootstrap() {
     store.dispatch(bootstrap());
 }
 
-
 init();
-bootstrap();
+doBootstrap();
