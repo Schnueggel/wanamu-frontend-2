@@ -1,6 +1,7 @@
 'use strict';
 
 const postcssNesting = require('postcss-nesting'),
+    webpack = require('webpack'),
     cssnext = require('postcss-cssnext');
 
 module.exports = {
@@ -16,7 +17,13 @@ module.exports = {
         // Add `.ts` and `.tsx` as a resolvable extension.
         extensions: ['', '.webpack.js', '.web.js', '.ts', '.tsx', '.js', '.d.ts']
     },
-    plugins: [],
+    plugins: [
+        new webpack.DefinePlugin({
+            'process.env': {
+                'NODE_ENV': JSON.stringify('production')
+            }
+        })
+    ],
     module: {
         noParse: [],
         preLoaders: [
