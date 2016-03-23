@@ -15,6 +15,7 @@ build:
         code: |
           rm .gitignore
           rm -rf tests
+          rm -rf node_modules
           rm -rf app
 deploy:
   steps:
