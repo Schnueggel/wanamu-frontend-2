@@ -10,7 +10,6 @@
   },
   "devDependencies": {
     "classnames": "^2.2.3",
-    "cors": "^2.7.1",
     "css-loader": "^0.23.1",
     "history": "^2.0.1",
     "immutable": "^3.7.6",
