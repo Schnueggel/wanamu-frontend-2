@@ -3,9 +3,7 @@ require('./styles/index.css');
 
 import * as React from 'react';
 import * as ReactDom from 'react-dom';
-import { browserHistory } from 'react-router';
 import store from './stores/appStore';
-import { syncHistoryWithStore } from 'react-router-redux'
 import { bootstrap } from './actions/BootstrapActions';
 import { AppStates } from './constants';
 import { App } from './App';
@@ -26,8 +24,6 @@ export function init() {
             );
         } else if (store.getState().app.appState === AppStates.Ready) {
             unsubscribe();
-
-            const history = syncHistoryWithStore(browserHistory, store);
 
             ReactDom.render(
                 <App/>,
