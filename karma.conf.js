@@ -12,6 +12,12 @@ module.exports = function (config) {
            './tests/**/*.test.tsx': ['webpack']
         },
         reporters: ['dots'],
+        client: {
+            captureConsole: true,
+            mocha: {
+                bail: true
+            }
+        },
         webpack: {
             resolve: {
                 root: [

@@ -57,7 +57,7 @@ declare module wu {
             doDeleteFriend: (friend: model.data.IFriend) => void;
             showAddFriendsPopup: () => void;
         };
-        
+
     }
 
     interface IRegisterProps extends wu.IControlProps<IRegisterProps> {
@@ -187,6 +187,15 @@ declare module 'isomorphic-fetch' {
     }
 
     export = fetch;
+}
+
+declare module 'fetch-mock' {
+    function matcher(url:string, opts: any);
+
+    export function mock (matcher: string|RegExp|Function, method:string, response: any): void;
+    export function mock (matcher: string|RegExp|Function, response: any): void;
+    export function reMock (matcher: string|RegExp|Function, method:string, response: any): void;
+    export function reMock (matcher: string|RegExp|Function, response: any): void;
 }
 
 declare module 'redux-thunk' {

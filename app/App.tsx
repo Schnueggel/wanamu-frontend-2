@@ -5,14 +5,18 @@ import {Provider} from 'react-redux';
 import store from './stores/appStore';
 import {syncHistoryWithStore} from 'react-router-redux'
 
-export class App extends React.Component<any,any> {
+interface IProps {
+    path?: string;
+}
+
+export class App extends React.Component<IProps,any> {
     render() {
         const history = syncHistoryWithStore(browserHistory, store);
 
         return (
             <Provider store={store}>
                 <Router history={history}>
-                    {routes}
+                    {routes(this.props.path)}
                 </Router>
             </Provider>
         );

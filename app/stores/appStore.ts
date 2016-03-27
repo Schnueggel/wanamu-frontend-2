@@ -8,6 +8,6 @@ import * as createLogger from 'redux-logger';
 const store = createStore(
     rootReducer,
     applyMiddleware(routerMiddleware(browserHistory), thunkMiddleware as any, (createLogger as any)())
-);
+) as Redux.Store;
 
 export default store;

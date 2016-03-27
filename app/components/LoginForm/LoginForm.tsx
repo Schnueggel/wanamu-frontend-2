@@ -81,8 +81,8 @@ export default class LoginForm extends React.Component<ILoginFormProps, any> {
      */
     render() {
         return  <form name="login" action="#">
-            <TextInput {...this.email} onChange={this.handleUsernameChange.bind(this)}/>
-            <TextInput {...this.password} onChange={this.handlePasswordChange.bind(this)} />
+            <TextInput ref="email" {...this.email} onChange={this.handleUsernameChange.bind(this)}/>
+            <TextInput ref="password" {...this.password} onChange={this.handlePasswordChange.bind(this)} />
             <div className="form-actionbar">
                 <Button ref="submit" onClick={this.handleClick.bind(this)} disabled={!this.state.valid}>
                     Login

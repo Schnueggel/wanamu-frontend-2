@@ -1,10 +1,9 @@
 import * as Actions from './index';
-import { configRequest, configLoad } from './ConfigActions';
+import { configLoad } from './ConfigActions';
 import * as fetch from 'isomorphic-fetch';
-import { loginRequest } from './LoginActions';
-import { LocalStorage, defaultRequestOptions } from '../constants';
+import { defaultRequestOptions } from '../constants';
 import * as _  from 'lodash';
-import { tokenLoaded, tokenRestore, tokenClear } from './TokenActions';
+import { tokenRestore, tokenClear } from './TokenActions';
 import { userLoaded, userRequest } from './UserActions';
 
 /**
@@ -50,11 +49,12 @@ export function loadDefaultUser() {
                 } else {
                     throw new Error('Invalid response for current user request');
                 }
+                return user;
             })
             .catch( err => {
                 dispatch(tokenClear());
                 dispatch(userLoaded(null));
-                console.log(err);
+                console.log(err.message);
                 dispatch(userTested());
             })
     };

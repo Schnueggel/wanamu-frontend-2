@@ -9,16 +9,21 @@ import { Route, IndexRoute } from 'react-router';
 import store from '../stores/appStore';
 import { appStoreLastRequest } from '../actions/AppAction';
 
-export default (
-    <Route path="/" component={Page}>
+interface IProps {
+    path?: string;
+}
+
+export default function routes(path='/') {
+    return (<Route path={path} component={Page}>
         <IndexRoute component={Login}/>
         <Route path="login" component={Login}/>
         <Route path="register" component={Register}/>
         <Route path="todolist(/:id)" component={TodoList} onEnter={requireAuth}/>
         <Route path="logout" component={Logout}/>
         <Route path="friends" component={Friends} onEnter={requireAuth}/>
-    </Route>
-);
+    </Route>);
+}
+
 
 function requireAuth(nextState, replace) {
     if (store.getState().user.user === null) {
