@@ -6,7 +6,7 @@
     "noLib": true,
     "experimentalDecorators": true,
     "sourceMap": true,
-    "noEmitOnError": true
+    "noEmitOnError": false
   },
   "files": [
     "./typings/main.d.ts",

@@ -5,7 +5,7 @@ const postcssNesting = require('postcss-nesting'),
     cssnext = require('postcss-cssnext');
 
 module.exports = {
-    entry: ['./app/App.tsx'],
+    entry: ['./app/Bootstrap.tsx'],
     output: {
         path: __dirname + '/public',
         filename: 'bundle.js'

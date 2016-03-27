@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Salutations, salutionOptions } from 'constants';
+import { Salutations, salutionOptions } from 'constants.ts';
 import { RegisterForm, ISubmitData } from 'components/Register/RegisterForm';
 import { connect } from 'react-redux';
 import { routerActions } from 'react-router-redux';
@@ -13,7 +13,8 @@ import { register, usernameCheck } from '../actions/RegisterActions';
  */
 export class Register extends React.Component<wu.IRegisterProps, any> implements React.ComponentLifecycle<wu.IRegisterProps, any> {
 
-    refs: any = {
+    refs: {
+        [key:string]: any,
         regform: RegisterForm
     };
 
