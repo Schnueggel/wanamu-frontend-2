@@ -50,10 +50,14 @@ declare module wu {
     }
 
     interface IFriendProps extends IControlProps<IFriendProps> {
-        friends: any[];
+        friends: IFriendsState;
         actions: {
-
+            routerActions: RouteActions;
+            doLoadFriendList: () => void
+            doDeleteFriend: (friend: model.data.IFriend) => void;
+            showAddFriendsPopup: () => void;
         };
+        
     }
 
     interface IRegisterProps extends wu.IControlProps<IRegisterProps> {

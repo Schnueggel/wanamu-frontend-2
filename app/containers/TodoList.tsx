@@ -10,6 +10,12 @@ import * as todoActions from '../actions/TodoActions';
 import {Todo} from '../models/Todo';
 import { Map } from 'immutable';
 
+interface IRefs {
+    [index:string]: any;
+    todolist: TList.TodoList;
+    todosVisible: Select;
+}
+
 /**
  *
  * Controller Component for a TodoList
@@ -20,11 +26,7 @@ export class TodoList extends React.Component<wu.ITodoListProps, any> implements
         todoVisibilityState: VisibleTodos.All
     };
 
-    refs: {
-        [index:string]: any,
-        todolist: TList.TodoList,
-        todosVisible: Select
-    };
+    refs: IRefs
 
     static defaultProps:any = {
         todos: Map(),

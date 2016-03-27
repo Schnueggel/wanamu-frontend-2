@@ -13,7 +13,7 @@ export interface IRefs {
 /**
  * Container Component Login
  */
-export class Friends extends React.Component<any, any> implements React.ComponentLifecycle<any, any> {
+export class Friends extends React.Component<wu.IFriendProps, any> implements React.ComponentLifecycle<any, any> {
 
     state: any = {
         showFriendPopup: false
@@ -21,7 +21,7 @@ export class Friends extends React.Component<any, any> implements React.Componen
 
     refs:IRefs;
 
-    constructor(props:any) {
+    constructor(props: wu.IFriendProps) {
         super(props);
     }
 

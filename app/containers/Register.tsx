@@ -6,6 +6,10 @@ import { routerActions } from 'react-router-redux';
 import { bindActionCreators } from 'redux';
 import { register, usernameCheck } from '../actions/RegisterActions';
 
+interface IRefs {
+    [key:string]: any;
+    regform: RegisterForm;
+}
 /**
  * @class Register
  * @namespace wu.components
@@ -13,10 +17,7 @@ import { register, usernameCheck } from '../actions/RegisterActions';
  */
 export class Register extends React.Component<wu.IRegisterProps, any> implements React.ComponentLifecycle<wu.IRegisterProps, any> {
 
-    refs: {
-        [key:string]: any,
-        regform: RegisterForm
-    };
+    refs: IRefs;
 
     constructor(props: wu.IRegisterProps) {
         super(props);
