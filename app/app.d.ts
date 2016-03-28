@@ -110,6 +110,7 @@ declare module wu {
         error: string;
         deleteError: string;
         isLoading: boolean;
+        isAdding: boolean
         isFriendPopupVisible: boolean;
         friendsDeleting: Immutable.Set<string>
     }

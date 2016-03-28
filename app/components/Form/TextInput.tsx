@@ -9,8 +9,8 @@ interface IRef {
 }
 
 interface IState {
-    valid: boolean,
-    value: string
+    valid?: boolean,
+    value?: string
 }
 
 /**
@@ -66,6 +66,12 @@ export class TextInput extends React.Component<ITextInputProps, IState> implemen
         evt.target.select();
     }
 
+    reset() {
+        this.setState({
+            value: ''
+        });
+    }
+    
     /**
      *
      * @param evt

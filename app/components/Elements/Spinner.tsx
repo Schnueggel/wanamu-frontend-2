@@ -1,13 +1,15 @@
 import * as React from 'react';
 
 export interface ISpinnerProps extends __React.Props<ISpinnerProps> {
-    className?: string
+    className?: string;
+    hide?: boolean;
 }
 
 export class Spinner extends React.Component<ISpinnerProps, any> {
 
     static defaultProps: ISpinnerProps = {
-        className: ''
+        className: '',
+        hide: false
     };
 
     constructor(props:ISpinnerProps){
@@ -15,6 +17,7 @@ export class Spinner extends React.Component<ISpinnerProps, any> {
     }
 
     render() {
+        if (this.props.hide) return null;
         return (<div className={`spinner ${this.props.className}`}></div>);
     }
 }

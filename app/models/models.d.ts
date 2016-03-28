@@ -39,7 +39,7 @@ declare module wu {
         }
 
         interface IFriend {
-            _id: number;
+            _id: string;
             firstname?: string;
             lastname?: string;
             salutation?: string;
@@ -56,14 +56,6 @@ declare module wu {
             color5 : string;
         }
 
-        interface IProfileClass {
-            id?: number;
-            firstname: string;
-            lastname: string;
-            salutation: string;
-            face?: string;
-        }
-        
         interface ITodoListData {
             id : number;
             name : string;

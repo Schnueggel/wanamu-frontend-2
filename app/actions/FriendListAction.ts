@@ -64,7 +64,7 @@ export function friendDeleteRequest(friend: wu.model.data.IFriend) {
 
 /**
  *
- * @param friend
+ * @param usernameOrEmail
  */
 export function friendAddRequest(usernameOrEmail: string) {
     return {
@@ -75,7 +75,7 @@ export function friendAddRequest(usernameOrEmail: string) {
 
 export function friendAddError(usernameOrEmail: string, error) {
     return {
-        type: Actions.ACTION_FRIEND_DELETE_ERROR,
+        type: Actions.ACTION_FRIEND_ADD_ERROR,
         usernameOrEmail,
         error
     };
@@ -142,10 +142,10 @@ export function doDeleteFriend(friend: wu.model.data.IFriend) {
             })
             .then(() => {
                 dispatch(friendDeleted(friend));
-                dispatch(doLoadFriendList(getState().user.user.defaultTodolistId));
+                dispatch(doLoadFriendList());
             })
             .catch(err => {
-                dispatch(friendListError(err.message));
+                dispatch(friendDeleteError(friend._id, err.message));
             });
     };
 }
@@ -165,6 +165,7 @@ export function doAddFriend(usernameOrEmail: string) {
         return fetch(`${getState().app.config.WU_API_BASE_URL}/friend/invitebyusername`,options)
             .then((response: Response) => {
                 if ([304, 200].indexOf(response.status) > -1) {
+                    dispatch(doLoadFriendList());
                     return response.json();
                 } else if ([422, 400].indexOf(response.status) > -1) {
                     throw new Error('Invalid Request');
@@ -186,7 +187,7 @@ export function doAddFriend(usernameOrEmail: string) {
             })
             .then(() => {
                 dispatch(friendAdded(usernameOrEmail));
-                dispatch(doLoadFriendList(getState().user.user.defaultTodolistId));
+                dispatch(doLoadFriendList());
             })
             .catch(err => {
                 dispatch(friendAddError(usernameOrEmail, err.message));
@@ -199,7 +200,7 @@ export function doAddFriend(usernameOrEmail: string) {
  *
  * @returns {function(any): Promise<TResult>|Promise<U>}
  */
-export function doLoadFriendList(id:string) {
+export function doLoadFriendList() {
     return (dispatch, getState) => {
 
         dispatch(friendListRequest());
@@ -239,7 +240,7 @@ export function doLoadFriendList(id:string) {
                 }
             })
             .catch(err => {
-                dispatch(friendDeleteError(id, err.message));
+                dispatch(friendListError(err.message));
             });
     };
 }

@@ -476,10 +476,25 @@ Popup
 }
 
 /*
+ Add Friend Popup
+*/
+.popup.add-friend .popup__body {
+    min-width: 400px;
+}
+
+.popup.add-friend  .wu-textfield {
+    width: 100%;
+}
+
+.popup.add-friend .actionbar .spinner {
+    vertical-align: middle;
+    display: inline-block;
+}
+/*
  Select
 */
 .wu-select.wu-textfield {
-   width: auto;
+    width: auto;
 }
 
 .wu-select select.wu-textfield__input {
