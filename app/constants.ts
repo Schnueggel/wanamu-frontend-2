@@ -60,6 +60,11 @@ export const Menus = {
     ]
 };
 
+export const ValidationPatterns = {
+    email: /[^ @]*@[^ @]+/,
+    minLength: (length=1) => new RegExp(`(.+){${length},}`)
+};
+
 export function defaultRequestOptions(token: string = null, method: string = 'POST') : RequestInit {
     const options = {
         method,

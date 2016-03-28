@@ -1,7 +1,6 @@
 import * as Actions from './index';
 import * as fetch from 'isomorphic-fetch';
 import { defaultRequestOptions } from '../constants';
-import { appError } from './AppAction';
 import { UserNameCheck } from '../constants';
 
 export function registerRequest() {

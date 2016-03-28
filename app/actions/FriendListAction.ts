@@ -66,25 +66,25 @@ export function friendDeleteRequest(friend: wu.model.data.IFriend) {
  *
  * @param friend
  */
-export function friendAddRequest(friend: wu.model.data.IFriend) {
+export function friendAddRequest(usernameOrEmail: string) {
     return {
         type: Actions.ACTION_FRIEND_ADD_REQUEST,
-        friend
+        usernameOrEmail
     };
 }
 
-export function friendAddError(friend: wu.model.data.IFriend, error) {
+export function friendAddError(usernameOrEmail: string, error) {
     return {
         type: Actions.ACTION_FRIEND_DELETE_ERROR,
-        friend,
+        usernameOrEmail,
         error
     };
 }
 
-export function friendAdded(friend: wu.model.data.IFriend) {
+export function friendAdded(usernameOrEmail: string) {
     return {
         type: Actions.ACTION_FRIEND_DELETE_ERROR,
-        friend
+        usernameOrEmail
     };
 }
 
@@ -151,16 +151,18 @@ export function doDeleteFriend(friend: wu.model.data.IFriend) {
 }
 
 /**
- *
+ * Add Friend by username or email
  */
-export function doAddFriend(friend: wu.model.data.IFriend) {
+export function doAddFriend(usernameOrEmail: string) {
     return (dispatch, getState: ()=> wu.IState) => {
 
-        dispatch(friendAddRequest(friend));
+        dispatch(friendAddRequest(usernameOrEmail));
 
         const options = defaultRequestOptions(getState().auth.token, 'POST');
 
-        return fetch(`${getState().app.config.WU_API_BASE_URL}/friend/${friend._id}`,options)
+        options.body = JSON.stringify({username:usernameOrEmail});
+
+        return fetch(`${getState().app.config.WU_API_BASE_URL}/friend/invitebyusername`,options)
             .then((response: Response) => {
                 if ([304, 200].indexOf(response.status) > -1) {
                     return response.json();
@@ -183,11 +185,11 @@ export function doAddFriend(friend: wu.model.data.IFriend) {
                 }
             })
             .then(() => {
-                dispatch(friendAdded(friend));
+                dispatch(friendAdded(usernameOrEmail));
                 dispatch(doLoadFriendList(getState().user.user.defaultTodolistId));
             })
             .catch(err => {
-                dispatch(friendAddError(friend, err.message));
+                dispatch(friendAddError(usernameOrEmail, err.message));
             });
     };
 }
