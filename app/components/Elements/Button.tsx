@@ -8,7 +8,7 @@ export interface IButtonProps extends __React.Props<IButtonProps> {
 
 export class Button extends React.Component<IButtonProps, any> {
 
-    refs: any = {
+    ctrls:{
         button: HTMLButtonElement
     };
 
@@ -29,7 +29,7 @@ export class Button extends React.Component<IButtonProps, any> {
 
     render() {
         return (<button className={`button ${this.props.className}`} type="button"
-                        onClick={this.handleClick.bind(this)} ref="button" disabled={this.props.disabled}>
+                        onClick={this.handleClick.bind(this)} ref={c => this.ctrls.button = c} disabled={this.props.disabled}>
             {this.props.children}
         </button>);
     }

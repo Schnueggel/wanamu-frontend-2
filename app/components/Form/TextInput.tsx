@@ -3,11 +3,6 @@ import * as _ from 'lodash';
 import * as classNames from 'classnames';
 import ITextInputProps = wu.Form.ITextInputProps;
 
-interface IRef {
-    field: HTMLInputElement,
-    textbox: HTMLDivElement;
-}
-
 interface IState {
     valid?: boolean,
     value?: string
@@ -24,10 +19,10 @@ export class TextInput extends React.Component<ITextInputProps, IState> implemen
         valid: false
     };
 
-    refs: IRef & any = {
-        field  : null,
-        textbox: null
-    } as IRef;
+    ctrls: {
+        field: HTMLInputElement,
+        textbox: HTMLDivElement;
+    };
 
     private defaultId: string;
 
@@ -71,7 +66,7 @@ export class TextInput extends React.Component<ITextInputProps, IState> implemen
             value: ''
         });
     }
-    
+
     /**
      *
      * @param evt
@@ -96,8 +91,9 @@ export class TextInput extends React.Component<ITextInputProps, IState> implemen
 
         const label = this.props.label ? <label className="wu-textfield__label" htmlFor={id}>{this.props.label}</label> : null;
 
-        return (<div className={`wu-textfield wu-js-textfield ${className}`} ref="textbox">
-            <input type={this.props.type} ref="field" className="wu-textfield__input" value={this.state.value} id={id}
+        return (<div className={`wu-textfield wu-js-textfield ${className}`}
+                     ref={c => this.ctrls.textbox = c}>
+            <input type={this.props.type} ref={c => this.ctrls.field = c} className="wu-textfield__input" value={this.state.value} id={id}
                    onBlur={this.handleBlur.bind(this)} onChange={this.handleChange.bind(this)} onFocus={this.handleFieldOnFocus.bind(this)} noValidate name={this.props.name}/>
             {label}
             {errs}

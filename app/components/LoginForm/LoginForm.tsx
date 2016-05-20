@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {TextInput} from '../Form/TextInput';
+import { TextInput } from '../Form/TextInput';
 import { Button } from '../Elements/Button';
 
 export interface ILoginFormProps extends __React.Props<ILoginFormProps> {
@@ -9,16 +9,13 @@ export interface ILoginFormProps extends __React.Props<ILoginFormProps> {
     submit: (username: string, password: string) => void
 }
 
-export interface  IRefs {
-    [key: string]: __React.Component<any, any>;
-    email: TextInput,
-    password: TextInput,
-    submit: __React.Component<any, any> & HTMLButtonElement
-}
-
 export default class LoginForm extends React.Component<ILoginFormProps, any> {
-
-    refs: IRefs;
+    
+    ctrls: {
+        email: TextInput,
+        password: TextInput,
+        submit: __React.Component<any, any> & HTMLButtonElement
+    };
 
     state: any = {
         valid: false,
@@ -81,10 +78,10 @@ export default class LoginForm extends React.Component<ILoginFormProps, any> {
      */
     render() {
         return  <form name="login" action="#">
-            <TextInput ref="email" {...this.email} onChange={this.handleUsernameChange.bind(this)}/>
-            <TextInput ref="password" {...this.password} onChange={this.handlePasswordChange.bind(this)} />
+            <TextInput ref={c => this.ctrls.email = c } {...this.email} onChange={this.handleUsernameChange.bind(this)}/>
+            <TextInput ref={c => this.ctrls.password = c } {...this.password} onChange={this.handlePasswordChange.bind(this)} />
             <div className="form-actionbar">
-                <Button ref="submit" onClick={this.handleClick.bind(this)} disabled={!this.state.valid}>
+                <Button ref={c => this.ctrls.submit = c } onClick={this.handleClick.bind(this)} disabled={!this.state.valid}>
                     Login
                 </Button>
             </div>

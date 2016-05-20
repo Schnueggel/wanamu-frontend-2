@@ -6,17 +6,15 @@ import { bindActionCreators } from 'redux';
 import { doLogin } from '../actions/LoginActions';
 import * as _ from 'lodash';
 
-export interface IRefs {
-    [key: string]: React.Component<any, any>;
-    form: LoginForm;
-}
-
 /**
  * Container Component Login
  */
 export class Login extends React.Component<wu.ILoginProps, any> implements React.ComponentLifecycle<wu.ILoginProps, any> {
-
-    refs:IRefs;
+    
+    ctrls:{
+        form: LoginForm
+    };
+    
     constructor(props:wu.ILoginProps) {
         super(props);
     }
@@ -46,7 +44,7 @@ export class Login extends React.Component<wu.ILoginProps, any> implements React
             {error}
             <h3 className="title">Login</h3>
             <div className="content">
-                <LoginForm ref="form" submit={this.props.actions.login as any}/>
+                <LoginForm ref={c => this.ctrls.form = c} submit={this.props.actions.login as any}/>
             </div>
         </div>);
     }

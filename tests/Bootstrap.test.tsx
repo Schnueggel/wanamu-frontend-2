@@ -58,21 +58,21 @@ describe('Test', function () {
         expect(submit.getAttribute('disabled')).toEqual('');
 
         emailInp.value = 'test';
-        TestUtils.Simulate.change(login.refs.form.refs.email.refs.field);
+        TestUtils.Simulate.change(login.ctrls.form.ctrls.email.ctrls.field);
         passwordInp.value = 'test';
-        TestUtils.Simulate.change(login.refs.form.refs.password.refs.field);
+        TestUtils.Simulate.change(login.ctrls.form.ctrls.password.ctrls.field);
 
         expect(submit.getAttribute('disabled')).toEqual('');
 
         emailInp.value = 'test@test.de';
-        TestUtils.Simulate.change(login.refs.form.refs.email.refs.field);
-        expect(login.refs.form.refs.email.state.value).toEqual('test@test.de');
+        TestUtils.Simulate.change(login.ctrls.form.ctrls.email.ctrls.field);
+        expect(login.ctrls.form.ctrls.email.state.value).toEqual('test@test.de');
 
         passwordInp.value = 'test';
-        TestUtils.Simulate.change(login.refs.form.refs.password.refs.field);
-        expect(login.refs.form.refs.password.state.value).toEqual('test');
+        TestUtils.Simulate.change(login.ctrls.form.ctrls.password.ctrls.field);
+        expect(login.ctrls.form.ctrls.password.state.value).toEqual('test');
 
-        expect(login.refs.form.refs.submit.refs.button.getAttribute('disabled')).toEqual(null);
+        expect(login.ctrls.form.ctrls.submit.refs.button.getAttribute('disabled')).toEqual(null);
 
     });
 
@@ -81,7 +81,7 @@ describe('Test', function () {
             status: 500
         });
 
-        expect(login.refs.form.refs.submit.refs.button.getAttribute('disabled')).toEqual(null);
+        expect(login.ctrls.form.ctrls.submit.refs.button.getAttribute('disabled')).toEqual(null);
 
         const unsubscribe = store.subscribe(()=> {
             console.log(_.get(store.getState(), 'login.error'));
