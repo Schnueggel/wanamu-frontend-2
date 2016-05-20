@@ -4,7 +4,12 @@ const postcssNesting = require('postcss-nesting'),
     webpack = require('webpack'),
     cssnext = require('postcss-cssnext');
 
-module.exports = {
+var ENV = process.env.npm_lifecycle_event;
+var isDev = process.env.DEV = ENV === 'build-dev';
+var isTest = process.env.TEST = ENV === 'build-test';
+var isProd = process.env.PROD = ENV === 'build';
+
+var config = {
     entry: ['./app/Bootstrap.tsx'],
     output: {
         path: __dirname + '/public',
@@ -72,3 +77,6 @@ module.exports = {
         failOnHint: true
     }
 };
+
+
+module.exports = config;

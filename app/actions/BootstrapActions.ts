@@ -1,6 +1,5 @@
 import * as Actions from './index';
 import { configLoad } from './ConfigActions';
-import * as fetch from 'isomorphic-fetch';
 import { defaultRequestOptions } from '../constants';
 import * as _  from 'lodash';
 import { tokenRestore, tokenClear } from './TokenActions';
@@ -34,7 +33,7 @@ export function loadDefaultUser() {
         dispatch(userRequest());
 
         return fetch(`${getState().app.config.WU_API_BASE_URL}/user`, options)
-            .then( (response: Response) => {
+            .then( (response: IResponse) => {
                 if (response.status === 200) {
                     return response.json();
                 } else {
@@ -64,7 +63,7 @@ export function loadDefaultUser() {
  * Bootstraps the application
  * @returns {function(any): undefined}
  */
-export function bootstrap() {
+export function bootstrap() : any {
     return (dispatch) => {
         dispatch(tokenRestore());
         dispatch(configLoad()).then(() => {

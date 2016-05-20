@@ -3,7 +3,8 @@ import {Router, browserHistory} from 'react-router';
 import routes from 'config/routes';
 import {Provider} from 'react-redux';
 import store from './stores/appStore';
-import {syncHistoryWithStore} from 'react-router-redux'
+import 'isomorphic-fetch';
+import {syncHistoryWithStore} from 'react-router-redux';
 
 interface IProps {
     path?: string;
@@ -11,7 +12,7 @@ interface IProps {
 
 export class App extends React.Component<IProps,any> {
     render() {
-        const history = syncHistoryWithStore(browserHistory, store);
+        const history = syncHistoryWithStore(browserHistory as any, store) as any;
 
         return (
             <Provider store={store}>

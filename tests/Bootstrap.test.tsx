@@ -57,6 +57,7 @@ describe('Test', function () {
         expect(passwordInp.value).toEqual('');
         expect(submit.getAttribute('disabled')).toEqual('');
 
+        console.log(login.ctrls);
         emailInp.value = 'test';
         TestUtils.Simulate.change(login.ctrls.form.ctrls.email.ctrls.field);
         passwordInp.value = 'test';
@@ -72,7 +73,7 @@ describe('Test', function () {
         TestUtils.Simulate.change(login.ctrls.form.ctrls.password.ctrls.field);
         expect(login.ctrls.form.ctrls.password.state.value).toEqual('test');
 
-        expect(login.ctrls.form.ctrls.submit.refs.button.getAttribute('disabled')).toEqual(null);
+        expect(login.ctrls.form.ctrls.submit.ctrls.button.getAttribute('disabled')).toEqual(null);
 
     });
 
@@ -81,7 +82,7 @@ describe('Test', function () {
             status: 500
         });
 
-        expect(login.ctrls.form.ctrls.submit.refs.button.getAttribute('disabled')).toEqual(null);
+        expect(login.ctrls.form.ctrls.submit.ctrls.button.getAttribute('disabled')).toEqual(null);
 
         const unsubscribe = store.subscribe(()=> {
             console.log(_.get(store.getState(), 'login.error'));
@@ -94,10 +95,10 @@ describe('Test', function () {
                     unsubscribe();
                 }, 200);
             }
-            
+
         });
 
-        TestUtils.Simulate.click(login.refs.form.refs.submit.refs.button);
+        TestUtils.Simulate.click(login.ctrls.form.ctrls.submit.ctrls.button);
     });
 
     it('should not login on 403', function(done) {
@@ -105,7 +106,7 @@ describe('Test', function () {
             status: 403
         });
 
-        expect(login.refs.form.refs.submit.refs.button.getAttribute('disabled')).toEqual(null);
+        expect(login.ctrls.form.ctrls.submit.ctrls.button.getAttribute('disabled')).toEqual(null);
 
         const unsubscribe = store.subscribe(()=> {
             if (store.getState().login.error) {
@@ -119,7 +120,7 @@ describe('Test', function () {
             }
         });
 
-        TestUtils.Simulate.click(login.refs.form.refs.submit.refs.button);
+        TestUtils.Simulate.click(login.ctrls.form.ctrls.submit.ctrls.button);
 
     });
 });

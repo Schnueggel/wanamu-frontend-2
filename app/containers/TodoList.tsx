@@ -10,12 +10,6 @@ import * as todoActions from '../actions/TodoActions';
 import {Todo} from '../models/Todo';
 import { Map } from 'immutable';
 
-interface IRefs {
-    [index:string]: any;
-    todolist: TList.TodoList;
-    todosVisible: Select;
-}
-
 /**
  *
  * Controller Component for a TodoList
@@ -26,7 +20,10 @@ export class TodoList extends React.Component<wu.ITodoListProps, any> implements
         todoVisibilityState: VisibleTodos.All
     };
 
-    refs: IRefs
+    ctrls: {
+        todolist?: TList.TodoList;
+        todosVisible?: Select;
+    } = {};
 
     static defaultProps:any = {
         todos: Map(),
@@ -109,7 +106,7 @@ export class TodoList extends React.Component<wu.ITodoListProps, any> implements
                                 onTodoAdd={this.handleTodoCreate.bind(this)}
                                 onTodoDelete={this.handleTodoDelete.bind(this)}
                                 onTodoFinish={this.handleTodoFinish.bind(this)}
-                                ref="todolist"
+                                ref={ c => this.ctrls.todolist }
                                 showTodos={this.state.todoVisibilityState}/>
             );
         }
@@ -117,7 +114,7 @@ export class TodoList extends React.Component<wu.ITodoListProps, any> implements
         return (
             <div className="todolist__container">
                 <div className="actionbar">
-                    <Select options={this.options} label="Select Todo" ref="todosVisible" value={this.props.todolist.visibility} onChange={this.handleVisibilityFilter.bind(this)}/>
+                    <Select options={this.options} label="Select Todo" ref={ c => this.ctrls.todosVisible } value={this.props.todolist.visibility} onChange={this.handleVisibilityFilter.bind(this)}/>
                 </div>
                 {error}
                 {loading}
@@ -127,7 +124,7 @@ export class TodoList extends React.Component<wu.ITodoListProps, any> implements
     }
 }
 
-function mapStateToProps(state: wu.IState) {
+function mapStateToProps(state: wu.IState): any {
     return {
         todolist: state.todolist,
         user: state.user
@@ -137,9 +134,9 @@ function mapStateToProps(state: wu.IState) {
 function mapDispatchToProps(dispatch) {
     return {
         actions: {
-            routerActions: bindActionCreators(routerActions, dispatch),
-            todolist: bindActionCreators(todolistActions, dispatch),
-            todo: bindActionCreators(todoActions, dispatch)
+            routerActions: bindActionCreators(routerActions as any, dispatch),
+            todolist: bindActionCreators(todolistActions as any, dispatch),
+            todo: bindActionCreators(todoActions as any, dispatch)
         }
     };
 }

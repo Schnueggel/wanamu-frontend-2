@@ -1,4 +1,3 @@
-import * as fetch from 'isomorphic-fetch';
 import * as Actions from './index';
 import { defaultRequestOptions } from '../constants';
 import { appError } from './AppAction';
@@ -33,7 +32,7 @@ export function friendListError(error: string) {
  * Config Request action
  * @returns {{type: string}}
  */
-export function friendListRequest() {
+export function friendListRequest(): any {
     return {
         type: Actions.ACTION_FRIENDLIST_REQUEST
     };
@@ -44,7 +43,7 @@ export function friendListRequest() {
  * @param friend
  * @returns {{type: string, friend: wu.model.data.IFriend}}
  */
-export function friendDeleted(friend: wu.model.data.IFriend) {
+export function friendDeleted(friend: wu.model.data.IFriend):any  {
     return {
         type: Actions.ACTION_FRIEND_DELETED,
         friend
@@ -119,7 +118,7 @@ export function doDeleteFriend(friend: wu.model.data.IFriend) {
         const options = defaultRequestOptions(getState().auth.token, 'DELETE');
 
         return fetch(`${getState().app.config.WU_API_BASE_URL}/friend/${friend._id}`,options)
-            .then((response: Response) => {
+            .then((response: IResponse) => {
                 if ([304, 200].indexOf(response.status) > -1) {
                     return response.json();
                 } else if ([422, 400].indexOf(response.status) > -1) {
@@ -163,7 +162,7 @@ export function doAddFriend(usernameOrEmail: string) {
         options.body = JSON.stringify({username:usernameOrEmail});
 
         return fetch(`${getState().app.config.WU_API_BASE_URL}/friend/invitebyusername`,options)
-            .then((response: Response) => {
+            .then((response: IResponse) => {
                 if ([304, 200].indexOf(response.status) > -1) {
                     dispatch(doLoadFriendList());
                     return response.json();
@@ -208,7 +207,7 @@ export function doLoadFriendList() {
         const options = defaultRequestOptions(getState().auth.token, 'GET');
 
         return fetch(`${getState().app.config.WU_API_BASE_URL}/friend`,options)
-            .then((response: Response) => {
+            .then((response: IResponse) => {
                 if ([304, 200].indexOf(response.status) > -1) {
                     return response.json();
                 } else if ([422, 400].indexOf(response.status) > -1) {

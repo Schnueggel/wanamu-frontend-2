@@ -4,11 +4,12 @@ import { defaultRequestOptions } from '../constants';
 import { appError } from './AppAction';
 import * as _ from 'lodash';
 import {responseStatusCheck} from './actions';
+import {Dispatch} from 'redux/index';
 
 /**
  * @returns {{type: string}}
  */
-export function todoUpdate(todo) {
+export function todoUpdate(todo): any {
     return {
         type: Actions.ACTION_TODO_UPDATE,
         todo
@@ -18,7 +19,7 @@ export function todoUpdate(todo) {
 /**
  * @returns {{type: string}}
  */
-export function todoError(error, todo) {
+export function todoError(error, todo): any {
     return {
         type: Actions.ACTION_TODO_ERROR,
         error,
@@ -26,21 +27,21 @@ export function todoError(error, todo) {
     };
 }
 
-export function todoUpdateRequest(todo) {
+export function todoUpdateRequest(todo): any {
     return {
         type: Actions.ACTION_TODO_UPDATE_REQUEST,
         todo
     };
 }
 
-export function todoUpdateRequestSuccess(todo) {
+export function todoUpdateRequestSuccess(todo): any {
     return {
         type: Actions.ACTION_TODO_UPDATE_SUCCESS,
         todo
     };
 }
 
-export function todoUpdateRequestError(error: string, todo) {
+export function todoUpdateRequestError(error: string, todo): any {
     return {
         type: Actions.ACTION_TODO_UPDATE_REQUEST_ERROR,
         error,
@@ -53,16 +54,16 @@ export function todoUpdateRequestError(error: string, todo) {
  *
  * @returns {function(any): Promise<TResult>|Promise<U>}
  */
-export function todoDoUpdate(todo: wu.model.data.ITodo) {
-    return (dispatch: Redux.Dispatch, getState: () => any) => {
+export function todoDoUpdate(todo: wu.model.data.ITodo): any {
+    return (dispatch: Dispatch<any>, getState: () => any) => {
         dispatch(todoUpdateRequest(todo));
         const options = defaultRequestOptions(getState().auth.token, 'PUT');
 
         options.body = JSON.stringify(todo);
 
         return fetch(`${getState().app.config.WU_API_BASE_URL}/todo/${todo._id}`, options)
-            .then((response: Response) => responseStatusCheck(response, dispatch))
-            .then((response: Response) => {
+            .then((response: IResponse) => responseStatusCheck(response, dispatch))
+            .then((response: IResponse) => {
                 if ([304, 200].indexOf(response.status) > -1) {
                     return response.json();
                 } else if (response.status === 422) {
@@ -88,7 +89,7 @@ export function todoDoUpdate(todo: wu.model.data.ITodo) {
     }
 }
 
-export function todoCreateSuccess(todo) {
+export function todoCreateSuccess(todo) : any {
     return {
         type: Actions.ACTION_TODO_CREATE_SUCCESS,
         todo
@@ -118,7 +119,7 @@ export function todoCreate(todo: wu.model.data.ITodo) {
 }
 
 export function todoDoCreate(todo: wu.model.data.ITodo) {
-    return (dispatch: Redux.Dispatch, getState: () => any) => {
+    return (dispatch: Dispatch<any>, getState: () => any) => {
         dispatch(todoCreateRequest(todo));
         const options = defaultRequestOptions(getState().auth.token, 'POST');
 
@@ -200,7 +201,7 @@ export function todoDeleteRequestError(error: string, todo) {
 }
 
 export function todoDoDelete(todo: wu.model.data.ITodo) {
-    return (dispatch: Redux.Dispatch, getState: () => any) => {
+    return (dispatch: Dispatch<any>, getState: () => any) => {
         dispatch(todoDeleteRequest(todo));
         const options = defaultRequestOptions(getState().auth.token, 'DELETE');
 
@@ -274,7 +275,7 @@ export function todoFinishRequestError(error: string, todo) {
 }
 
 export function todoDoFinish(todo: wu.model.data.ITodo) {
-    return (dispatch: Redux.Dispatch, getState: () => wu.IState) => {
+    return (dispatch: Dispatch<any>, getState: () => wu.IState) => {
         dispatch(todoFinishRequest(todo));
         const options = defaultRequestOptions(getState().auth.token, 'PUT');
 

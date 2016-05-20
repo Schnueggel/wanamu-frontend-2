@@ -16,7 +16,7 @@ import { routerActions } from 'react-router-redux';
  * @param response
  * @param dispatch
  */
-export function responseStatusCheck(response: Response, dispatch) {
+export function responseStatusCheck(response: IResponse, dispatch) {
     if (response.status === 400) {
         throw new Error('Invalid Request');
     } else if (response.status === 404) {

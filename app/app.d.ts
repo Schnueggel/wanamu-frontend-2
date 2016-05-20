@@ -1,11 +1,6 @@
-/// <reference path='./components/Form/form.d.ts' />
-/// <reference path='./models/models.d.ts' />
-
 declare function require(url:string);
 
-declare module wu {
-
-    import RouteActions = ReactRouterRedux.RouteActions;
+declare namespace wu {
 
     interface IMenuItemData {
         text: string;
@@ -30,7 +25,7 @@ declare module wu {
         friends: IFriendsState;
         actions: {
             menuToggle: __React.MouseEventHandler;
-            routerActions: RouteActions,
+            routerActions: ReactRouterRedux.RouteActions,
             hideAddFriendPopup: Function,
             login: __React.MouseEventHandler
         };
@@ -40,7 +35,7 @@ declare module wu {
         user: IUserState;
         login: ILoginState;
         actions: {
-            routerActions: RouteActions,
+            routerActions: ReactRouterRedux.RouteActions,
             login: __React.MouseEventHandler
         };
 
@@ -52,7 +47,7 @@ declare module wu {
     interface IFriendProps extends IControlProps<IFriendProps> {
         friends: IFriendsState;
         actions: {
-            routerActions: RouteActions;
+            routerActions: ReactRouterRedux.RouteActions;
             doLoadFriendList: () => void
             doDeleteFriend: (friend: model.data.IFriend) => void;
             showAddFriendsPopup: () => void;
@@ -63,7 +58,7 @@ declare module wu {
     interface IRegisterProps extends wu.IControlProps<IRegisterProps> {
         register: IRegisterState;
         actions: {
-            routerActions: RouteActions,
+            routerActions: ReactRouterRedux.RouteActions,
             register: (data: any) => void,
             usernameCheck: (name: string) => void
         };
@@ -71,7 +66,7 @@ declare module wu {
 
     interface ILogoutProps extends wu.IControlProps<ILogoutProps> {
         actions: {
-            routerActions: RouteActions,
+            routerActions: ReactRouterRedux.RouteActions,
             logout: () => void
         };
     }
@@ -81,7 +76,7 @@ declare module wu {
         user: IUserState;
         visibility: string;
         actions: {
-            routerActions: RouteActions;
+            routerActions: ReactRouterRedux.RouteActions;
             todo: ITodoActions
             todolist:ITodoListActions
         }
@@ -180,25 +175,3 @@ declare module wu {
     }
 }
 
-declare module 'isomorphic-fetch' {
-    namespace fetch {
-        interface Window {
-            fetch(url: string|Request, init?: RequestInit): Promise<Response>;
-        }
-    }
-
-    export = fetch;
-}
-
-declare module 'fetch-mock' {
-    function matcher(url:string, opts: any);
-
-    export function mock (matcher: string|RegExp|Function, method:string, response: any): void;
-    export function mock (matcher: string|RegExp|Function, response: any): void;
-    export function reMock (matcher: string|RegExp|Function, method:string, response: any): void;
-    export function reMock (matcher: string|RegExp|Function, response: any): void;
-}
-
-declare module 'redux-thunk' {
-    export default () => Function
-}

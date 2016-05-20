@@ -52,7 +52,7 @@ function mapStateToProps(state: wu.IState) {
 function mapDispatchToProps(dispatch) {
     return {
         actions: {
-            routerActions: bindActionCreators(routerActions, dispatch),
+            routerActions: bindActionCreators(routerActions as any, dispatch),
             doLoadFriendList: bindActionCreators(doLoadFriendList, dispatch),
             doDeleteFriend: bindActionCreators(doDeleteFriend, dispatch),
             showAddFriendsPopup: bindActionCreators(showAddFriendsPopup, dispatch)

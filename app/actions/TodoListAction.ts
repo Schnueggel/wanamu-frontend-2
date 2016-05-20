@@ -52,7 +52,7 @@ export function todoListLoad(id:string) {
         const options = defaultRequestOptions(getState().auth.token, 'GET');
 
         return fetch(`${getState().app.config.WU_API_BASE_URL}/todolist/${id}`,options)
-            .then((response: Response) => {
+            .then((response: IResponse) => {
                 if ([304, 200].indexOf(response.status) > -1) {
                     return response.json();
                 } else if ([422, 400].indexOf(response.status) > -1) {

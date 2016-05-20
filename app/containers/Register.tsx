@@ -71,7 +71,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return {
         actions: {
-            routerActions: bindActionCreators(routerActions, dispatch),
+            routerActions: bindActionCreators(routerActions as any, dispatch),
             register: bindActionCreators(register, dispatch),
             usernameCheck: bindActionCreators(usernameCheck, dispatch)
         }

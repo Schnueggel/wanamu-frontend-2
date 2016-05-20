@@ -37,6 +37,9 @@
     "react-router": "2.4.1",
     "react-router-redux": "4.0.4",
     "redux": "3.5.2",
+    "redux-devtools": "^3.3.1",
+    "redux-devtools-dock-monitor": "^1.1.1",
+    "redux-devtools-log-monitor": "^1.0.11",
     "redux-logger": "2.6.1",
     "redux-thunk": "2.1.0",
     "style-loader": "0.13.1",
@@ -50,6 +53,8 @@
   "scripts": {
     "test": "karma start",
     "build": "webpack -p --progress",
+    "build-dev": "webpack -p --progress",
+    "build-test": "webpack -p --progress",
     "build-watch": "webpack --colors --watch",
     "dev": "webpack-dev-server --history-api-fallback --content-base public --devtool source-map --hot --progess --colors --inline",
     "deploy": "webpack -p"

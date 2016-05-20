@@ -33,9 +33,9 @@ export default class Todo extends React.Component<ITodoProps, ITodoState> implem
         editDescription: false
     };
 
-    refs: any = {
-        description: TextArea
-    };
+    ctrls: {
+        description?: TextArea
+    } = {};
 
     static colors = {
         color1: 'color1',
@@ -111,7 +111,7 @@ export default class Todo extends React.Component<ITodoProps, ITodoState> implem
 
         if (edit){
             setTimeout(() => {
-                this.refs.description.refs.field.focus();
+                this.ctrls.description.ctrls.field.focus();
             }, 400);
         }
     }
@@ -177,7 +177,7 @@ export default class Todo extends React.Component<ITodoProps, ITodoState> implem
             </div>
             <div className={`todo__supporting-text ${descriptionHideClass}`}>
                 <div className={descriptionTextClass} onClick={this.handleEditDescription.bind(this)}>{this.todo.description}</div>
-                <TextArea className={descriptionFieldClass} value={this.todo.description} placeholder="Description" rows={3} onBlur={this.handleDescriptionBlur.bind(this)} ref="description"/>
+                <TextArea className={descriptionFieldClass} value={this.todo.description} placeholder="Description" rows={3} onBlur={this.handleDescriptionBlur.bind(this)} ref={c => this.ctrls.description = c}/>
             </div>
             <div className="todo__menu">
                 <IconButton icon={doneIcon} onClick={this.handleDone.bind(this)}/>

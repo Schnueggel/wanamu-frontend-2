@@ -1,33 +1,32 @@
 import * as Actions from './index';
-import { configRequest, configLoad } from './ConfigActions';
 
-export function menuOpen() {
+export function menuOpen(): any {
     return  {
         type: Actions.ACTION_MENU_OPEN
     };
 }
 
-export function menuToggle() {
+export function menuToggle(): any {
     return  {
         type: Actions.ACTION_MENU_TOGGLE
     };
 }
 
-export function appError(error) {
+export function appError(error): any {
     return  {
         type: Actions.ACTION_APP_ERROR,
         error
     };
 }
 
-export function appClearError(error) {
+export function appClearError(error): any {
     return  {
         type: Actions.ACTION_APP_CLEAR_ERROR,
         error
     };
 }
 
-export function appStoreLastRequest(location, params={}) {
+export function appStoreLastRequest(location, params={}): any {
     return {
         type: Actions.ACTION_APP_STORE_LAST_LOCATION,
         location,

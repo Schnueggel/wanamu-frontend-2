@@ -32,7 +32,7 @@ function mapStateToProps() {
 function mapDispatchToProps(dispatch) {
     return {
         actions: {
-            routerActions: bindActionCreators(routerActions, dispatch),
+            routerActions: bindActionCreators(routerActions as any, dispatch),
             logout: bindActionCreators(logout, dispatch)
         }
     }

@@ -1,3 +1,4 @@
 {
-  "WU_API_BASE_URL": "http://localhost:9999"
+  "WU_API_BASE_URL": "http://localhost:9999",
+  "STATE_LOG": true
 }

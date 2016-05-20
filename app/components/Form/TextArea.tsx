@@ -7,10 +7,10 @@ export default class TextArea extends React.Component<wu.Form.ITextAreaProps, an
         value: ''
     };
 
-    refs: any = {
-        text: HTMLDivElement,
-        field: HTMLInputElement
-    };
+    ctrls: {
+        text?: HTMLDivElement,
+        field?: HTMLTextAreaElement
+    } = {};
 
     id: string;
 
@@ -57,9 +57,9 @@ export default class TextArea extends React.Component<wu.Form.ITextAreaProps, an
             [this.props.className]: true
         });
 
-        return (<div className={textContainerClass} ref="text">
+        return (<div className={textContainerClass} ref={c => this.ctrls.text = c}>
             {label}
-            <textarea className="wu-textfield__input" rows={this.props.rows} ref="field" id={this.id} value={this.state.value}
+            <textarea className="wu-textfield__input" rows={this.props.rows} ref={c => this.ctrls.field = c} id={this.id} value={this.state.value}
                       onBlur={this.props.onBlur} onChange={this.handleChange.bind(this)} placeholder={this.props.placeholder}>
             </textarea>
             {errs}
