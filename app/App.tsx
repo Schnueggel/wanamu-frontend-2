@@ -12,7 +12,7 @@ interface IProps {
 
 export class App extends React.Component<IProps,any> {
     render() {
-        const history = syncHistoryWithStore(browserHistory as any, store) as any;
+        const history = syncHistoryWithStore(browserHistory as any, store as any) as any;
 
         return (
             <Provider store={store}>
