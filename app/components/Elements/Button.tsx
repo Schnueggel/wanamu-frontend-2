@@ -9,8 +9,8 @@ export interface IButtonProps extends __React.Props<IButtonProps> {
 export class Button extends React.Component<IButtonProps, any> {
 
     ctrls:{
-        button: HTMLButtonElement
-    };
+        button?: HTMLButtonElement
+    } = {};
 
     static defaultProps: IButtonProps = {
         className: '',

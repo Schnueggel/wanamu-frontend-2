@@ -10,12 +10,12 @@ export interface ILoginFormProps extends __React.Props<ILoginFormProps> {
 }
 
 export default class LoginForm extends React.Component<ILoginFormProps, any> {
-    
+
     ctrls: {
-        email: TextInput,
-        password: TextInput,
-        submit: __React.Component<any, any> & HTMLButtonElement
-    };
+        email?: TextInput,
+        password?: TextInput,
+        submit?: __React.Component<any, any> & HTMLButtonElement
+    } = {};
 
     state: any = {
         valid: false,

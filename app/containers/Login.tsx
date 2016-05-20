@@ -10,11 +10,11 @@ import * as _ from 'lodash';
  * Container Component Login
  */
 export class Login extends React.Component<wu.ILoginProps, any> implements React.ComponentLifecycle<wu.ILoginProps, any> {
-    
-    ctrls:{
-        form: LoginForm
-    };
-    
+
+    ctrls: {
+        form?: LoginForm
+    } = {};
+
     constructor(props:wu.ILoginProps) {
         super(props);
     }

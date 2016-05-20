@@ -20,9 +20,9 @@ export class TextInput extends React.Component<ITextInputProps, IState> implemen
     };
 
     ctrls: {
-        field: HTMLInputElement,
-        textbox: HTMLDivElement;
-    };
+        field?: HTMLInputElement,
+        textbox?: HTMLDivElement;
+    } = {};
 
     private defaultId: string;
 
