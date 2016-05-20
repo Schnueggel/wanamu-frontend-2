@@ -1,7 +1,7 @@
 import * as Actions from '../actions/index';
 import { Map, Set } from 'immutable';
 import ITodo = wu.model.data.ITodo;
-import {VisibleTodos} from "../constants";
+import {VisibleTodos} from '../constants';
 
 
 const initialState: wu.ITodoListState = {

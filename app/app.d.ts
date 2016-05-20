@@ -1,5 +1,5 @@
-/// <reference path="./components/Form/form.d.ts" />
-/// <reference path="./models/models.d.ts" />
+/// <reference path='./components/Form/form.d.ts' />
+/// <reference path='./models/models.d.ts' />
 
 declare function require(url:string);
 
