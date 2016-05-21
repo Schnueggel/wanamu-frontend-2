@@ -7,6 +7,7 @@ import { bindActionCreators } from 'redux';
 import { menuToggle } from '../actions/AppAction';
 import { Spinner } from './../components/Elements/Spinner';
 import AddFriendPopup from './../components/Friends/AddFriendPopup';
+import DevTools from './DevTools';
 
 /**
  * Laoyout for the Page
@@ -68,6 +69,7 @@ export class Page extends React.Component<wu.IPageProps, any> implements React.C
                     </div>
                 </div>
                 <AddFriendPopup />
+                {getDevTools()}
             </div>
         );
     }
@@ -88,6 +90,14 @@ function mapDispatchToProps(dispatch) {
             menuToggle: bindActionCreators(menuToggle, dispatch)
         }
     };
+}
+
+
+function getDevTools() {
+    if (DevTools) {
+        return <DevTools/>
+    }
+    return null;
 }
 
 const connectedPage = connect(mapStateToProps, mapDispatchToProps)(Page);

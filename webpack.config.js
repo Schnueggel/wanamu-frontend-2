@@ -5,7 +5,7 @@ const postcssNesting = require('postcss-nesting'),
     cssnext = require('postcss-cssnext');
 
 var ENV = process.env.npm_lifecycle_event;
-var isDev = process.env.DEV = ENV === 'build-dev';
+var isDev = process.env.DEV = ['build-dev', 'dev', 'build-watch'].indexOf(ENV) > -1;
 var isTest = process.env.TEST = ENV === 'build-test';
 var isProd = process.env.PROD = ENV === 'build';
 
@@ -38,6 +38,11 @@ var config = {
             }
         ],
         loaders: [
+            {
+                test: /DevTools|redux-logger/,
+                loader: isDev ? 'noop' : 'null',
+                exclude: /node_modules/
+            },
             {
                 test: /\.tsx?$/,
                 loader: 'ts-loader',

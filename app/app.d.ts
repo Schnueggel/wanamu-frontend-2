@@ -1,5 +1,11 @@
 declare function require(url:string);
 
+declare const module: {
+    hot?: {
+        accept: Function
+    }
+};
+
 declare module wu {
 
     module Form {
