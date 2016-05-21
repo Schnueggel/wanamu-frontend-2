@@ -86,7 +86,7 @@ export function todoDoUpdate(todo: wu.model.data.ITodo): any {
             .catch(err => {
                 dispatch(todoUpdateRequestError(err.message, todo));
             });
-    }
+    };
 }
 
 export function todoCreateSuccess(todo) : any {
@@ -316,4 +316,11 @@ export function todoDoFinish(todo: wu.model.data.ITodo) {
                 dispatch(todoFinishRequestError(err.message, getState().todolist.todos.get(todo._id)));
             });
     }
+}
+
+export function todoViewChange(todo) {
+    return {
+        type: Actions.ACTION_TODO_VIEW_CHANGE,
+        todo
+    };
 }

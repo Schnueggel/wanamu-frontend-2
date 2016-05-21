@@ -116,4 +116,12 @@ declare module wu {
             color5: string;
         }
     }
+
+    module model.view {
+        interface ITodoView extends model.data.ITodo {
+            editDescription: boolean;
+            editColor: boolean;
+            editTitle: boolean;
+        }
+    }
 }

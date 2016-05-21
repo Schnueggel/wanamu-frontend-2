@@ -9,6 +9,7 @@ import * as todolistActions from '../actions/TodoListAction';
 import * as todoActions from '../actions/TodoActions';
 import {Todo} from '../models/Todo';
 import { Map } from 'immutable';
+import ITodoView = wu.model.view.ITodoView;
 
 /**
  *
@@ -55,21 +56,21 @@ export class TodoList extends React.Component<wu.ITodoListProps, any> implements
         }
     }
 
-    handleTodoChange(todo: wu.model.data.ITodo) {
+    handleTodoChange(todo: ITodoView) {
         this.props.actions.todo.todoDoUpdate(todo);
     }
 
     handleTodoCreate() {
-        let todo: wu.model.data.ITodo = new Todo();
+        let todo: ITodoView = new Todo();
         todo.todolistId = this.props.user.user.defaultTodolistId;
         this.props.actions.todo.todoDoCreate(todo);
     }
 
-    handleTodoDelete(todo: wu.model.data.ITodo) {
+    handleTodoDelete(todo: ITodoView) {
         this.props.actions.todo.todoDoDelete(todo);
     }
 
-    handleTodoFinish(todo: wu.model.data.ITodo) {
+    handleTodoFinish(todo: ITodoView) {
         this.props.actions.todo.todoDoFinish(todo);
     }
 
@@ -77,17 +78,21 @@ export class TodoList extends React.Component<wu.ITodoListProps, any> implements
         this.props.actions.todolist.todoListVisibility(value);
     }
 
-    render() {
+    getVisibleTodos() {
         const visible = this.props.todolist.visibility;
 
-        const todos = this.props.todolist.todos.toArray().filter(todo => {
+        return this.props.todolist.todos.toArray().filter(todo => {
             if ((visible === VisibleTodos.Open || visible === VisibleTodos.All) && todo.finished === false) {
                 return true;
             } else if ((visible === VisibleTodos.Finished || visible === VisibleTodos.All) && todo.finished === true) {
                 return true
             }
             return false;
-        });
+        })
+    }
+
+    render() {
+        const todos = this.getVisibleTodos();
 
         let error = null, todolistEl, loading;
 
@@ -106,6 +111,7 @@ export class TodoList extends React.Component<wu.ITodoListProps, any> implements
                                 onTodoAdd={this.handleTodoCreate.bind(this)}
                                 onTodoDelete={this.handleTodoDelete.bind(this)}
                                 onTodoFinish={this.handleTodoFinish.bind(this)}
+                                onTodoViewChange={this.props.actions.todo.todoViewChange}
                                 ref={ c => this.ctrls.todolist }
                                 showTodos={this.state.todoVisibilityState}/>
             );

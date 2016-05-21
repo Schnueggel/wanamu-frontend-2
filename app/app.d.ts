@@ -193,7 +193,7 @@ declare module wu {
         id: string;
         error: string;
         isLoading: boolean;
-        todos: Immutable.Map<string, model.data.ITodo>;
+        todos: Immutable.Map<string, model.view.ITodoView>;
         isTodoSyncing: boolean;
         syncingTodos: Immutable.Set<model.data.ITodo>;
     }
@@ -203,11 +203,12 @@ declare module wu {
     }
 
     interface ITodoActions {
-        todoDoUpdate(todo: model.data.ITodo):void;
-        todoDoCreate(todo: model.data.ITodo):void;
-        todoCreate(todo: model.data.ITodo):void;
-        todoDoDelete(todo: model.data.ITodo):void;
-        todoDoFinish(todo: model.data.ITodo):void;
+        todoDoUpdate(todo: model.view.ITodoView):void;
+        todoDoCreate(todo: model.view.ITodoView):void;
+        todoCreate(todo: model.view.ITodoView):void;
+        todoDoDelete(todo: model.view.ITodoView):void;
+        todoDoFinish(todo: model.view.ITodoView):void;
+        todoViewChange(todo: model.data.ITodo):void;
     }
 
     interface ITodoListActions {
