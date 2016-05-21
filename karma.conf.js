@@ -1,4 +1,8 @@
 var webpack = require('webpack');
+var webpackConfig = require('./webpack.config');
+
+delete webpackConfig.entry;
+delete webpackConfig.output;
 
 module.exports = function (config) {
     config.set({
@@ -18,24 +22,7 @@ module.exports = function (config) {
                 bail: true
             }
         },
-        webpack: {
-            resolve: {
-                root: [
-                    __dirname + '/app'
-                ],
-                // Add `.ts` and `.tsx` as a resolvable extension.
-                extensions: ['', '.webpack.js', '.web.js', '.ts', '.tsx', '.js', '.d.ts']
-            },
-            module: {
-                loaders: [
-                    {
-                        test: /\.tsx?$/,
-                        loader: 'ts-loader',
-                        exclude: /node_modules/
-                    }
-                ]
-            }
-        },
+        webpack: webpackConfig,
         webpackServer: {
             noInfo: false
         }

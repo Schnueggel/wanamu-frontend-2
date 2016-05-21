@@ -28,7 +28,6 @@ export default class LoginForm extends React.Component<ILoginFormProps, any> {
     email: any = {
         type   : 'email',
         label  : 'Email',
-        ref    : 'email',
         name   : 'email',
         pattern: /[^ @]*@[^ @]*/,
         errors : ['Please type your email']
@@ -37,7 +36,6 @@ export default class LoginForm extends React.Component<ILoginFormProps, any> {
     password: any = {
         type   : 'password',
         label  : 'Password',
-        ref    : 'password',
         name   : 'password',
         pattern: /.+/,
         errors : ['Password required']
@@ -61,7 +59,7 @@ export default class LoginForm extends React.Component<ILoginFormProps, any> {
             valid: valid && this.state.passwordValid,
             usernameValid: valid,
             username: value
-        });
+        })
     }
 
     handlePasswordChange({valid, value}) {

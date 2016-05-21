@@ -9,7 +9,7 @@ import DevTools from '../containers/DevTools';
 const  middleware = [routerMiddleware(browserHistory as any), thunkMiddleware as any];
 
 // Remove on production build
-if (createLogger) {
+if (typeof createLogger === 'function') {
     middleware.push(createLogger());
 }
 

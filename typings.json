@@ -16,6 +16,7 @@
     "classnames": "registry:dt/classnames#0.0.0+20160316155526",
     "expect": "registry:dt/expect#1.13.4+20160316155526",
     "isomorphic-fetch": "registry:dt/isomorphic-fetch#0.0.0+20160505171433",
+    "mocha": "registry:env/mocha#2.2.5+20160321223601",
     "q": "registry:dt/q#0.0.0+20160417152954",
     "react": "registry:dt/react#0.14.0+20160423065914",
     "react-addons-test-utils": "registry:dt/react-addons-test-utils#0.14.0+20160427035638",

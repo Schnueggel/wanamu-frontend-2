@@ -1,4 +1,4 @@
-import {Login} from "../app/containers/Login";
+import {Login} from '../app/containers/Login';
 const expect = require('expect');
 import { App } from '../app/App';
 import * as fetch from 'isomorphic-fetch';
@@ -57,7 +57,6 @@ describe('Test', function () {
         expect(passwordInp.value).toEqual('');
         expect(submit.getAttribute('disabled')).toEqual('');
 
-        console.log(login.ctrls);
         emailInp.value = 'test';
         TestUtils.Simulate.change(login.ctrls.form.ctrls.email.ctrls.field);
         passwordInp.value = 'test';
@@ -74,7 +73,6 @@ describe('Test', function () {
         expect(login.ctrls.form.ctrls.password.state.value).toEqual('test');
 
         expect(login.ctrls.form.ctrls.submit.ctrls.button.getAttribute('disabled')).toEqual(null);
-
     });
 
     it('should not login on 500', function(done) {
@@ -84,18 +82,17 @@ describe('Test', function () {
 
         expect(login.ctrls.form.ctrls.submit.ctrls.button.getAttribute('disabled')).toEqual(null);
 
-        const unsubscribe = store.subscribe(()=> {
-            console.log(_.get(store.getState(), 'login.error'));
-            if (store.getState().login.error && store.getState().login.error === 'Server error') {
-                expect(store.getState().login.error).toEqual('Server error');
+        const unsubscribe = store.subscribe(() => {
+            if (store.getState().login.error && store.getState().login.error === 'Please check your credentials') {
+                expect(store.getState().login.error).toEqual('Please check your credentials');
+
                 setTimeout(() => {
                     const errorMsg = TestUtils.findRenderedDOMComponentWithClass(login, 'error-message');
-                    expect(errorMsg.textContent).toEqual('Server error');
+                    expect(errorMsg.textContent).toEqual('Please check your credentials');
                     done();
                     unsubscribe();
                 }, 200);
             }
-
         });
 
         TestUtils.Simulate.click(login.ctrls.form.ctrls.submit.ctrls.button);

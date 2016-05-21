@@ -5,9 +5,19 @@ const postcssNesting = require('postcss-nesting'),
     cssnext = require('postcss-cssnext');
 
 var ENV = process.env.npm_lifecycle_event;
-var isDev = process.env.DEV = ['build-dev', 'dev', 'build-watch'].indexOf(ENV) > -1;
-var isTest = process.env.TEST = ENV === 'build-test';
-var isProd = process.env.PROD = ENV === 'build';
+var isDev = ['build-dev', 'dev', 'build-watch'].indexOf(ENV) > -1;
+var isTest = ['build-test', 'test'].indexOf(ENV) > -1;
+var isProd = ENV === 'build';
+
+var node_env = 'test';
+
+if (isProd) {
+    node_env = 'production';
+} else if (isDev) {
+    node_env = 'development';
+}
+
+console.info('App building with %s env', node_env);
 
 var config = {
     entry: ['./app/Bootstrap.tsx'],
@@ -25,7 +35,7 @@ var config = {
     plugins: [
         new webpack.DefinePlugin({
             'process.env': {
-                'NODE_ENV': JSON.stringify('production')
+                'NODE_ENV': JSON.stringify(node_env)
             }
         })
     ],
@@ -39,9 +49,8 @@ var config = {
         ],
         loaders: [
             {
-                test: /DevTools|redux-logger/,
-                loader: isDev ? 'noop' : 'null',
-                exclude: /node_modules/
+                test: /containers[/\\//]DevTools|redux-logger/,
+                loader: isDev ? 'noop' : 'null'
             },
             {
                 test: /\.tsx?$/,

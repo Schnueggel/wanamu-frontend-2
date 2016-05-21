@@ -1,7 +1,7 @@
 import * as Actions from './index';
 import * as fetch from 'isomorphic-fetch';
 import * as _ from 'lodash';
-import { defaultRequestOptions, LocalStorage } from '../constants';
+import { defaultRequestOptions } from '../constants';
 import { tokenStore } from './TokenActions';
 import { userLoaded, userRequest } from './UserActions';
 
