@@ -159,7 +159,6 @@ export default class Todo extends React.Component<ITodoProps, ITodoState> implem
      */
     render() {
         const color = this.todo.color ? this.todo.color : Todo.colors.color1,
-            descriptionHideClass = this.state.editDescription || this.todo.description ? '' : 'hidden',
             colorPickHidden = this.state.colorPick ? '' : 'hidden';
 
         const descriptionTextClass = classNames({
@@ -175,8 +174,8 @@ export default class Todo extends React.Component<ITodoProps, ITodoState> implem
             <div className={`todo__title ${color}`}>
                 <TextInput value={this.todo.title} onBlur={this.handleTextOnBlur.bind(this)} label="Todo text"/>
             </div>
-            <div className={`todo__supporting-text ${descriptionHideClass}`}>
-                <div className={descriptionTextClass} onClick={this.handleEditDescription.bind(this)}>{this.todo.description}</div>
+            <div className={`todo__supporting-text`} onClick={this.handleEditDescription.bind(this)}>
+                <div className={descriptionTextClass}>{this.todo.description}</div>
                 <TextArea className={descriptionFieldClass} value={this.todo.description} placeholder="Description" rows={3} onBlur={this.handleDescriptionBlur.bind(this)} ref={c => this.ctrls.description = c}/>
             </div>
             <div className="todo__menu">

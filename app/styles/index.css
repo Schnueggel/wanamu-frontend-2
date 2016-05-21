@@ -313,6 +313,7 @@ input:-webkit-autofill {
     line-height: 18px;
     overflow: hidden;
     width: 90%;
+    min-height:  1rem;
     padding: 0.3rem 0.1rem;
 }
 
