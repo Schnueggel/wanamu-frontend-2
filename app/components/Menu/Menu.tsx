@@ -3,7 +3,7 @@ import { Link, IndexLink } from 'react-router';
 
 export default class Menu extends React.Component<wu.IMenuProps, any> {
 
-    refs: any = {
+    ctrls: any = {
         menu: HTMLDivElement
     };
 
@@ -11,14 +11,13 @@ export default class Menu extends React.Component<wu.IMenuProps, any> {
         super(props);
     }
 
-    handleNavLinkClick() {
-    }
+    handleNavLinkClick() {}
 
     render() {
         const list = this.props.items.map(this.createMenuItem.bind(this));
 
         return (
-            <div className={`menu ${this.props.className}`} ref="menu">
+            <div className={`menu ${this.props.className}`} ref={c => this.ctrls.menu = c}>
                 <h3 className="title">{this.props.title}</h3>
                 <nav className="navigation">
                     {list}
