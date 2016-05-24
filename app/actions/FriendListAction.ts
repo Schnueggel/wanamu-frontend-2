@@ -152,7 +152,7 @@ export function doDeleteFriend(friend: wu.model.data.IFriend) {
 /**
  * Add Friend by username or email
  */
-export function doAddFriend(usernameOrEmail: string) {
+export function doAddFriend(usernameOrEmail: string) : any {
     return (dispatch, getState: ()=> wu.IState) => {
 
         dispatch(friendAddRequest(usernameOrEmail));

@@ -95,9 +95,7 @@ declare module wu {
         friends: IFriendsState;
         actions: {
             routerActions: ReactRouterRedux.RouteActions;
-            doLoadFriendList: () => void
-            doDeleteFriend: (friend: model.data.IFriend) => void;
-            showAddFriendsPopup: () => void;
+            fla: IFriendListActions
         };
 
     }
@@ -215,6 +213,14 @@ declare module wu {
         todoDoDelete(todo: model.view.ITodoView):void;
         todoDoFinish(todo: model.view.ITodoView):void;
         todoViewChange(todo: model.data.ITodo):void;
+    }
+    
+    interface IFriendListActions {
+        doLoadFriendList: () => void
+        doDeleteFriend: (friend: model.data.IFriend) => void;
+        showAddFriendsPopup: () => void;
+        hideAddFriendsPopup: () => void;
+        doAddFriend: (usernameOrEmail: string) => any;
     }
 
     interface ITodoListActions {

@@ -2,13 +2,11 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { routerActions } from 'react-router-redux';
 import { bindActionCreators } from 'redux';
-import { doLoadFriendList, doDeleteFriend, showAddFriendsPopup } from '../actions/FriendListAction';
+import * as friendListActions from '../actions/FriendListAction';
 import { FriendList } from '../components/Friends/FriendList';
 import { Button } from '../components/Elements/Button';
+import {AddFriendPopup} from '../components/Friends/AddFriendPopup';
 
-export interface IRefs {
-    [key: string]: React.Component<any, any>;
-}
 
 /**
  * Container Component Login
@@ -19,25 +17,33 @@ export class Friends extends React.Component<wu.IFriendProps, any> implements Re
         showFriendPopup: false
     };
 
-    refs:IRefs;
-
     constructor(props: wu.IFriendProps) {
         super(props);
     }
 
     componentWillMount() {
-        this.props.actions.doLoadFriendList();
+        this.props.actions.fla.doLoadFriendList();
     }
 
     componentWillReceiveProps(nextProps: any) {}
+
+    handleAddFriend(usernameEmail: string) {
+        this.props.actions.fla.hideAddFriendsPopup();
+        this.props.actions.fla.doAddFriend(usernameEmail);
+    }
 
     render() {
         return (
             <div className="friends">
                 <div className="actionbar">
-                    <Button onClick={this.props.actions.showAddFriendsPopup}>Add Friend</Button>
+                    <Button onClick={this.props.actions.fla.showAddFriendsPopup}>Add Friend</Button>
                 </div>
-                <FriendList friends={this.props.friends.friends} onFriendDelete={this.props.actions.doDeleteFriend} onFriendAdd={this.props.actions.showAddFriendsPopup}/>
+                <FriendList friends={this.props.friends.friends} onFriendDelete={this.props.actions.fla.doDeleteFriend} onFriendAdd={this.props.actions.fla.showAddFriendsPopup}/>
+
+                <AddFriendPopup onAdd={this.handleAddFriend.bind(this)}
+                                showLoading={this.props.friends.isAdding}
+                                className={classNames({hidden: !this.props.friends.isFriendPopupVisible})}
+                                onCancel={this.props.actions.fla.hideAddFriendsPopup} />
             </div>
         );
     }
@@ -53,9 +59,7 @@ function mapDispatchToProps(dispatch) {
     return {
         actions: {
             routerActions: bindActionCreators(routerActions as any, dispatch),
-            doLoadFriendList: bindActionCreators(doLoadFriendList, dispatch),
-            doDeleteFriend: bindActionCreators(doDeleteFriend, dispatch),
-            showAddFriendsPopup: bindActionCreators(showAddFriendsPopup, dispatch)
+            fla: bindActionCreators(friendListActions, dispatch)
         }
     };
 }
