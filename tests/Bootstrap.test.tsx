@@ -8,8 +8,6 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import store from '../app/stores/appStore';
 import * as Actions from '../app/actions/actions';
-import config from '../app/config/routes';
-import * as _ from 'lodash';
 
 describe('Test', function () {
 

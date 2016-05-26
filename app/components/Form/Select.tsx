@@ -5,10 +5,6 @@ import * as classNames from 'classnames';
 import ISelectProps = wu.Form.ISelectProps;
 import IOption = wu.Form.IOption;
 
-export interface IRef {
-    field: HTMLInputElement
-}
-
 export interface IState {
     valid: boolean;
     value: string;
@@ -24,10 +20,9 @@ export class Select extends React.Component<ISelectProps, IState> {
         value: ''
     };
 
-    refs: IRef & any = {
-        field  : null,
-        textbox: null
-    } as IRef;
+    ctrls: any = {
+        select  : HTMLSelectElement
+    } = {} as any;
 
     private defaultId: string;
 
@@ -77,8 +72,8 @@ export class Select extends React.Component<ISelectProps, IState> {
             'is-invalid'          : this.state.valid === false
         });
 
-        return (<div className={`wu-select wu-textfield wu-js-textfield ${className}`} ref="textbox">
-            <select ref="field" className="wu-textfield__input" value={this.state.value} id={id}
+        return (<div className={`wu-select wu-textfield wu-js-textfield ${className}`}>
+            <select ref={ c => this.ctrls.select = c} className="wu-textfield__input" value={this.state.value} id={id}
                     onBlur={this.props.onBlur} onChange={this.handleChange.bind(this)} noValidate name={this.props.name}>
                 {options}
             </select>
