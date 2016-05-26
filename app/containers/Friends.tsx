@@ -7,7 +7,6 @@ import { FriendList } from '../components/Friends/FriendList';
 import { Button } from '../components/Elements/Button';
 import {AddFriendPopup} from '../components/Friends/AddFriendPopup';
 
-
 /**
  * Container Component Login
  */

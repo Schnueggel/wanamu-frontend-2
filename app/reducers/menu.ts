@@ -8,7 +8,7 @@ const initialState = {
 export function menu(state = initialState, action: any) {
     switch (action.type) {
         case ACTION_USER_LOADED:
-            return Object.assign({}, state, {menuItems: Menus.authMenuItems});
+            return Object.assign({}, state, {menuItems: action.user === null ? Menus.noAuthMenuItems : Menus.authMenuItems});
         case ACTION_USER_CLEAR:
             return Object.assign({}, state, {menuItems: Menus.noAuthMenuItems});
         default:
