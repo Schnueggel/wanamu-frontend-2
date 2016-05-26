@@ -101,7 +101,7 @@ export function showAddFriendsPopup () {
     };
 }
 
-export function hideAddFriendPopup () {
+export function hideAddFriendsPopup () {
     return {
         type: Actions.ACTION_HIDE_POPUP
     };

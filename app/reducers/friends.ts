@@ -7,7 +7,7 @@ const initialState: wu.IFriendsState = {
     deleteError: null,
     isLoading: false,
     isAdding: false,
-    isFriendPopupVisible: false,
+    isFriendsPopupVisible: false,
     friendsDeleting: Set() as Immutable.Set<string>
 };
 
@@ -35,7 +35,7 @@ export function friends(state = initialState, action: any) {
             return Object.assign({}, state, {friendsDeleting: state.friendsDeleting.delete(action.friend._id), deleteError: error});
         case Actions.ACTION_HIDE_POPUP:
         case Actions.ACTION_SHOW_POPUP:
-            return Object.assign({}, state, {isFriendPopupVisible: action.type === Actions.ACTION_SHOW_POPUP});
+            return Object.assign({}, state, {isFriendsPopupVisible: action.type === Actions.ACTION_SHOW_POPUP});
         default:
             return state;
     }

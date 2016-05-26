@@ -1,5 +1,4 @@
 import * as React from 'react';
-import * as _ from 'lodash';
 import { FriendListItem } from './FriendListItem';
 import {Icon} from '../Elements/Icon';
 

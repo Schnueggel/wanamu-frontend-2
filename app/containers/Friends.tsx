@@ -5,7 +5,8 @@ import { bindActionCreators } from 'redux';
 import * as friendListActions from '../actions/FriendListAction';
 import { FriendList } from '../components/Friends/FriendList';
 import { Button } from '../components/Elements/Button';
-import {AddFriendPopup} from '../components/Friends/AddFriendPopup';
+import { AddFriendPopup } from '../components/Friends/AddFriendPopup';
+import * as classNames from 'classnames';
 
 /**
  * Container Component Login
@@ -32,16 +33,20 @@ export class Friends extends React.Component<wu.IFriendProps, any> implements Re
     }
 
     render() {
+        const addBtnClass = classNames({
+            hidden: this.props.friends.friends.length < 2
+        });
+
         return (
             <div className="friends">
                 <div className="actionbar">
-                    <Button onClick={this.props.actions.fla.showAddFriendsPopup}>Add Friend</Button>
+                    <Button onClick={this.props.actions.fla.showAddFriendsPopup} className={addBtnClass}>Add Friend</Button>
                 </div>
                 <FriendList friends={this.props.friends.friends} onFriendDelete={this.props.actions.fla.doDeleteFriend} onFriendAdd={this.props.actions.fla.showAddFriendsPopup}/>
 
                 <AddFriendPopup onAdd={this.handleAddFriend.bind(this)}
                                 showLoading={this.props.friends.isAdding}
-                                className={classNames({hidden: !this.props.friends.isFriendPopupVisible})}
+                                visible={this.props.friends.isFriendsPopupVisible}
                                 onCancel={this.props.actions.fla.hideAddFriendsPopup} />
             </div>
         );
