@@ -55,7 +55,7 @@ export class AddFriendPopup extends React.Component<IAddFriendPopupProps, any> i
             <Popup className="add-friend" title="Add Friend" onCancel={this.props.onCancel} visible={this.props.visible}>
                 <TextInput type="text" pattern={ValidationPatterns.minLength(3)} ref={ c => this.ctrls.username = c } label="Username or Email" onChange={this.handleChange.bind(this)}/>
                 <div className="actionbar">
-                    <Spinner hide={this.props.showLoading} />
+                    <Spinner hide={!this.props.showLoading} />
                     <Button onClick={this.handleAddFriend.bind(this)} disabled={this.state.btnDisabled || this.props.showLoading} ref={c => this.ctrls.button = c }>Add Friend</Button>
                 </div>
             </Popup>

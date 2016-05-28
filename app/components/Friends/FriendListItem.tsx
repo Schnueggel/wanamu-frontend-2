@@ -46,14 +46,26 @@ export class FriendListItem extends React.Component<IFriendListItemProps, any> i
      * @returns {any}
      */
     render() {
+
         return (
             <div className={`friend`}>
                 <div className="friend__content">
-                    <div className="friend__name">{this.props.friend.firstname + ' ' + this.props.friend.lastname}</div>
+                    <div className="friend__name">{this.getName()} {}</div>
                     <span className="spacer"></span>
                     <IconButton className="action" icon="delete" onClick={this.handleDelete.bind(this)} />
                 </div>
             </div>
         );
+    }
+
+    getName() {
+        if (_.isString(this.props.friend.firstname) && _.isString(this.props.friend.lastname)) {
+            `${this.props.friend.firstname} ${this.props.friend.firstname} (${this.props.friend.username})`;
+        }
+
+        if (this.props.friend.pending) {
+            return `${this.props.friend.username} (pending)`;
+        }
+        return '';
     }
 }

@@ -82,7 +82,7 @@ export function friendAddError(usernameOrEmail: string, error) {
 
 export function friendAdded(usernameOrEmail: string) {
     return {
-        type: Actions.ACTION_FRIEND_DELETE_ERROR,
+        type: Actions.ACTION_FRIEND_ADDED,
         usernameOrEmail
     };
 }
@@ -164,6 +164,7 @@ export function doAddFriend(usernameOrEmail: string) : any {
         return fetch(`${getState().app.config.WU_API_BASE_URL}/friend/invitebyusername`,options)
             .then((response: IResponse) => {
                 if ([304, 200].indexOf(response.status) > -1) {
+                    dispatch(friendAdded(usernameOrEmail));
                     dispatch(doLoadFriendList());
                     return response.json();
                 } else if ([422, 400].indexOf(response.status) > -1) {
@@ -183,10 +184,6 @@ export function doAddFriend(usernameOrEmail: string) : any {
                 } else {
                     throw new Error('Deleting friend not possible');
                 }
-            })
-            .then(() => {
-                dispatch(friendAdded(usernameOrEmail));
-                dispatch(doLoadFriendList());
             })
             .catch(err => {
                 dispatch(friendAddError(usernameOrEmail, err.message));
