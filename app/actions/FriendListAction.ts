@@ -1,6 +1,7 @@
 import * as Actions from './index';
 import { defaultRequestOptions } from '../constants';
 import { appError } from './AppAction';
+import * as userActions from './UserActions';
 import { routerActions } from 'react-router-redux';
 import * as _ from 'lodash';
 
@@ -230,7 +231,15 @@ export function doLoadFriendList() {
             })
             .then( friendslist => {
                 if (friendslist) {
+                    let invitations = 0;
+                    _.forEach(friendslist, (v) => {
+                        if (v.invitation) {
+                            invitations += 1;
+                        }
+                    });
+                    
                     dispatch(friendListLoaded(friendslist));
+                    dispatch(userActions.setInvitationCount(invitations));
                 } else {
                     dispatch(friendListError('No data found'));
                 }

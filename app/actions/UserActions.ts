@@ -18,3 +18,10 @@ export function userClear() {
         type: Actions.ACTION_USER_CLEAR
     };
 }
+
+export function setInvitationCount(value) {
+    return {
+        type: Actions.ACTION_USER_INVITATIONS,
+        count: value
+    };
+}

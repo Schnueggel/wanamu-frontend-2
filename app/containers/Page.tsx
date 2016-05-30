@@ -41,7 +41,10 @@ export class Page extends React.Component<wu.IPageProps, any> implements React.C
 
     render() {
         const menuOpen = classNames({open: this.props.app.menuOpen}),
-            classLoading = classNames({hidden: !this.props.app.isLoading });
+            classLoading = classNames({hidden: !this.props.app.isLoading }),
+            menuIconClasses = classNames('icon', 'material-icons', {
+                info: this.props.user.invitations  > 0
+            });
 
         let error;
 
@@ -54,7 +57,7 @@ export class Page extends React.Component<wu.IPageProps, any> implements React.C
                 <div className="layout">
                     <header className="header">
                         <div className="header-row">
-                            <i className="material-icons icon" onClick={this.props.actions.menuToggle}>menu</i>
+                            <i className={menuIconClasses} onClick={this.props.actions.menuToggle}>menu</i>
                             <h1 className="title">Wanamu</h1>
                             <div className="spacer"></div>
                             <Spinner className={classLoading}/>

@@ -60,6 +60,10 @@ input:-webkit-autofill {
     flex-grow: 1;
 }
 
+.icon.info {
+    color: var(--color5);
+}
+
 /**
   Layout
 **/

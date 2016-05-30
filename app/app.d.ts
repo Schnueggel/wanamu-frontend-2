@@ -163,6 +163,7 @@ declare module wu {
         error: string;
         user: model.data.IUser;
         isLoading: boolean;
+        invitations: number;
     }
 
     interface IAuthState {
