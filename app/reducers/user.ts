@@ -20,7 +20,7 @@ export function user(state = initialState, action: any) {
         case Actions.ACTION_USER_CLEAR:
             return Object.assign({}, initialState); 
         case Actions.ACTION_USER_INVITATIONS:
-            return Object.assign({invitations: action.count}, initialState);
+            return Object.assign({invitations: action.count});
         default:
             return state;
     }

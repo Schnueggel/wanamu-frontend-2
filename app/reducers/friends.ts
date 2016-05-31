@@ -8,7 +8,8 @@ const initialState: wu.IFriendsState = {
     isLoading: false,
     isAdding: false,
     isFriendsPopupVisible: false,
-    friendsDeleting: Set() as Immutable.Set<string>
+    friendsDeleting: Set() as Immutable.Set<string>,
+    friendsAccepting: Set() as Immutable.Set<string>
 };
 
 export function friends(state = initialState, action: any) {

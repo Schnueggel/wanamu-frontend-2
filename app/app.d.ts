@@ -152,7 +152,8 @@ declare module wu {
         isLoading: boolean;
         isAdding: boolean
         isFriendsPopupVisible: boolean;
-        friendsDeleting: Immutable.Set<string>
+        friendsDeleting: Immutable.Set<string>;
+        friendsAccepting: Immutable.Set<string>;
     }
 
     interface IMenuState {
@@ -215,10 +216,11 @@ declare module wu {
         todoDoFinish(todo: model.view.ITodoView):void;
         todoViewChange(todo: model.data.ITodo):void;
     }
-    
+
     interface IFriendListActions {
         doLoadFriendList: () => void
         doDeleteFriend: (friend: model.data.IFriend) => void;
+        doAcceptFriend: (friend: model.data.IFriend) => void;
         showAddFriendsPopup: () => void;
         hideAddFriendsPopup: () => void;
         doAddFriend: (usernameOrEmail: string) => any;

@@ -42,7 +42,10 @@ export class Friends extends React.Component<wu.IFriendProps, any> implements Re
                 <div className="actionbar">
                     <Button onClick={this.props.actions.fla.showAddFriendsPopup} className={addBtnClass}>Add Friend</Button>
                 </div>
-                <FriendList friends={this.props.friends.friends} onFriendDelete={this.props.actions.fla.doDeleteFriend} onFriendAdd={this.props.actions.fla.showAddFriendsPopup}/>
+                <FriendList friends={this.props.friends.friends} 
+                            onFriendDelete={this.props.actions.fla.doDeleteFriend} 
+                            onFriendAccept={this.props.actions.fla.doAcceptFriend}
+                            onFriendAdd={this.props.actions.fla.showAddFriendsPopup}/>
 
                 <AddFriendPopup onAdd={this.handleAddFriend.bind(this)}
                                 showLoading={this.props.friends.isAdding}

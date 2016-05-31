@@ -5,6 +5,7 @@ import {Icon} from '../Elements/Icon';
 export interface IFriendListProps extends __React.Props<IFriendListProps> {
     friends: wu.model.data.IFriend[];
     onFriendDelete?(friend: wu.model.data.IFriend);
+    onFriendAccept?(friend: wu.model.data.IFriend);
     onFriendAdd?();
 }
 
@@ -19,7 +20,8 @@ export class FriendList extends React.Component<IFriendListProps, any> implement
     static defaultProps: IFriendListProps = {
         friends    : null,
         onFriendAdd   : () => {},
-        onFriendDelete: (friend: wu.model.data.IFriend) => {}
+        onFriendDelete: (friend: wu.model.data.IFriend) => {},
+        onFriendAccept: (friend: wu.model.data.IFriend) => {}
     } as IFriendListProps;
 
     /**
@@ -64,6 +66,6 @@ export class FriendList extends React.Component<IFriendListProps, any> implement
     }
 
     createFriend(friend: wu.model.data.IFriend) {
-        return <FriendListItem onFriendDelete={this.props.onFriendDelete} friend={friend} key={friend._id} />
+        return <FriendListItem onDelete={this.props.onFriendDelete} friend={friend} key={friend._id} onAccept={this.props.onFriendAccept}/>
     }
 }

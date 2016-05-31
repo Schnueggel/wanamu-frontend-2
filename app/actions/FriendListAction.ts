@@ -108,6 +108,28 @@ export function hideAddFriendsPopup () {
     };
 }
 
+export function friendAcceptRequest(friend) {
+    return {
+        type: Actions.ACTION_ACCEPT_FRIEND_REQUEST,
+        friend
+    };
+}
+
+export function friendAcceptFinished(friend) {
+    return {
+        type: Actions.ACTION_ACCEPT_FRIEND_FINISHED,
+        friend
+    };
+}
+
+export function friendAcceptError(friend, error) {
+    return {
+        type: Actions.ACTION_ACCEPT_FRIEND_ERROR,
+        friend,
+        error
+    };
+}
+
 /**
  *
  */
@@ -146,6 +168,44 @@ export function doDeleteFriend(friend: wu.model.data.IFriend) {
             })
             .catch(err => {
                 dispatch(friendDeleteError(friend._id, err.message));
+            });
+    };
+}
+
+export function doAcceptFriend(friend: wu.model.data.IFriend) {
+    return (dispatch, getState: () => wu.IState)  => {
+        dispatch(friendAcceptRequest(friend));
+
+        const options = defaultRequestOptions(getState().auth.token, 'POST');
+
+        options.body = JSON.stringify({fid: friend._id});
+
+        return fetch(`${getState().app.config.WU_API_BASE_URL}/friend/invitebyusername`,options)
+            .then((response: IResponse) => {
+                if ([304, 200].indexOf(response.status) > -1) {
+                    dispatch(friendAcceptFinished(friend));
+                    dispatch(doLoadFriendList());
+                    return response.json();
+                } else if ([422, 400].indexOf(response.status) > -1) {
+                    throw new Error('Invalid Request');
+                } else if (response.status === 404) {
+                    throw new Error('No data found');
+                } else if ([418, 401].indexOf(response.status) > -1) {
+                    dispatch(appError('You need to login'));
+                    dispatch(routerActions.push('/login'));
+                    return null;
+                } else if (response.status === 500) {
+                    throw new Error('Server error');
+                } else if (response.status === 403) {
+                    throw new Error('Not enough rights to see this data');
+                } else if (response.status === 0) {
+                    throw new Error('Please check your network connection');
+                } else {
+                    throw new Error('Deleting friend not possible');
+                }
+            })
+            .catch(err => {
+                dispatch(friendAcceptError(friend, err.message));
             });
     };
 }
