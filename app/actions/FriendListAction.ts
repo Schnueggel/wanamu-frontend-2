@@ -180,7 +180,7 @@ export function doAcceptFriend(friend: wu.model.data.IFriend) {
 
         options.body = JSON.stringify({fid: friend._id});
 
-        return fetch(`${getState().app.config.WU_API_BASE_URL}/friend/invitebyusername`,options)
+        return fetch(`${getState().app.config.WU_API_BASE_URL}/friend/accept`,options)
             .then((response: IResponse) => {
                 if ([304, 200].indexOf(response.status) > -1) {
                     dispatch(friendAcceptFinished(friend));
@@ -201,7 +201,7 @@ export function doAcceptFriend(friend: wu.model.data.IFriend) {
                 } else if (response.status === 0) {
                     throw new Error('Please check your network connection');
                 } else {
-                    throw new Error('Deleting friend not possible');
+                    throw new Error('Accepting friend not possible');
                 }
             })
             .catch(err => {
@@ -297,7 +297,7 @@ export function doLoadFriendList() {
                             invitations += 1;
                         }
                     });
-                    
+
                     dispatch(friendListLoaded(friendslist));
                     dispatch(userActions.setInvitationCount(invitations));
                 } else {

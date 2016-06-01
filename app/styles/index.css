@@ -411,6 +411,14 @@ input:-webkit-autofill {
     margin: var(--defaultMargin);
 }
 
+.friendlist .friend.pending {
+    background: rgba(96, 177, 89, 0.34);
+}
+
+.friendlist .friend.invitation {
+    background: rgba(48, 155, 177, 0.34);
+}
+
 .friendlist .friend--add {
     flex: 0 0 40px;
     display: flex;

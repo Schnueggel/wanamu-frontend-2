@@ -5,7 +5,7 @@ import * as classNames from 'classnames';
 
 export interface IFriendListItemProps extends __React.Props<IFriendListItemProps> {
     friend: wu.model.data.IFriend;
-    onFriendDelete?(friend: wu.model.data.IFriend);
+    onDelete?(friend: wu.model.data.IFriend);
     onAccept?(friend: wu.model.data.IFriend);
 }
 
@@ -41,7 +41,7 @@ export class FriendListItem extends React.Component<IFriendListItemProps, any> i
     }
 
     handleDelete() {
-        this.props.onFriendDelete(this.props.friend);
+        this.props.onDelete(this.props.friend);
     }
 
     handleAccept() {
