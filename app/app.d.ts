@@ -185,7 +185,7 @@ declare module wu {
         error: string;
         isLoading: boolean;
         loadingCounter: number;
-        config: any;
+        config: IConfig;
         failedLocation: string;
         isSigningIn: boolean;
         configLoading: boolean;
@@ -229,5 +229,10 @@ declare module wu {
     interface ITodoListActions {
         todoListVisibility(visibility: string):void;
         todoListLoad(id: string):void
+    }
+
+    interface IConfig {
+        WU_API_BASE_URL: string;
+        STATE_LOG: string;
     }
 }

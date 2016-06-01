@@ -3,7 +3,7 @@ import * as fetch from 'isomorphic-fetch';
 import * as _ from 'lodash';
 import { defaultRequestOptions } from '../constants';
 import { tokenStore } from './TokenActions';
-import { userLoaded, userRequest } from './UserActions';
+import { userLoaded, userRequest, doConnectToSocket } from './UserActions';
 
 export function loginRequest() {
     return {
@@ -47,6 +47,7 @@ export function doLogin(username, password) {
                 }
                 dispatch(tokenStore(data.token));
                 dispatch(userLoaded(data.data[0]));
+                dispatch(doConnectToSocket());
             })
             .catch(err => {
                 dispatch(loginError(err.message));

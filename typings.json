@@ -28,6 +28,7 @@
     "redux-devtools-dock-monitor": "registry:dt/redux-devtools-dock-monitor#1.0.1+20151216103641",
     "redux-devtools-log-monitor": "registry:dt/redux-devtools-log-monitor#1.0.1+20151216103641",
     "redux-logger": "registry:dt/redux-logger#2.6.0+20160316155526",
-    "redux-thunk": "registry:dt/redux-thunk#2.0.1+20160317120654"
+    "redux-thunk": "registry:dt/redux-thunk#2.0.1+20160317120654",
+    "socket.io-client": "registry:dt/socket.io-client#1.4.4+20160317120654"
   }
 }
