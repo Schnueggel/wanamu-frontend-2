@@ -33,7 +33,7 @@ export function doConnectToSocket() {
 
         notifications.on('error', (err) => {
             console.log(err);
-        });
+    });
 
         notifications.on('joined', () => {
             console.log('join user room');
