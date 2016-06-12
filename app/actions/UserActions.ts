@@ -28,15 +28,19 @@ export function setInvitationCount(value) {
 }
 
 export function doConnectToSocket() {
-    return (dispatch, getState: ()=> wu.IState) => {
+    return (dispatch, getState:()=> wu.IState) => {
         const notifications = io.connect(`${getState().app.config.WU_API_BASE_URL}/notification`, {query: 'jwt=' + getState().auth.token, transports: ['websocket']});
 
         notifications.on('error', (err) => {
             console.log(err);
-    });
+        });
 
         notifications.on('joined', () => {
             console.log('join user room');
+        });
+
+        notifications.on('Friend_Accepted', (msg)=> {
+            console.log(msg);
         });
     }
 }

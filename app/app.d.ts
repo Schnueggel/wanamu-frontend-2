@@ -192,6 +192,8 @@ declare module wu {
         configError: string;
         menuOpen: boolean;
         userTested: boolean;
+        isNotificationPopupVisible: boolean;
+        latestNotifications: Array<wu.model.data.INotification>;
     }
 
     interface ITodoListState {

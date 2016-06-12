@@ -7,6 +7,8 @@ import { bindActionCreators } from 'redux';
 import { menuToggle } from '../actions/AppAction';
 import { Spinner } from './../components/Elements/Spinner';
 import DevTools from './DevTools';
+import {Icon} from '../components/Elements/Icon';
+import {NotificationPopup} from '../components/Notifications/NotificationPopup';
 
 /**
  * Laoyout for the Page
@@ -38,6 +40,10 @@ export class Page extends React.Component<wu.IPageProps, any> implements React.C
     constructor(props: wu.IPageProps) {
         super(props);
     }
+    
+    showNotificationMenu(){
+        
+    }
 
     render() {
         const menuOpen = classNames({open: this.props.app.menuOpen}),
@@ -61,6 +67,7 @@ export class Page extends React.Component<wu.IPageProps, any> implements React.C
                             <h1 className="title">Wanamu</h1>
                             <div className="spacer"></div>
                             <Spinner className={classLoading}/>
+                            <Icon name="notification_active" onClick={this.showNotificationMenu.bind(this)}></Icon>
                         </div>
                     </header>
                     <Menu title="Wanamu" items={this.props.menu.menuItems} className={menuOpen}/>
@@ -70,6 +77,9 @@ export class Page extends React.Component<wu.IPageProps, any> implements React.C
                         {this.props.children}
                     </div>
                 </div>
+                <NotificationPopup
+                    visible={this.props.app.isNotificationPopupVisible}
+                />       
                 {getDevTools()}
             </div>
         );

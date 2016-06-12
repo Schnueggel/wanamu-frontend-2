@@ -3,7 +3,7 @@ import { configLoad } from './ConfigActions';
 import { defaultRequestOptions } from '../constants';
 import * as _  from 'lodash';
 import { tokenRestore, tokenClear } from './TokenActions';
-import { userLoaded, userRequest } from './UserActions';
+import { userLoaded, userRequest, doConnectToSocket } from './UserActions';
 
 /**
  *
@@ -44,6 +44,7 @@ export function loadDefaultUser() {
             .then( user => {
                 if (typeof _.get(user, '._id') === 'string') {
                     dispatch(userLoaded(user));
+                    dispatch(doConnectToSocket());
                     dispatch(userTested());
                 } else {
                     throw new Error('Invalid response for current user request');

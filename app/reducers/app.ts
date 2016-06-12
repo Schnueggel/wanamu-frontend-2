@@ -13,7 +13,9 @@ const initialState: wu.IAppState = {
     configError   : null,
     menuOpen      : false,
     failedLocation: null,
-    userTested    : false
+    userTested    : false,
+    isNotificationPopupVisible: false,
+    latestNotifications : []
 };
 
 export function app(state = initialState, action: any) {

@@ -47,6 +47,12 @@ declare module wu {
             pending: boolean;
             invitation: boolean;
         }
+        
+        interface INotification {
+            _id: string;
+            title: string;
+            message: string;
+        }
 
         interface IColor {
             color1 : string;

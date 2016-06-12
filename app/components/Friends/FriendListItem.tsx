@@ -10,8 +10,8 @@ export interface IFriendListItemProps extends __React.Props<IFriendListItemProps
 }
 
 /**
- * @class TodoList
- * @namespace wu.components.TodoList
+ * @class FriendListItem
+ * @namespace wu.components.Friends
  */
 export class FriendListItem extends React.Component<IFriendListItemProps, any> implements React.ComponentLifecycle<IFriendListItemProps, any> {
 
