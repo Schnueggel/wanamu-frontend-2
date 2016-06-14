@@ -9,10 +9,6 @@ import { Route, IndexRoute } from 'react-router';
 import store from '../stores/appStore';
 import { appStoreLastRequest } from '../actions/AppAction';
 
-interface IProps {
-    path?: string;
-}
-
 export default function routes(path='/') {
     return (<Route path={path} component={Page}>
         <IndexRoute component={Login}/>

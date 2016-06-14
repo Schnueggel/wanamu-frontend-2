@@ -18,9 +18,9 @@ export function user(state = initialState, action: any) {
         case Actions.ACTION_USER_ERROR:
             return Object.assign({}, state, {error, isLoading: false});
         case Actions.ACTION_USER_CLEAR:
-            return Object.assign({}, initialState); 
+            return Object.assign({}, state, initialState);
         case Actions.ACTION_USER_INVITATIONS:
-            return Object.assign({invitations: action.count});
+            return Object.assign({}, state, {invitations: action.count});
         default:
             return state;
     }
