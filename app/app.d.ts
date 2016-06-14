@@ -230,7 +230,7 @@ declare module wu {
 
     interface ITodoListActions {
         todoListVisibility(visibility: string):void;
-        todoListLoad(id: string):void
+        doTodoListLoad(id: string):void
     }
 
     interface IConfig {

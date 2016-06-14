@@ -1,57 +1,40 @@
-import { defaultRequestOptions } from '../constants';
-import * as fetch from 'isomorphic-fetch';
 import * as Actions from './index';
-import { appError } from './AppAction';
+import { defaultRequestOptions } from '../constants';
 import { routerActions } from 'react-router-redux';
+import { appError } from './AppAction';
 import * as _ from 'lodash';
 
-/**
- * Todolist Loaded Action creator
- * @param todos
- * @returns {{type: string, config: any}}
- */
-export function todoListLoaded(todos: Object, id: string) {
+
+export function notificationRequest() {
     return {
-        type: Actions.ACTION_TODOLIST_LOADED,
-        todos,
-        id
+        type: Actions.ACTION_NOTIFICATION_REQUEST
     };
 }
 
-/**
- * TodoList Error action creator
- * @param error
- * @returns {{type: string, error: any}}
- */
-export function todoListError(error: string) {
+export function notificationError(error: string) {
     return {
-        type: Actions.ACTION_TODOLIST_ERROR,
+        type: Actions.ACTION_NOTIFICATION_ERROR,
         error
     };
 }
 
-/**
- * Config Request action
- * @returns {{type: string}}
- */
-export function todoListRequest() {
+
+export function notificationsLoaded(data) {
     return {
-        type: Actions.ACTION_TODOLIST_REQUEST
+        type: Actions.ACTION_NOTIFICATION_LOADED,
+        data
     };
 }
 
-/**
- * Loads the todolist from the backend
- *
- * @returns {function(any): Promise<TResult>|Promise<U>}
- */
-export function doTodoListLoad(id:string) {
+
+export function doLoadNotifications() {
     return (dispatch, getState) => {
 
-        dispatch(todoListRequest());
+        dispatch(notificationRequest());
+
         const options = defaultRequestOptions(getState().auth.token, 'GET');
 
-        return fetch(`${getState().app.config.WU_API_BASE_URL}/todolist/${id}`,options)
+        return fetch(`${getState().app.config.WU_API_BASE_URL}/notifications`,options)
             .then((response: IResponse) => {
                 if ([304, 200].indexOf(response.status) > -1) {
                     return response.json();
@@ -76,22 +59,15 @@ export function doTodoListLoad(id:string) {
             .then( data => {
                 return _.get(data, 'data');
             })
-            .then( todolist => {
-                if (todolist) {
-                    dispatch(todoListLoaded(todolist, id));
+            .then( notifications => {
+                if (notifications) {
+                    dispatch(notificationsLoaded(notifications));
                 } else {
-                    dispatch(todoListError('No data found'));
+                    dispatch(notificationError('No data found'));
                 }
             })
             .catch(err => {
-                dispatch(todoListError(err.message));
+                dispatch(notificationError(err.message));
             });
-    };
-}
-
-export function todoListVisibility(visibility: string) {
-    return {
-        type: Actions.ACTION_TODOLIST_VISIBILITY,
-        visibility
-    };
+    }
 }

@@ -52,7 +52,7 @@ export class TodoList extends React.Component<wu.ITodoListProps, any> implements
         if (props.params.id === undefined) {
             props.actions.routerActions.push(`/todolist/${props.user.user.defaultTodolistId}`);
         } else if (props.todolist.isLoading === false && typeof props.todolist.id !== 'string') {
-            props.actions.todolist.todoListLoad(props.params.id);
+            props.actions.todolist.doTodoListLoad(props.params.id);
         }
     }
 
