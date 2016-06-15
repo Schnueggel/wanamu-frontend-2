@@ -8,10 +8,12 @@ export const LocalStorage = {
 };
 
 export class VisibleTodos {
-    static All      = 'All';
-    static Finished = 'Finished';
-    static Open     = 'Open';
+    static All      = 'all';
+    static Finished = 'finished';
+    static Open     = 'open';
 }
+
+export const VisibleTodosValues = [VisibleTodos.All, VisibleTodos.Finished, VisibleTodos.Open];
 
 export enum UserNameCheck {
     Valid, Invalid, Unkown

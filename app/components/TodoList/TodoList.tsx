@@ -65,23 +65,12 @@ export class TodoList extends React.Component<ITodoListProps, any> implements Re
         </div>);
     }
 
-    isTodoVisible(todo: ITodo): boolean {
-        switch (true) {
-            case this.props.showTodos === VisibleTodos.All:
-            case todo.finished === false && this.props.showTodos === VisibleTodos.Open:
-            case todo.finished === true && this.props.showTodos === VisibleTodos.Finished:
-                return true;
-            default:
-                return false;
-        }
-    }
-
     createTodos() {
         if (Array.isArray(this.props.todos) === false) {
             return null;
         }
 
-        return this.props.todos.filter((t: ITodo) => this.isTodoVisible(t)).map(this.createTodo.bind(this));
+        return this.props.todos.map(this.createTodo.bind(this));
     }
 
     createTodo(todo: ITodoView) {

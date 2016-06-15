@@ -4,10 +4,10 @@ import { connect } from 'react-redux';
 import { routerActions } from 'react-router-redux';
 import { bindActionCreators } from 'redux';
 import { Select } from 'components/Form/Select';
-import { VisibleTodos } from '../constants';
+import { VisibleTodos, VisibleTodosValues } from '../constants';
 import * as todolistActions from '../actions/TodoListAction';
 import * as todoActions from '../actions/TodoActions';
-import {Todo} from '../models/Todo';
+import { Todo } from '../models/Todo';
 import { Map } from 'immutable';
 import ITodoView = wu.model.view.ITodoView;
 
@@ -28,6 +28,7 @@ export class TodoList extends React.Component<wu.ITodoListProps, any> implements
 
     static defaultProps:any = {
         todos: Map(),
+
     };
 
     options: Array<{key: string, value:any}> = [
@@ -38,6 +39,7 @@ export class TodoList extends React.Component<wu.ITodoListProps, any> implements
 
     constructor(props: wu.ITodoListProps) {
         super(props);
+        console.log(props);
     }
 
     componentWillMount() {
@@ -50,7 +52,8 @@ export class TodoList extends React.Component<wu.ITodoListProps, any> implements
 
     checkTodolist(props) {
         if (props.params.id === undefined) {
-            props.actions.routerActions.push(`/todolist/${props.user.user.defaultTodolistId}`);
+            const location = Object.assign({}, props.location, {pathname: `/todolist/${props.user.user.defaultTodolistId}`});
+            props.actions.routerActions.push(location);
         } else if (props.todolist.isLoading === false && typeof props.todolist.id !== 'string') {
             props.actions.todolist.doTodoListLoad(props.params.id);
         }
@@ -75,12 +78,12 @@ export class TodoList extends React.Component<wu.ITodoListProps, any> implements
     }
 
     handleVisibilityFilter({value}) {
-        this.props.actions.todolist.todoListVisibility(value);
+        const location = Object.assign({}, this.props.location, {query: {visible: value}}) as any;
+        this.props.actions.routerActions.push(location);
     }
 
     getVisibleTodos() {
-        const visible = this.props.todolist.visibility;
-
+        const visible = this.getVisibleValue();
         return this.props.todolist.todos.toArray().filter(todo => {
             if ((visible === VisibleTodos.Open || visible === VisibleTodos.All) && todo.finished === false) {
                 return true;
@@ -91,8 +94,16 @@ export class TodoList extends React.Component<wu.ITodoListProps, any> implements
         })
     }
 
+    getVisibleValue() {
+        if (VisibleTodosValues.indexOf(this.props.location.query['visible']) > -1) {
+            return this.props.location.query['visible'];
+        }
+
+        return VisibleTodos.Open;
+    }
+
     render() {
-        const todos = this.getVisibleTodos();
+        const todos = this.getVisibleTodos(); console.log(todos);
 
         let error = null, todolistEl, loading;
 
@@ -112,15 +123,14 @@ export class TodoList extends React.Component<wu.ITodoListProps, any> implements
                                 onTodoDelete={this.handleTodoDelete.bind(this)}
                                 onTodoFinish={this.handleTodoFinish.bind(this)}
                                 onTodoViewChange={this.props.actions.todo.todoViewChange}
-                                ref={ c => this.ctrls.todolist }
-                                showTodos={this.state.todoVisibilityState}/>
+                                ref={ c => this.ctrls.todolist }/>
             );
         }
 
         return (
             <div className="todolist__container">
                 <div className="actionbar">
-                    <Select options={this.options} label="Select Todo" ref={ c => this.ctrls.todosVisible } value={this.props.todolist.visibility} onChange={this.handleVisibilityFilter.bind(this)}/>
+                    <Select options={this.options} label="Select Todo" ref={ c => this.ctrls.todosVisible = c} value={this.getVisibleValue()} onChange={this.handleVisibilityFilter.bind(this)}/>
                 </div>
                 {error}
                 {loading}

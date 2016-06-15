@@ -1,3 +1,5 @@
+import Location = HistoryModule.Location;
+
 declare function require(url:string);
 
 declare const module: {
@@ -120,13 +122,15 @@ declare module wu {
         todolist: ITodoListState;
         user: IUserState;
         visibility: string;
+        
         actions: {
             routerActions: ReactRouterRedux.RouteActions;
             todo: ITodoActions
             todolist:ITodoListActions
         }
         params: {
-            id?: string
+            id?: string;
+            visible?: string;
         };
     }
 
