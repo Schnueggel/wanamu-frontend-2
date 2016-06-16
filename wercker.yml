@@ -6,7 +6,7 @@ build:
         name: Install typings
         code: |
           npm i -g typings
-          typings install --ambient
+          typings install --global
     - script:
         name: npm run build
         code: npm run build
