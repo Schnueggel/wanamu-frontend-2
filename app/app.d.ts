@@ -1,5 +1,3 @@
-import Location = HistoryModule.Location;
-
 declare function require(url:string);
 
 declare const module: {
@@ -62,7 +60,7 @@ declare module wu {
 
     interface IControlProps<T> extends __React.Props<T> {
         children?: any,
-        location?: Location;
+        location?: HistoryModule.Location;
         history?: HistoryModule.History
     }
 
@@ -122,7 +120,7 @@ declare module wu {
         todolist: ITodoListState;
         user: IUserState;
         visibility: string;
-        
+
         actions: {
             routerActions: ReactRouterRedux.RouteActions;
             todo: ITodoActions
