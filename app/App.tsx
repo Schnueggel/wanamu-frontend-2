@@ -15,7 +15,7 @@ export class App extends React.Component<IProps,any> {
         const history = syncHistoryWithStore(browserHistory as any, store as any) as any;
 
         return (
-            <Provider store={store}>
+            <Provider store={store as any}>
                 <Router history={history}>
                     {routes(this.props.path)}
                 </Router>

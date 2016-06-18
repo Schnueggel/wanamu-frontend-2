@@ -14,6 +14,7 @@
     "./node_modules/typescript/lib/lib.es6.d.ts",
     "./node_modules/immutable/dist/immutable.d.ts",
     "./node_modules/redux/index.d.ts",
+      "./node_modules/redux-saga/index.d.ts",
       "./app/models/models.d.ts"
   ]
 }
