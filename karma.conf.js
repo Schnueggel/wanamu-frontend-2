@@ -10,6 +10,7 @@ module.exports = function (config) {
         singleRun: true,
         frameworks: ['mocha'],
         files: [
+            './node_modules/babel-polyfill/dist/polyfill.js',
             './tests/**/*.tsx'
         ],
         preprocessors: {
