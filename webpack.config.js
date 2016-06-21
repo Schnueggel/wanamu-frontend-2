@@ -20,7 +20,7 @@ if (isProd) {
 console.info('App building with %s env', node_env);
 
 var config = {
-    entry: ['./app/Bootstrap.tsx'],
+    entry: ['babel-polyfill', './app/Bootstrap.tsx'],
     output: {
         path: __dirname + '/public',
         filename: 'bundle.js'
@@ -54,7 +54,7 @@ var config = {
             },
             {
                 test: /\.tsx?$/,
-                loader: 'ts-loader',
+                loader: 'babel-loader?presets[]=es2015&presets[]=react!ts-loader',
                 exclude: /node_modules/
             },
             {
