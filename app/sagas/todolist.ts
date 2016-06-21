@@ -1,4 +1,4 @@
-import {takeLatest} from 'redux-saga'
+import {takeEvery} from 'redux-saga'
 import {call, put} from 'redux-saga/effects'
 import * as TodoListActions from 'actions/TodoListAction';
 import {defaultRequestOptions} from '../constants';
@@ -13,7 +13,7 @@ import store from 'stores/appStore';
  *
  * @returns {function(any): Promise<TResult>|Promise<U>}
  */
-export function* doTodoListLoad(action) {
+export function* doTodoListLoad(action):any {
     const options = defaultRequestOptions(store.getState().auth.token, 'GET');
 
     try {
@@ -22,7 +22,14 @@ export function* doTodoListLoad(action) {
         let data = null;
 
         if ([304, 200].indexOf(response.status) > -1) {
-            data = response.json();
+            data = yield response.json();
+            const todolist = _.get(data, 'data');
+
+            if (todolist) {
+                return yield put(TodoListActions.todoListLoaded(todolist, action.id));
+            } else {
+                return yield put(TodoListActions.todoListError('Invalid response data found'));
+            }
         } else if ([422, 400].indexOf(response.status) > -1) {
             data = new Error('Invalid Request');
         } else if (response.status === 404) {
@@ -39,23 +46,13 @@ export function* doTodoListLoad(action) {
         } else {
             data = new Error('Loading todolist data with an unknown state');
         }
+        yield put(TodoListActions.todoListError(data.message));
 
-        if (data instanceof Error) {
-            return yield put(TodoListActions.todoListError(data.message));
-        }
-
-        const todolist = _.get(data, 'data');
-
-        if (todolist) {
-            yield put(TodoListActions.todoListLoaded(todolist, action.id));
-        } else {
-            yield put(TodoListActions.todoListError('No data found'));
-        }
     } catch (err) {
-        return yield put(TodoListActions.todoListError(err.message));
+        yield put(TodoListActions.todoListError(err.message));
     }
 }
 
 export function* watchTodoListLoad() {
-    yield* takeLatest(ACTION_TODOLIST_REQUEST, doTodoListLoad);
+    yield* takeEvery(ACTION_TODOLIST_REQUEST, doTodoListLoad);
 }

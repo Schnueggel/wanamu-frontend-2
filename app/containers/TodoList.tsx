@@ -27,8 +27,7 @@ export class TodoList extends React.Component<wu.ITodoListProps, any> implements
     } = {};
 
     static defaultProps:any = {
-        todos: Map(),
-
+        todos: Map()
     };
 
     options: Array<{key: string, value:any}> = [
@@ -39,7 +38,6 @@ export class TodoList extends React.Component<wu.ITodoListProps, any> implements
 
     constructor(props: wu.ITodoListProps) {
         super(props);
-        console.log(props);
     }
 
     componentWillMount() {
@@ -55,7 +53,7 @@ export class TodoList extends React.Component<wu.ITodoListProps, any> implements
             const location = Object.assign({}, props.location, {pathname: `/todolist/${props.user.user.defaultTodolistId}`});
             props.actions.routerActions.push(location);
         } else if (props.todolist.isLoading === false && typeof props.todolist.id !== 'string') {
-            props.actions.todolist.doTodoListLoad(props.params.id);
+            props.actions.todolist.todoListRequest(props.params.id);
         }
     }
 
@@ -103,7 +101,7 @@ export class TodoList extends React.Component<wu.ITodoListProps, any> implements
     }
 
     render() {
-        const todos = this.getVisibleTodos(); console.log(todos);
+        const todos = this.getVisibleTodos();
 
         let error = null, todolistEl, loading;
 

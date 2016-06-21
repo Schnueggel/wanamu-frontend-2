@@ -34,58 +34,10 @@ export function todoListError(error: string) {
  * Config Request action
  * @returns {{type: string}}
  */
-export function todoListRequest() {
+export function todoListRequest(id) {
     return {
-        type: Actions.ACTION_TODOLIST_REQUEST
-    };
-}
-
-/**
- * Loads the todolist from the backend
- *
- * @returns {function(any): Promise<TResult>|Promise<U>}
- */
-export function doTodoListLoad(id:string) {
-    return (dispatch, getState) => {
-
-        dispatch(todoListRequest());
-        const options = defaultRequestOptions(getState().auth.token, 'GET');
-
-        return fetch(`${getState().app.config.WU_API_BASE_URL}/todolist/${id}`,options)
-            .then((response: IResponse) => {
-                if ([304, 200].indexOf(response.status) > -1) {
-                    return response.json();
-                } else if ([422, 400].indexOf(response.status) > -1) {
-                    throw new Error('Invalid Request');
-                } else if (response.status === 404) {
-                    throw new Error('No data found');
-                } else if (response.status === 401) {
-                    dispatch(appError('You need to login'));
-                    dispatch(routerActions.push('/login'));
-                    return null;
-                } else if (response.status === 500) {
-                    throw new Error('Server error');
-                } else if (response.status === 403) {
-                    throw new Error('Not enough rights to see this data');
-                } else if (response.status === 0) {
-                    throw new Error('Please check your network connection');
-                } else {
-                    throw new Error('Loading todolist data with an unkown state');
-                }
-            })
-            .then( data => {
-                return _.get(data, 'data');
-            })
-            .then( todolist => {
-                if (todolist) {
-                    dispatch(todoListLoaded(todolist, id));
-                } else {
-                    dispatch(todoListError('No data found'));
-                }
-            })
-            .catch(err => {
-                dispatch(todoListError(err.message));
-            });
+        type: Actions.ACTION_TODOLIST_REQUEST,
+        id
     };
 }
 

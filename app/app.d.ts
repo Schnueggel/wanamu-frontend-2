@@ -232,7 +232,7 @@ declare module wu {
 
     interface ITodoListActions {
         todoListVisibility(visibility: string):void;
-        doTodoListLoad(id: string):void
+        todoListRequest(id: string): void;
     }
 
     interface IConfig {
