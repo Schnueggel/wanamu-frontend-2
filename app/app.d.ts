@@ -213,6 +213,7 @@ declare module wu {
     }
 
     interface ITodoActions {
+        todoUpdateRequest(todo: model.view.ITodoView): void;
         todoDoUpdate(todo: model.view.ITodoView):void;
         todoDoCreate(todo: model.view.ITodoView):void;
         todoCreate(todo: model.view.ITodoView):void;

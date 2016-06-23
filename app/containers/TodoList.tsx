@@ -58,7 +58,7 @@ export class TodoList extends React.Component<wu.ITodoListProps, any> implements
     }
 
     handleTodoChange(todo: ITodoView) {
-        this.props.actions.todo.todoDoUpdate(todo);
+        this.props.actions.todo.todoUpdateRequest(todo);
     }
 
     handleTodoCreate() {

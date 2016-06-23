@@ -22,8 +22,7 @@ export function* doTodoListLoad(action):any {
         let data = null;
 
         if ([304, 200].indexOf(response.status) > -1) {
-            data = yield response.json();
-            const todolist = _.get(data, 'data');
+            const todolist = _.get(yield response.json(), 'data');
 
             if (todolist) {
                 return yield put(TodoListActions.todoListLoaded(todolist, action.id));

@@ -3,7 +3,6 @@ import * as Actions from './index';
 import { defaultRequestOptions } from '../constants';
 import { appError } from './AppAction';
 import * as _ from 'lodash';
-import {responseStatusCheck} from './actions';
 import {Dispatch} from 'redux/index';
 
 /**
@@ -46,46 +45,6 @@ export function todoUpdateRequestError(error: string, todo): any {
         type: Actions.ACTION_TODO_UPDATE_REQUEST_ERROR,
         error,
         todo
-    };
-}
-
-/**
- * Updates a todo
- *
- * @returns {function(any): Promise<TResult>|Promise<U>}
- */
-export function todoDoUpdate(todo: wu.model.data.ITodo): any {
-    return (dispatch: Dispatch<any>, getState: () => any) => {
-        dispatch(todoUpdateRequest(todo));
-        const options = defaultRequestOptions(getState().auth.token, 'PUT');
-
-        options.body = JSON.stringify(todo);
-
-        return fetch(`${getState().app.config.WU_API_BASE_URL}/todo/${todo._id}`, options)
-            .then((response: IResponse) => responseStatusCheck(response, dispatch))
-            .then((response: IResponse) => {
-                if ([304, 200].indexOf(response.status) > -1) {
-                    return response.json();
-                } else if (response.status === 422) {
-                    throw new Error('Invalid Request');
-                } else {
-                    throw new Error('Updating todo failed');
-                }
-            })
-            .then( data => {
-                return _.get(data, 'data[0]');
-            })
-            .then( todo => {
-                if (_.has(todo, '_id')) {
-                    dispatch(todoUpdateRequestSuccess(todo));
-                    dispatch(todoUpdate(todo));
-                } else {
-                    dispatch(todoUpdateRequestError('No data found', todo));
-                }
-            })
-            .catch(err => {
-                dispatch(todoUpdateRequestError(err.message, todo));
-            });
     };
 }
 

@@ -3,7 +3,6 @@ import {call, put} from 'redux-saga/effects';
 import * as TodoActions from 'actions/TodoActions';
 import {defaultRequestOptions} from '../constants';
 import {appError} from 'actions/AppAction';
-import {routerActions} from 'react-router-redux';
 import * as _ from 'lodash';
 import {ACTION_TODO_UPDATE_REQUEST} from 'actions/index';
 import store from 'stores/appStore';
@@ -26,7 +25,9 @@ export function* todoDoUpdate(todo:wu.model.data.ITodo):any {
     if (result instanceof Error) {
         return yield put(appError(result.message));
     } else if ([304, 200].indexOf(response.status) > -1) {
+
         const todo = _.get(yield response.json(), 'data[0]');
+
         if (_.has(todo, '_id')) {
             put(TodoActions.todoUpdateRequestSuccess(todo));
             put(TodoActions.todoUpdate(todo));
@@ -42,6 +43,6 @@ export function* todoDoUpdate(todo:wu.model.data.ITodo):any {
     put(TodoActions.todoUpdateRequestError(result.message, todo));
 }
 
-export function* watchTodoListLoad() {
+export function* watchTodoUpdate() {
     yield* takeEvery(ACTION_TODO_UPDATE_REQUEST, todoDoUpdate);
 }
