@@ -1,13 +1,9 @@
-import { defaultRequestOptions } from '../constants';
-import * as fetch from 'isomorphic-fetch';
 import * as Actions from './index';
-import { appError } from './AppAction';
-import { routerActions } from 'react-router-redux';
-import * as _ from 'lodash';
 
 /**
  * Todolist Loaded Action creator
  * @param todos
+ * @param id
  * @returns {{type: string, config: any}}
  */
 export function todoListLoaded(todos: Object, id: string) {
