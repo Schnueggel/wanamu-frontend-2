@@ -64,7 +64,7 @@ export class TodoList extends React.Component<wu.ITodoListProps, any> implements
     handleTodoCreate() {
         let todo: ITodoView = new Todo();
         todo.todolistId = this.props.user.user.defaultTodolistId;
-        this.props.actions.todo.todoDoCreate(todo);
+        this.props.actions.todo.todoCreateRequest(todo);
     }
 
     handleTodoDelete(todo: ITodoView) {

@@ -77,51 +77,6 @@ export function todoCreate(todo: wu.model.data.ITodo) {
     };
 }
 
-export function todoDoCreate(todo: wu.model.data.ITodo) {
-    return (dispatch: Dispatch<any>, getState: () => any) => {
-        dispatch(todoCreateRequest(todo));
-        const options = defaultRequestOptions(getState().auth.token, 'POST');
-
-        options.body = JSON.stringify(todo);
-
-        return fetch(`${getState().app.config.WU_API_BASE_URL}/todo/${todo.todolistId}`, options)
-            .then( response => {
-                if ([304, 200].indexOf(response.status) > -1) {
-                    return response.json();
-                } else if ([422, 400].indexOf(response.status) > -1) {
-                    throw new Error('Invalid Request');
-                } else if (response.status === 404) {
-                    throw new Error('No data found');
-                } else if (response.status === 401) {
-                    dispatch(appError('You need to login'));
-                    return null;
-                } else if (response.status === 500) {
-                    throw new Error('Server error');
-                } else if (response.status === 403) {
-                    throw new Error('Not enough rights to see this data');
-                } else if (response.status === 0) {
-                    throw new Error('Please check your network connection');
-                } else {
-                    throw new Error('Creating todo failed');
-                }
-            })
-            .then( data => {
-                return _.get(data, 'data[0]');
-            })
-            .then( (todo: wu.model.data.ITodo) => {
-                if (_.has(todo, '_id')) {
-                    dispatch(todoCreateSuccess(todo));
-                    dispatch(todoCreate(todo));
-                } else {
-                    dispatch(todoCreateRequestError('No data found', todo));
-                }
-            })
-            .catch(err => {
-                dispatch(todoCreateRequestError(err.message, todo));
-            });
-    }
-}
-
 /**
  * ####################################################################################################################
  * ####################################################################################################################

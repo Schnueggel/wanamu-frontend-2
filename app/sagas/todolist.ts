@@ -35,7 +35,6 @@ export function* doTodoListLoad(action):any {
             return yield put(appError(data.message));
         }
 
-
         if ([422, 400].indexOf(response.status) > -1) {
             data = new Error('Invalid Request');
         } else {
