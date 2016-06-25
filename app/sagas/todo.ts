@@ -13,12 +13,12 @@ import {checkResponseStatus} from 'actions/actions';
  *
  * @returns {function(any): Promise<TResult>|Promise<U>}
  */
-export function* todoDoUpdate(todo:wu.model.data.ITodo):any {
-    const options = defaultRequestOptions(store.getState().app.config.WU_API_BASE_URL, 'PUT');
+export function* todoDoUpdate(action):any {
+    const options = defaultRequestOptions(store.getState().auth.token, 'PUT');
 
-    options.body = JSON.stringify(todo);
+    options.body = JSON.stringify(action.todo);
 
-    const response:IResponse = yield call(fetch, `${store.getState().app.config.WU_API_BASE_URL}/todo/${todo._id}`, options);
+    const response:IResponse = yield call(fetch, `${store.getState().app.config.WU_API_BASE_URL}/todo/${action.todo._id}`, options);
 
     let result = yield checkResponseStatus(response);
 
@@ -30,17 +30,19 @@ export function* todoDoUpdate(todo:wu.model.data.ITodo):any {
 
         if (_.has(todo, '_id')) {
             put(TodoActions.todoUpdateRequestSuccess(todo));
-            put(TodoActions.todoUpdate(todo));
+            return put(TodoActions.todoUpdate(todo));
         } else {
-            put(TodoActions.todoUpdateRequestError('No data found', todo));
+            result = new Error('No data found');
         }
+
+        return;
     } else if (response.status === 422) {
         result = new Error('Invalid Request');
     } else {
         result = new Error('Updating todo failed');
     }
 
-    put(TodoActions.todoUpdateRequestError(result.message, todo));
+    put(TodoActions.todoUpdateRequestError(result.message, action.todo));
 }
 
 export function* watchTodoUpdate() {

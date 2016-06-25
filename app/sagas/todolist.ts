@@ -3,10 +3,10 @@ import {call, put} from 'redux-saga/effects';
 import * as TodoListActions from 'actions/TodoListAction';
 import {defaultRequestOptions} from '../constants';
 import {appError} from 'actions/AppAction';
-import {routerActions} from 'react-router-redux';
 import * as _ from 'lodash';
 import {ACTION_TODOLIST_REQUEST} from 'actions/index';
 import store from 'stores/appStore';
+import {checkResponseStatus} from 'actions/actions';
 
 /**
  * Loads the todolist from the backend
@@ -19,8 +19,6 @@ export function* doTodoListLoad(action):any {
     try {
         let response:IResponse = yield call(fetch, `${store.getState().app.config.WU_API_BASE_URL}/todolist/${action.id}`, options);
 
-        let data = null;
-
         if ([304, 200].indexOf(response.status) > -1) {
             const todolist = _.get(yield response.json(), 'data');
 
@@ -29,19 +27,17 @@ export function* doTodoListLoad(action):any {
             } else {
                 return yield put(TodoListActions.todoListError('Invalid response data found'));
             }
-        } else if ([422, 400].indexOf(response.status) > -1) {
+        }
+
+        let data = yield checkResponseStatus(response);
+
+        if (data instanceof Error) {
+            return yield put(appError(data.message));
+        }
+
+
+        if ([422, 400].indexOf(response.status) > -1) {
             data = new Error('Invalid Request');
-        } else if (response.status === 404) {
-            data = new Error('No data found');
-        } else if (response.status === 401) {
-            yield put(appError('You need to login'));
-            return yield put(routerActions.push('/login'));
-        } else if (response.status === 500) {
-            data = new Error('Server error');
-        } else if (response.status === 403) {
-            data = new Error('Not enough rights to see this data');
-        } else if (response.status === 0) {
-            data = new Error('Please check your network connection');
         } else {
             data = new Error('Loading todolist data with an unknown state');
         }
