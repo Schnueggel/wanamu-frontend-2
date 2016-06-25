@@ -9,7 +9,7 @@ export * from './AppAction';
 export * from './RegisterActions';
 export * from './TodoActions';
 
-import {routerActions} from 'react-router-redux';
+import {requestLogout} from './LogoutActions';
 import {put} from 'redux-saga/effects';
 
 /**
@@ -23,7 +23,7 @@ export function responseStatusCheck(response:IResponse, dispatch) {
     } else if (response.status === 404) {
         throw new Error('No data found');
     } else if (response.status === 401) {
-        dispatch(routerActions.push('/login'));
+        dispatch(requestLogout());
         throw new Error('You need to login');
     } else if (response.status === 500) {
         throw new Error('Server error');
@@ -49,7 +49,7 @@ export function* checkResponseStatus(response:IResponse) {
     } else if (response.status === 404) {
         data = new Error('No data found');
     } else if (response.status === 401) {
-        yield put(routerActions.push('/login'));
+        yield put(requestLogout());
         data = new Error('You need to login');
     } else if (response.status === 500) {
         data = new Error('Server error');

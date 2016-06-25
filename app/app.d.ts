@@ -112,7 +112,7 @@ declare module wu {
     interface ILogoutProps extends wu.IControlProps<ILogoutProps> {
         actions: {
             routerActions: ReactRouterRedux.RouteActions,
-            logout: () => void
+            requestLogout: () => void,
         };
     }
 

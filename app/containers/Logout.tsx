@@ -1,7 +1,6 @@
 import * as React from 'react';
-import { logout } from 'actions/LogoutActions';
+import { requestLogout } from 'actions/LogoutActions';
 import { connect } from 'react-redux';
-import { routerActions } from 'react-router-redux';
 import { bindActionCreators } from 'redux';
 /**
  * Controller Component
@@ -17,8 +16,7 @@ export class Logout extends React.Component<wu.ILogoutProps, any> implements Rea
     }
 
     componentWillMount() {
-        console.log(this.props.actions.logout());
-        this.props.actions.routerActions.push('/login');
+        this.props.actions.requestLogout();
     }
 
     render() {
@@ -32,10 +30,9 @@ function mapStateToProps() {
 function mapDispatchToProps(dispatch) {
     return {
         actions: {
-            routerActions: bindActionCreators(routerActions as any, dispatch),
-            logout: bindActionCreators(logout, dispatch)
+            logout: bindActionCreators(requestLogout, dispatch)
         }
-    }
+    };
 }
 
 const connected = connect(mapStateToProps, mapDispatchToProps)(Logout);

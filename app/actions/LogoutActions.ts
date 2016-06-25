@@ -1,14 +1,8 @@
-import * as Actions from './index';
-import * as fetch from 'isomorphic-fetch';
-import * as _ from 'lodash';
-import { defaultRequestOptions, LocalStorage } from '../constants';
-import { tokenClear } from './TokenActions';
-import { userClear } from './UserActions';
 
+import { ACTION_LOGOUT_REQUEST } from 'actions/index';
 
-export function logout() {
-    return dispatch => {
-        dispatch(tokenClear());
-        dispatch(userClear());
+export function requestLogout () {
+    return {
+        type: ACTION_LOGOUT_REQUEST
     };
 }
