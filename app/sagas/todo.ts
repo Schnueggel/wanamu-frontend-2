@@ -25,8 +25,8 @@ export function* doCreateTodo(action): any {
         const todo = _.get(yield response.json(), 'data[0]');
 
         if (_.has(todo, '_id')) {
-            put(TodoActions.todoUpdateRequestSuccess(todo));
-            return put(TodoActions.todoUpdate(todo));
+            yield put(TodoActions.todoUpdateRequestSuccess(todo));
+            return yield put(TodoActions.todoUpdate(todo));
         } else {
             result = new Error('No data found');
         }
@@ -58,8 +58,8 @@ export function* doDeleteTodo(action): any {
         const todo = _.get(yield response.json(), 'data[0]');
 
         if (_.has(todo, '_id')) {
-            put(TodoActions.todoDeleteRequestSuccess(todo));
-            return put(TodoActions.todoUpdate(todo));
+            yield put(TodoActions.todoDeleteRequestSuccess(todo));
+            return yield put(TodoActions.todoUpdate(todo));
         } else {
             result = new Error('No data found');
         }
@@ -95,8 +95,8 @@ export function* doUpdateTodo(action):any {
         const todo = _.get(yield response.json(), 'data[0]');
 
         if (_.has(todo, '_id')) {
-            put(TodoActions.todoUpdateRequestSuccess(todo));
-            return put(TodoActions.todoUpdate(todo));
+            yield put(TodoActions.todoUpdateRequestSuccess(todo));
+            return yield put(TodoActions.todoUpdate(todo));
         } else {
             result = new Error('No data found');
         }
