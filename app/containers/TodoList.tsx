@@ -68,7 +68,7 @@ export class TodoList extends React.Component<wu.ITodoListProps, any> implements
     }
 
     handleTodoDelete(todo: ITodoView) {
-        this.props.actions.todo.todoDoDelete(todo);
+        this.props.actions.todo.todoDeleteRequest(todo);
     }
 
     handleTodoFinish(todo: ITodoView) {

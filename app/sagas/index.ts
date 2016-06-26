@@ -1,5 +1,5 @@
 import {watchTodoListLoad} from './todolist';
-import {watchTodoUpdate, watchTodoCreate} from './todo';
+import {watchTodoUpdate, watchTodoCreate, watchTodoDelete} from './todo';
 import {watchLogoutRequest} from './auth';
 
 export default function* root () {
@@ -7,6 +7,7 @@ export default function* root () {
         watchTodoListLoad(),
         watchTodoUpdate(),
         watchTodoCreate(),
-        watchLogoutRequest()
+        watchLogoutRequest(),
+        watchTodoDelete()
     ];
 }
