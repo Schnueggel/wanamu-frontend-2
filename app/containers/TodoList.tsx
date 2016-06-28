@@ -72,7 +72,7 @@ export class TodoList extends React.Component<wu.ITodoListProps, any> implements
     }
 
     handleTodoFinish(todo: ITodoView) {
-        this.props.actions.todo.todoDoFinish(todo);
+        this.props.actions.todo.todoFinishRequest(todo);
     }
 
     handleVisibilityFilter({value}) {

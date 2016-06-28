@@ -216,9 +216,7 @@ declare module wu {
         todoUpdateRequest(todo: model.view.ITodoView): void;
         todoCreateRequest(todo: model.view.ITodoView): void;
         todoDeleteRequest(todo: model.view.ITodoView): void;
-        todoCreate(todo: model.view.ITodoView):void;
-        todoDoDelete(todo: model.view.ITodoView):void;
-        todoDoFinish(todo: model.view.ITodoView):void;
+        todoFinishRequest(todo: model.view.ITodoView): void;
         todoViewChange(todo: model.data.ITodo):void;
     }
 

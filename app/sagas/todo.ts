@@ -4,7 +4,7 @@ import * as TodoActions from 'actions/TodoActions';
 import {defaultRequestOptions} from '../constants';
 import {appError} from 'actions/AppAction';
 import * as _ from 'lodash';
-import {ACTION_TODO_UPDATE_REQUEST, ACTION_TODO_CREATE_REQUEST, ACTION_TODO_DELETE_REQUEST} from 'actions/index';
+import {ACTION_TODO_UPDATE_REQUEST, ACTION_TODO_CREATE_REQUEST, ACTION_TODO_DELETE_REQUEST, ACTION_TODO_FINISH_REQUEST} from 'actions/index';
 import store from 'stores/appStore';
 import {checkResponseStatus} from 'actions/actions';
 
@@ -109,6 +109,36 @@ export function* doUpdateTodo(action):any {
     return yield put(TodoActions.todoUpdateRequestError(result.message, action.todo));
 }
 
+
+export function* doTodoFinish(action): any {
+    const options = defaultRequestOptions(store.getState().auth.token, 'PUT');
+
+    options.body = JSON.stringify(action.todo);
+
+    const response:IResponse = yield call(fetch, `${store.getState().app.config.WU_API_BASE_URL}/todo/${action.todo._id}/finish`, options);
+
+    let result = yield checkResponseStatus(response);
+
+    if (result instanceof Error) {
+        return yield put(appError(result.message));
+    } else if ([304, 200].indexOf(response.status) > -1) {
+
+        const todo = _.get(yield response.json(), 'data[0]');
+
+        if (_.has(todo, '_id')) {
+            return yield put(TodoActions.todoFinishRequestSuccess(todo));
+        } else {
+            result = new Error('No data found');
+        }
+    } else if (response.status === 422) {
+        result = new Error('Invalid Request');
+    } else {
+        result = new Error('Updating todo failed');
+    }
+
+    return yield put(TodoActions.todoFinishRequestError(result.message, action.todo));
+}
+
 export function* watchTodoUpdate() {
     yield* takeEvery(ACTION_TODO_UPDATE_REQUEST, doUpdateTodo);
 }
@@ -119,4 +149,8 @@ export function* watchTodoCreate() {
 
 export function* watchTodoDelete() {
     yield* takeEvery(ACTION_TODO_DELETE_REQUEST, doDeleteTodo)
+}
+
+export function* watchTodoFinish() {
+    yield* takeEvery(ACTION_TODO_FINISH_REQUEST, doTodoFinish)
 }

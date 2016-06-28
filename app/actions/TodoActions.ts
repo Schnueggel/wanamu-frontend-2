@@ -1,9 +1,4 @@
-import * as fetch from 'isomorphic-fetch';
 import * as Actions from './index';
-import { defaultRequestOptions } from '../constants';
-import { appError } from './AppAction';
-import * as _ from 'lodash';
-import {Dispatch} from 'redux/index';
 
 /**
  * @returns {{type: string}}
@@ -149,50 +144,6 @@ export function todoFinishRequestError(error: string, todo) {
         error,
         todo
     };
-}
-
-export function todoDoFinish(todo: wu.model.data.ITodo) {
-    return (dispatch: Dispatch<any>, getState: () => wu.IState) => {
-        dispatch(todoFinishRequest(todo));
-        const options = defaultRequestOptions(getState().auth.token, 'PUT');
-
-        options.body = JSON.stringify(todo);
-
-        return fetch(`${getState().app.config.WU_API_BASE_URL}/todo/${todo._id}/finish`, options)
-            .then( response => {
-                if ([304, 200].indexOf(response.status) > -1) {
-                    return response.json();
-                } else if ([422, 400].indexOf(response.status) > -1) {
-                    throw new Error('Invalid Request');
-                } else if (response.status === 404) {
-                    throw new Error('No data found');
-                } else if (response.status === 401) {
-                    dispatch(appError('You need to login'));
-                    return null;
-                } else if (response.status === 500) {
-                    throw new Error('Server error');
-                } else if (response.status === 403) {
-                    throw new Error('Not enough rights to see this data');
-                } else if (response.status === 0) {
-                    throw new Error('Please check your network connection');
-                } else {
-                    throw new Error('Finishing todo failed');
-                }
-            })
-            .then( data => {
-                return _.get(data, 'data[0]');
-            })
-            .then( (todo: wu.model.data.ITodo) => {
-                if (_.has(todo, '_id')) {
-                    dispatch(todoFinishRequestSuccess(todo));
-                } else {
-                    dispatch(todoFinishRequestError('No data found', todo));
-                }
-            })
-            .catch(err => {
-                dispatch(todoFinishRequestError(err.message, getState().todolist.todos.get(todo._id)));
-            });
-    }
 }
 
 export function todoViewChange(todo) {
