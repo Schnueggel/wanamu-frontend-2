@@ -1,5 +1,5 @@
-import { takeEvery } from 'redux-saga';
-import { put, call } from 'redux-saga/effects';
+import {takeEvery} from 'redux-saga';
+import {put, call} from 'redux-saga/effects';
 import {ACTION_FRIEND_DELETE_REQUEST} from 'actions/index';
 import * as FriendActions from 'actions/FriendListAction';
 import {defaultRequestOptions} from '../constants';
@@ -24,10 +24,10 @@ export function* doDeleteFriend(action):any {
         return yield put(appError(result.message));
     } else if ([304, 200].indexOf(response.status) > -1) {
         yield put(FriendActions.friendDeleted(action.friend));
-        yield put(FriendActions.doLoadFriendList());
-    }  else {
-        put(FriendActions.friendDeleteError(action.id, 'Deleting Friend failed'));
+        return yield put(FriendActions.doLoadFriendList());
     }
+
+    put(FriendActions.friendDeleteError(action.id, 'Deleting Friend failed'));
 }
 
 export function* watchDeleteFriendRequest() {
