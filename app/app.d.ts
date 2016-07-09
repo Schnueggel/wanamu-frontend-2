@@ -221,8 +221,8 @@ declare module wu {
     }
 
     interface IFriendListActions {
-        doLoadFriendList: () => void
-        doDeleteFriend: (friend: model.data.IFriend) => void;
+        doLoadFriendList: () => void;
+        friendDeleteRequest: (friend: model.data.IFriend) => void;
         doAcceptFriend: (friend: model.data.IFriend) => void;
         showAddFriendsPopup: () => void;
         hideAddFriendsPopup: () => void;

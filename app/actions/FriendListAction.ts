@@ -130,48 +130,6 @@ export function friendAcceptError(friend, error) {
     };
 }
 
-/**
- *
- */
-export function doDeleteFriend(friend: wu.model.data.IFriend) {
-    return (dispatch, getState: ()=> wu.IState) => {
-
-        dispatch(friendDeleteRequest(friend));
-
-        const options = defaultRequestOptions(getState().auth.token, 'DELETE');
-
-        return fetch(`${getState().app.config.WU_API_BASE_URL}/friend/${friend._id}`,options)
-            .then((response: IResponse) => {
-                if ([304, 200].indexOf(response.status) > -1) {
-                    return response.json();
-                } else if ([422, 400].indexOf(response.status) > -1) {
-                    throw new Error('Invalid Request');
-                } else if (response.status === 404) {
-                    throw new Error('No data found');
-                } else if ([418, 401].indexOf(response.status) > -1) {
-                    dispatch(appError('You need to login'));
-                    dispatch(routerActions.push('/login'));
-                    return null;
-                } else if (response.status === 500) {
-                    throw new Error('Server error');
-                } else if (response.status === 403) {
-                    throw new Error('Not enough rights to see this data');
-                } else if (response.status === 0) {
-                    throw new Error('Please check your network connection');
-                } else {
-                    throw new Error('Deleting friend not possible');
-                }
-            })
-            .then(() => {
-                dispatch(friendDeleted(friend));
-                dispatch(doLoadFriendList());
-            })
-            .catch(err => {
-                dispatch(friendDeleteError(friend._id, err.message));
-            });
-    };
-}
-
 export function doAcceptFriend(friend: wu.model.data.IFriend) {
     return (dispatch, getState: () => wu.IState)  => {
         dispatch(friendAcceptRequest(friend));

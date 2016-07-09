@@ -6,7 +6,7 @@ import { userClear } from 'actions/UserActions';
 import { routerActions } from 'react-router-redux';
 
 /**
- * Updates a todo
+ * Logging out user 
  *
  * @returns {function(any): Promise<TResult>|Promise<U>}
  */
