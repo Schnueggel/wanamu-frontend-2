@@ -19,3 +19,9 @@ export function notificationsLoaded(data) {
         data
     };
 }
+
+export function notificationsMarkReadLoaded() {
+    return {
+        type: Actions.ACTION_MARK_NOTIFICATION_LOADED
+    };
+}

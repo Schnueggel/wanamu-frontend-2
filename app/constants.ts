@@ -33,7 +33,7 @@ export const Colors = {
     color5: 5
 };
 
-export const salutionOptions = [
+export const salutationOptions = [
     {id: Salutations.Mr, name: Salutations.Mr},
     {id: Salutations.Mrs, name: Salutations.Mrs},
     {id: Salutations.Human, name: Salutations.Human},

@@ -104,7 +104,7 @@ declare module wu {
         register: IRegisterState;
         actions: {
             routerActions: ReactRouterRedux.RouteActions,
-            register: (data: any) => void,
+            registerRequest: (data: any) => void,
             usernameCheck: (name: string) => void
         };
     }

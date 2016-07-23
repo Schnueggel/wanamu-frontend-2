@@ -4,9 +4,10 @@ import { defaultRequestOptions } from '../constants';
 import { UserNameCheck } from '../constants';
 import * as _ from 'lodash';
 
-export function registerRequest() {
+export function registerRequest(data) {
     return {
-        type: Actions.ACTION_REGISTER_REQUEST
+        type: Actions.ACTION_REGISTER_REQUEST,
+        data
     };
 }
 
@@ -78,50 +79,6 @@ export function usernameCheck(name) {
             })
             .catch(err => {
                 dispatch(usernameCheckError(err.message));
-            });
-    }
-}
-
-export function register(data: any) {
-    return (dispatch: Function, getState: Function) => {
-
-        dispatch(registerRequest());
-
-        const options = defaultRequestOptions();
-
-        options.body = JSON.stringify(data);
-
-        return fetch(`${getState().app.config.WU_API_BASE_URL}/register`, options)
-            .then((response: IResponse) => {
-                if (response.status === 200) {
-                    return response.json();
-                } else if (response.status === 422) {
-                    dispatch(registerFormError(response.json()));
-                    throw new Error('Invalid form input please check your input');
-                } else if (response.status === 400) {
-                    throw new Error('Invalid Request');
-                } else if (response.status === 404) {
-                    throw new Error('Data endpoint not found');
-                } else if (response.status === 500) {
-                    throw new Error('Server error');
-                } else if (response.status === 0) {
-                    throw new Error('Please check your network connection');
-                } else {
-                    throw new Error('Loading todolist data with an unkown state');
-                }
-            })
-            .then(data => {
-                return _.get(data, '.data[0]');
-            })
-            .then(user => {
-                if (user) {
-                    dispatch(registered(user));
-                } else {
-                    dispatch(registerError('No data found'));
-                }
-            })
-            .catch(err => {
-                dispatch(registerError(err.message));
             });
     }
 }

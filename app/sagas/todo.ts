@@ -8,7 +8,7 @@ import {ACTION_TODO_UPDATE_REQUEST, ACTION_TODO_CREATE_REQUEST, ACTION_TODO_DELE
 import store from 'stores/appStore';
 import {checkResponseStatus} from 'actions/actions';
 
-export function* doCreateTodo(action): any {
+export function* doCreateTodo(action):any {
 
     const options = defaultRequestOptions(store.getState().auth.token, 'POST');
 
@@ -42,7 +42,7 @@ export function* doCreateTodo(action): any {
 }
 
 
-export function* doDeleteTodo(action): any {
+export function* doDeleteTodo(action):any {
     const options = defaultRequestOptions(store.getState().auth.token, 'DELETE');
 
     options.body = JSON.stringify(action.todo);
@@ -110,7 +110,7 @@ export function* doUpdateTodo(action):any {
 }
 
 
-export function* doTodoFinish(action): any {
+export function* doTodoFinish(action):any {
     const options = defaultRequestOptions(store.getState().auth.token, 'PUT');
 
     options.body = JSON.stringify(action.todo);

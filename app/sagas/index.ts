@@ -2,7 +2,8 @@ import {watchTodoListLoad} from './todolist';
 import {watchTodoUpdate, watchTodoCreate, watchTodoDelete, watchTodoFinish} from './todo';
 import {watchLogoutRequest} from './auth';
 import {watchDeleteFriendRequest} from './friend';
-import {watchLoadNotifications} from './notification';
+import {watchLoadNotifications, watchMarkNotifications} from './notification';
+import {watchRegister} from './register';
 
 export default function* root () {
     yield [
@@ -13,6 +14,8 @@ export default function* root () {
         watchTodoDelete(),
         watchTodoFinish(),
         watchDeleteFriendRequest(),
-        watchLoadNotifications()
+        watchLoadNotifications(),
+        watchMarkNotifications(),
+        watchRegister()
     ];
 }
